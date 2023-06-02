@@ -1,6 +1,6 @@
 # Project Title
 
-Pollify is voting platform.
+Pollify is a voting platform.
 
 ## Getting Started with Create React App
 
@@ -12,14 +12,14 @@ NODE & NPM: LTS Version
 
 ## How to run the project
 
-Navigate to the root directory of your the project.
+Navigate to the root directory of the project.
 Run the following command to install all dependencies:
 
 ### `npm install`
 
 ## Working on development mode
 
-Navigate to the root directory of your the project.
+Navigate to the root directory of the project.
 Run the following command:
 
 ### `npm start`
