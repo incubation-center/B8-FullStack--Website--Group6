@@ -2,15 +2,14 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { SearchBar } from "./components";
 import { Home } from "./pages";
-import Navbar from "./homepage/Navbar";
+import Dashboard from "./homepage/Dashboard";
 
 const App = () => {
   return (
     <div>
-      <SearchBar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/homepage" element={<Navbar />} />
+        <Route path="/homepage" element={<Dashboard />} />
       </Routes>
     </div>
   );
