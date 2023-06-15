@@ -1,18 +1,16 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { SearchBar } from "./components";
-import { Home } from "./pages";
+import { Home, RegisterForm } from "./pages";
 import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
 
 const App = () => {
-  const signup = useSelector((state: RootState) => state.signup.username);
-  console.log(signup);
+  const signup = useSelector((state: RootState) => state.register);
   return (
-    <div>
-      <SearchBar />
+    <div className="custom-bg-gray text-base">
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<RegisterForm />} />
       </Routes>
     </div>
   );
