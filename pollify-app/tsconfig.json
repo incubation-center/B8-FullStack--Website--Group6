@@ -17,10 +17,10 @@
     "incremental": true
   },
   "include": [
-    "/*.ts",
-    "/*.tsx",
+    "**/*.ts",
+    "**/*.tsx",
     "src/redux/slices/user.js",
-    "src/redux/slices/user.js",
+    "src/redux/slices/user.js"
   ],
   "exclude": ["node_modules"]
 }
