@@ -1,14 +1,13 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { SearchBar } from "./components";
 import { Home } from "./pages";
+import SignInForm from "./pages/LoginPage";
 
 const App = () => {
   return (
     <div>
-      <SearchBar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<SignInForm />} />
       </Routes>
     </div>
   );
