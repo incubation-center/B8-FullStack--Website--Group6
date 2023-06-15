@@ -4,6 +4,8 @@ import { Home } from "./pages";
 import SignInForm from "./pages/LoginPage";
 
 const App = () => {
+  const signup = useSelector((state: RootState) => state.signup.username);
+  console.log(signup);
   return (
     <div>
       <Routes>
