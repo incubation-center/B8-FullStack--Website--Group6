@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { Home } from "./pages";
+import Dashboard from "./homepage/Dashboard";
 import SignInForm from "./pages/LoginPage";
 
 const App = () => {
@@ -9,7 +10,9 @@ const App = () => {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<SignInForm />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/homepage" element={<Dashboard />} />
+        <Route path="/sign_in" element={<SignInForm />} />
       </Routes>
     </div>
   );
