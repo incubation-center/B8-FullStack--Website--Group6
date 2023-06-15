@@ -1,3 +1,4 @@
-import Home from "./Home";
+import RegisterForm from "./RegisterForm";
+import LoginForm from "./LoginPage";
 
-export { Home };
+export { RegisterForm, LoginForm };

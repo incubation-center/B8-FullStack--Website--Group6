@@ -1,10 +1,10 @@
 // Store state globalizely
 import { configureStore } from "@reduxjs/toolkit";
-import signupReducer from "./slices/signupSlice";
+import registerReducer from "./slices/RegisterForm";
 
 const store = configureStore({
   reducer: {
-    signup: signupReducer,
+    register: registerReducer,
   },
 });
 
