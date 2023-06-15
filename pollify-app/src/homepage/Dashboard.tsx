@@ -1,18 +1,18 @@
 import React from 'react'
-import Sidebar from './Sidebar';
-import Poll1 from './Poll1';
-import SidebarRight from './SidebarRight';
+import Logo from './sidebar/Logo';
+import CommunityProfile from './rightSideba/CommunityProfile';
+import CreatePoll from './centerbar/CreatePoll';
 
 
 
 function Dashboard() {
   return (
-    <div className='flex flex-row justify-between'>
-      <Sidebar />
-      <Poll1 />
-      <SidebarRight />
+    <div className='flex flex-row justify-between bg-slate-200'>
+      <Logo />
+      <CreatePoll />
+      <CommunityProfile />
     </div>
   )
 }
 
-export default Dashboard
+export default Dashboard;
