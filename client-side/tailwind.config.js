@@ -4,7 +4,17 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        sans: ["Inter", "sans-serif"],
+      },
+      borderColor: {
+        "blue-custom": "#2d9cdb",
+      },
+      backgroundColor: {
+        "blue-custom": "#2d9cdb",
+      },
+      textColor: {
+        "blue-custom": "#2d9cdb",
+        "black-secondary": "#383A3D",
       },
     },
   },

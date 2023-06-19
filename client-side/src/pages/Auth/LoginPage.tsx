@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import MainLogo from "../assets/icons/Pollify.png";
+import MainLogo from "../../assets/images/pollify_logo.png";
+import { Link, useNavigate } from "react-router-dom";
 import { FaFacebookF, FaGithub, FaTwitter } from "react-icons/fa";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -15,6 +17,10 @@ const LoginForm = () => {
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
+  };
+
+  const handleSignUpInstead = () => {
+    navigate("/user/sign_up");
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -98,12 +104,13 @@ const LoginForm = () => {
         </div>
         <div className="flex items-center py-2">
           <p className="pr-3 font-light text-sm">New on our platform?</p>
-          <a
+          <Link
+            to="/user/sign_up"
             className="inline-block align-baseline font-bold text-sm text-[#2D9CDB] hover:opacity-80"
-            href="#create"
+            onClick={handleSignUpInstead}
           >
             Create an account
-          </a>
+          </Link>
         </div>
         <div className="flex items-center justify-center">
           <span className="flex-grow border-t border-gray-300 mx-2"></span>

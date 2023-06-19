@@ -3,15 +3,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import { BsFacebook } from "react-icons/bs";
-import pollifyLogo from "../assets/images/pollify_logo.png";
+import pollifyLogo from "../../assets/PolliFy.png";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../redux/store";
+import { RootState } from "../../redux/store";
 import {
   setUsername,
   setEmail,
   setPassword,
   setIsAgree,
-} from "../redux/slices/RegisterForm";
+} from "../../redux/slices/RegisterForm";
 
 const RegisterForm = () => {
   const dispatch = useDispatch();
@@ -26,21 +26,27 @@ const RegisterForm = () => {
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setUsername(e.target.value));
   };
+
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setEmail(e.target.value));
   };
+
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setPassword(e.target.value));
   };
+
   const handlePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
   const handleIsAgreedChange = () => {
     dispatch(setIsAgree(!isAgree));
   };
+
   const handleSignInInstead = () => {
     navigate("/user/sign_in");
   };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Submit");
@@ -49,10 +55,7 @@ const RegisterForm = () => {
       return;
     }
     try {
-      // Perform API call to sign up with the backend using a library like Axios or Fetch
-      // use react-query's useMutation hook to handle the API call
-      // Example: await signupMutation.mutateAsync({ username, email, password });
-      // Replace `signupMutation` with your actual mutation function
+      // Perform API call to sign up with the backend
 
       // Clear form inputs
       dispatch(setUsername(""));
@@ -135,7 +138,7 @@ const RegisterForm = () => {
           </div>
           <button
             id="submit"
-            className="w-full text-white uppercase custom-bg-blue rounded mt-4 py-2 hover:opacity-70"
+            className="w-full text-white uppercase bg-blue-custom rounded mt-4 py-2 hover:opacity-70"
             disabled={!isAgree}
           >
             Sign Up
@@ -144,7 +147,7 @@ const RegisterForm = () => {
             Already have an account?{" "}
             <Link
               to="/user/sign_in"
-              className="custom-text-blue hover:opacity-70"
+              className="text-blue-custom hover:opacity-70"
               onClick={handleSignInInstead}
             >
               Sign in instead
