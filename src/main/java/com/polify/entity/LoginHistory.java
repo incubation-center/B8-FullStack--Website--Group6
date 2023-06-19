@@ -39,4 +39,6 @@ public class LoginHistory {
 	@Column(name = "attempt_at", nullable = false)
 	private Date attemptAt;
 
+
+
 }
