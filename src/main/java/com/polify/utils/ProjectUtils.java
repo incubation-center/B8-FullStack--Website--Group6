@@ -4,11 +4,13 @@ public class ProjectUtils {
 	
 	public static final String API_URL = "/api/v1";
 	
-	public static final String REGISTER_USER_URL = "/register-user";
+		public static final String REGISTER_USER_URL = "/register-user";
 	
 	public static final String REGISTER_USER_FULL_URL = ProjectUtils.API_URL + "/register-user";
 	
 	public static final String LOGIN_URL = ProjectUtils.API_URL + "/auth/login";
+
+	public static final String COMMUNITY_MEMBERS_URL = ProjectUtils.API_URL + "/community_members";
 	
 	public static final String SUCCESS_STATUS = "SUCCESS";
 	
