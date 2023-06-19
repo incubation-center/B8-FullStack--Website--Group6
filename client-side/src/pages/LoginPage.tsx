@@ -36,7 +36,7 @@ const LoginForm = () => {
           <img src={MainLogo} alt="Pollify logo" />
         </div>
         <div className="pb-5">
-          <h2 className="text-sm font-semibold">Welcome To Materio!</h2>
+          <h2 className="text-sm font-semibold">Welcome To Materio!👋🏻</h2>
           <h6 className="text-xs">
             Please Sign-in to your account and start the adventure
           </h6>
