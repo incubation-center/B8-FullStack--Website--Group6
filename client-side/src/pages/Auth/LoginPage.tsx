@@ -27,6 +27,7 @@ const LoginForm = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(`email ${email}. password ${password}`);
+    navigate("/community");
   };
 
   const handleShowPassword = () => {

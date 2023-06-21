@@ -13,7 +13,7 @@ const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/user/sign_in" replace />} />
-      <Route path="/home" element={<Dashboard />} />
+      <Route path="/community" element={<Dashboard />} />
       <Route path="/user/sign_up" element={<RegisterForm />} />
       <Route path="/user/sign_in" element={<LoginForm />} />
       <Route path="/create/community" element={<CreateCommunity />} />

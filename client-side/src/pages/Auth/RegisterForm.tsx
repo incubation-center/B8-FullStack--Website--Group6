@@ -65,6 +65,8 @@ const RegisterForm = () => {
       dispatch(setIsAgree(false));
       setShowPassword(false);
       setErrorMessage("");
+
+      navigate("/community");
     } catch (error) {
       // Handle error response from the backend
       setErrorMessage("Sign-up failed. Please try again.");
