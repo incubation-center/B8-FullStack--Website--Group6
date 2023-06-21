@@ -3,13 +3,13 @@ package com.polify.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
-public class CommunityDTO {
+public class PollOptionDTO {
 
     @Getter
     @JsonProperty
-    private String communityName;
+    private String optionText;
 
     @Getter
     @JsonProperty
-    private String communityDescription;
+    private Long poll_id;
 }

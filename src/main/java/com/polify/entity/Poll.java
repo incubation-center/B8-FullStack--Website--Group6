@@ -24,13 +24,17 @@ public class Poll {
     private String pollDescription;
 
     @ManyToOne
-    @JoinColumn(name = "community_id", nullable = false)
-    private Community community;
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
 
-    public Poll(String pollQuestion, String pollDescription, Community community) {
+//    @ManyToOne
+//    @JoinColumn(name = "community_id", nullable = false)
+//    private Community community;
+
+    public Poll(String pollQuestion, String pollDescription, Post post) {
         this.pollQuestion = pollQuestion;
         this.pollDescription = pollDescription;
-        this.community = community;
+        this.post = post;
     }
 
     public Long getId() {
@@ -57,21 +61,12 @@ public class Poll {
         this.pollDescription = pollDescription;
     }
 
-    public Community getCommunity() {
-        return community;
+    public Post getPost() {
+        return post;
     }
 
-    public void setCommunity(Community community) {
-        this.community = community;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
-    @Override
-    public String toString() {
-        return "Poll{" +
-                "id=" + id +
-                ", pollQuestion='" + pollQuestion + '\'' +
-                ", pollDescription='" + pollDescription + '\'' +
-                ", community=" + community +
-                '}';
-    }
 }

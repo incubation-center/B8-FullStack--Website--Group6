@@ -54,12 +54,4 @@ public class PollOption {
         this.poll = poll;
     }
 
-    @Override
-    public String toString() {
-        return "PollOption{" +
-                "id=" + id +
-                ", optionText='" + optionText + '\'' +
-                ", poll=" + poll +
-                '}';
-    }
 }

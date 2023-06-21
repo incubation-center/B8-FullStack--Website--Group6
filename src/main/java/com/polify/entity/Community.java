@@ -17,7 +17,6 @@ import java.util.Date;
 public class Community {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
     @Column(name = "community_name", nullable = false)
@@ -42,11 +41,11 @@ public class Community {
         this.communityDescription = communityDescription;
     }
 
-    public Long getId() {
+    public Long id() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void community_id(Long id) {
         this.id = id;
     }
 
@@ -82,14 +81,4 @@ public class Community {
         this.users = users;
     }
 
-    @Override
-    public String toString() {
-        return "Community{" +
-                "id=" + id +
-                ", communityName='" + communityName + '\'' +
-                ", communityDescription='" + communityDescription + '\'' +
-                ", dateCreated=" + dateCreated +
-                ", users=" + users +
-                '}';
-    }
 }

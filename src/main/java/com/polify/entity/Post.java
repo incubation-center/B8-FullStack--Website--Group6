@@ -83,14 +83,4 @@ public class Post {
         this.community = community;
     }
 
-    @Override
-    public String toString() {
-        return "Post{" +
-                "id=" + id +
-                ", postContent='" + postContent + '\'' +
-                ", postDate=" + postDate +
-                ", users=" + users +
-                ", community=" + community +
-                '}';
-    }
 }

@@ -3,13 +3,17 @@ package com.polify.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
-public class CommunityDTO {
+public class PollDTO {
 
     @Getter
     @JsonProperty
-    private String communityName;
+    private String pollQuestion;
 
     @Getter
     @JsonProperty
-    private String communityDescription;
+    private String pollDescription;
+
+    @Getter
+    @JsonProperty
+    private Long post_id;
 }

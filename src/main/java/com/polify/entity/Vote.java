@@ -72,13 +72,4 @@ public class Vote {
         this.dateVoted = dateVoted;
     }
 
-    @Override
-    public String toString() {
-        return "Vote{" +
-                "id=" + id +
-                ", option=" + option +
-                ", users=" + users +
-                ", dateVoted=" + dateVoted +
-                '}';
-    }
 }
