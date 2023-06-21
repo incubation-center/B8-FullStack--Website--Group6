@@ -1,19 +1,19 @@
 import React from "react";
-import Avatar from "../../assets/userProfile/Avatar.png";
-import Avatar1 from "../../assets/userProfile/Avatar-1.png";
-import Avatar2 from "../../assets/userProfile/Avatar-2.png";
-import Avatar3 from "../../assets/userProfile/Avatar-3.png";
-import Avatar4 from "../../assets/userProfile/Avatar-4.png";
-import Avatar5 from "../../assets/userProfile/Avatar-5.png";
-import Avatar6 from "../../assets/userProfile/Avatar-6.png";
-import Avatar7 from "../../assets/userProfile/Avatar-7.png";
-import Avatar8 from "../../assets/userProfile/Avatar-8.png";
-import Avatar9 from "../../assets/userProfile/Avatar-9.png";
+import Avatar from "../../../assets/userProfile/Avatar.png";
+import Avatar1 from "../../../assets/userProfile/Avatar-1.png";
+import Avatar2 from "../../../assets/userProfile/Avatar-2.png";
+import Avatar3 from "../../../assets/userProfile/Avatar-3.png";
+import Avatar4 from "../../../assets/userProfile/Avatar-4.png";
+import Avatar5 from "../../../assets/userProfile/Avatar-5.png";
+import Avatar6 from "../../../assets/userProfile/Avatar-6.png";
+import Avatar7 from "../../../assets/userProfile/Avatar-7.png";
+import Avatar8 from "../../../assets/userProfile/Avatar-8.png";
+import Avatar9 from "../../../assets/userProfile/Avatar-9.png";
 
 interface Profile {
   id: number;
   name: string;
-  avatar: any;
+  avatar: string;
 }
 
 const items: Profile[] = [
@@ -69,9 +69,9 @@ const items: Profile[] = [
   },
 ];
 
-function UserProfile() {
+function CommunityMembers() {
   return (
-    <div className="profile flex flex-col gap-y-10 mt-10">
+    <div className="profile flex flex-col gap-y-4">
       {items.map((item) => (
         <div className="profile-line flex flex-col gap-y-3" key={item.id}>
           <div className="ml-5 flex">
@@ -89,4 +89,4 @@ function UserProfile() {
   );
 }
 
-export default UserProfile;
+export default CommunityMembers;

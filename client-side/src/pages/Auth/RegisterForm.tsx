@@ -91,7 +91,7 @@ const RegisterForm = () => {
         </div>
         <div className="flex justify-center flex-col">
           <input
-            className="border text-gray-700 border-gray-300 rounded px-3 py-2 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
+            className="border text-gray-700 border-gray-300 rounded px-3 py-3 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4"
             type="text"
             id="username"
             placeholder="Username"
@@ -99,7 +99,7 @@ const RegisterForm = () => {
             onChange={handleUsernameChange}
           />
           <input
-            className="border text-gray-700 border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full mb-4"
+            className="border text-gray-700 border-gray-300 rounded px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full mb-4"
             type="email"
             placeholder="Email"
             value={email}
@@ -107,7 +107,7 @@ const RegisterForm = () => {
           />
           <div className="flex relative mb-2">
             <input
-              className="relative text-gray-700 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
+              className="relative text-gray-700 border border-gray-300 rounded px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               value={password}
@@ -119,9 +119,9 @@ const RegisterForm = () => {
               onClick={handlePasswordVisibility}
             >
               {showPassword ? (
-                <AiOutlineEyeInvisible className="absolute right-2 top-2 text-gray-500 w-5 h-5" />
+                <AiOutlineEyeInvisible className="absolute right-2 top-3 text-gray-500 w-5 h-5" />
               ) : (
-                <AiOutlineEye className="absolute right-2 top-2 text-gray-500 w-5 h-5" />
+                <AiOutlineEye className="absolute right-2 top-3 text-gray-500 w-5 h-5" />
               )}
             </button>
           </div>

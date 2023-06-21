@@ -47,9 +47,9 @@ const LoginForm = () => {
           <h2 className="text-lg font-bold">Welcome To Materio!👋🏻</h2>
           <small>Please register your account and start the adventure</small>
         </div>
-        <div className="mb-4">
+        <div>
           <input
-            className="shadow-sm text-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="border text-gray-700 border-gray-300 rounded px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full mb-4"
             id="email"
             type="email"
             placeholder="Email"
@@ -57,9 +57,9 @@ const LoginForm = () => {
             onChange={handleEmailChange}
           />
         </div>
-        <div className="relative m~b-6">
+        <div className="relative">
           <input
-            className="shadow-sm text-sm appearance-none border rounded w-full py-2 px-3 pr-10 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="border text-gray-700 border-gray-300 rounded px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
             id="password"
             type={showPassword ? "text" : "password"}
             placeholder="Password"
@@ -68,7 +68,7 @@ const LoginForm = () => {
           />
           <button
             type="button"
-            className="absolute right-0 top-0 mt-2 mr-3 text-gray-500"
+            className="absolute right-0 top-1 mt-2 mr-3 text-gray-500"
             onClick={handleShowPassword}
           >
             {showPassword ? (
