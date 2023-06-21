@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import MainLogo from "../../assets/images/pollify_logo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { FaFacebookF, FaGithub, FaTwitter } from "react-icons/fa";
+import { FaGithub, FaTwitter } from "react-icons/fa";
+import { BsFacebook } from "react-icons/bs";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 
@@ -33,23 +34,21 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-[#828282] font-sans">
+    <div className="flex flex-col items-center justify-center min-h-screen text-[#828282]">
       <form
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+        className="px-8 pt-6 pb-8 mb-4 bg-white md:rounded-md md:shadow-lg lg:shadow-lg"
         onSubmit={handleSubmit}
       >
-        <div className="flex items-center justify-center mb-6">
+        <div className="flex items-center lg:justify-center mb-4">
           <img src={MainLogo} alt="Pollify logo" />
         </div>
         <div className="pb-5">
-          <h2 className="text-sm font-semibold">Welcome To Materio!👋🏻</h2>
-          <h6 className="text-xs">
-            Please Sign-in to your account and start the adventure
-          </h6>
+          <h2 className="text-lg font-bold">Welcome To Materio!👋🏻</h2>
+          <small>Please register your account and start the adventure</small>
         </div>
         <div className="mb-4">
           <input
-            className="shadow-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow-sm text-sm appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="email"
             type="email"
             placeholder="Email"
@@ -59,7 +58,7 @@ const LoginForm = () => {
         </div>
         <div className="relative m~b-6">
           <input
-            className="shadow-sm appearance-none border rounded w-full py-2 px-3 pr-10 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow-sm text-sm appearance-none border rounded w-full py-2 px-3 pr-10 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             id="password"
             type={showPassword ? "text" : "password"}
             placeholder="Password"
@@ -80,7 +79,7 @@ const LoginForm = () => {
         </div>
         <div className="flex items-center mb-6 pt-2">
           <input
-            className="mr-2 leading-tight"
+            className="mr-2 w-4 h-4 leading-tight"
             type="checkbox"
             id="rememberMe"
           />
@@ -96,17 +95,17 @@ const LoginForm = () => {
         </div>
         <div className="flex items-center justify-between">
           <button
-            className="w-full bg-[#2D9CDB] hover:opacity-80 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            className="w-full uppercase bg-[#2D9CDB] hover:opacity-80 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
           >
-            Log In
+            Login
           </button>
         </div>
-        <div className="flex items-center py-2">
+        <div className="flex items-center justify-center py-2 mt-3">
           <p className="pr-3 font-light text-sm">New on our platform?</p>
           <Link
             to="/user/sign_up"
-            className="inline-block align-baseline font-bold text-sm text-[#2D9CDB] hover:opacity-80"
+            className="inline-block align-baseline font-bold text-sm text-[#2D9CDB] hover:opacity-70"
             onClick={handleSignUpInstead}
           >
             Create an account
@@ -117,18 +116,18 @@ const LoginForm = () => {
           <p className="text-gray-400">or</p>
           <span className="flex-grow border-t border-gray-300 mx-2"></span>
         </div>
-        <div className="flex items-center justify-center space-x-5 pt-6">
-          <span className="text-blue-600 hover:opacity-80">
-            <FaFacebookF />
+        <div className="flex items-center justify-center space-x-5 pt-4">
+          <span>
+            <BsFacebook className="text-blue-600 w-6 h-6 hover:opacity-70" />
           </span>
-          <span className="text-gray-800 hover:opacity-80">
-            <FaGithub />
+          <span>
+            <FaGithub className="text-gray-800 w-6 h-6 hover:opacity-70" />
           </span>
-          <span className="text-blue-400 hover:opacity-80">
-            <FaTwitter />
+          <span>
+            <FaTwitter className="text-blue-400 w-6 h-6 hover:opacity-70" />
           </span>
-          <span className="hover:opacity-80">
-            <FcGoogle />
+          <span>
+            <FcGoogle className="w-6 h-6 hover:opacity-70" />
           </span>
         </div>
       </form>
