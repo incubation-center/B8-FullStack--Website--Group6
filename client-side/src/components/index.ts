@@ -1,3 +1,3 @@
-import SearchBar from "./SearchBar";
+import CreateCommunity from "./CreateCommunity";
 
-export { SearchBar };
+export { CreateCommunity };
