@@ -1,17 +1,21 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../redux/store";
+import { RootState } from "../../redux/store";
 import { TiDelete } from "react-icons/ti";
 import { HiOutlineCamera } from "react-icons/hi";
-import avatar1 from "../assets/userProfile/Avatar-1.png";
-import avatar2 from "../assets/userProfile/Avatar-2.png";
-import avatar3 from "../assets/userProfile/Avatar-3.png";
-import avatar4 from "../assets/userProfile/Avatar-4.png";
-import avatar5 from "../assets/userProfile/Avatar-5.png";
-import avatar6 from "../assets/userProfile/Avatar-6.png";
-import avatar7 from "../assets/userProfile/Avatar-7.png";
-import avatar8 from "../assets/userProfile/Avatar-8.png";
-import { setUserProfile } from "../redux/slices/Community";
+import { RxCrossCircled } from "react-icons/rx";
+import avatar1 from "../../assets/userProfile/Avatar-1.png";
+import avatar2 from "../../assets/userProfile/Avatar-2.png";
+import avatar3 from "../../assets/userProfile/Avatar-3.png";
+import avatar4 from "../../assets/userProfile/Avatar-4.png";
+import avatar5 from "../../assets/userProfile/Avatar-5.png";
+import avatar6 from "../../assets/userProfile/Avatar-6.png";
+import avatar7 from "../../assets/userProfile/Avatar-7.png";
+import avatar8 from "../../assets/userProfile/Avatar-8.png";
+import {
+  setUserProfile,
+  closeCreateCommunity,
+} from "../../redux/slices/Community";
 
 function CreateCommunity() {
   const dispatch = useDispatch();
@@ -27,13 +31,29 @@ function CreateCommunity() {
       dispatch(setUserProfile(file));
     }
   };
+
+  const handleCloseCreateCommunity = () => {
+    console.log("Close");
+    dispatch(closeCreateCommunity());
+  };
+
   return (
-    <div className="sm:bg-white lg:bg-black lg:bg-opacity-40 h-screen flex items-center justify-center">
-      <form className="flex flex-col justify-center items-start bg-white px-4 sm:px-8 py-6 w-full h-auto md:w-5/6 lg:w-2/5 rounded-lg">
+    <div className="h-screen fixed z-10 inset-0 overflow-y-auto flex items-center justify-center">
+      <div
+        className="fixed z-10 inset-0 bg-gray-500 opacity-60"
+        onClick={handleCloseCreateCommunity}
+      ></div>
+      <form className="fixed z-20 flex flex-col justify-center items-start bg-white px-4 sm:px-8 py-6 w-full h-auto md:w-5/6 lg:w-2/5 rounded-lg">
         <div className="flex flex-col w-full justify-center items-center">
           <h1 className=" text-blue-custom text-lg mb-4">
             Create New Community
           </h1>
+          <button
+            className="absolute top-6 right-7"
+            onClick={handleCloseCreateCommunity}
+          >
+            <RxCrossCircled className="w-7 h-7 text-gray-400 hover:text-blue-custom" />
+          </button>
           <div className="">
             <label
               className="flex justify-center items-center bg-blue-custom bg-opacity-10 rounded-full border border-blue-custom cursor-pointer w-20 h-20"

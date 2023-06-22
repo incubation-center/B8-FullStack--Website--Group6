@@ -6,6 +6,7 @@ interface FileMetadata {
 }
 interface CommunitySate {
   userProfile: File | null;
+  isCreateCommunityOpen: boolean;
 }
 
 const UpdateCreateCommunityAction = "Create Community";
