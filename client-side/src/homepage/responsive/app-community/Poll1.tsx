@@ -6,7 +6,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 const deleteBtnIcon = {
   color: "white",
   fontSize: "19px",
-}
+};
 
 function Poll1() {
   return (
@@ -49,34 +49,34 @@ function Poll1() {
           <h1 className="text-[12px] md:text-[15px]">Solor Korko</h1>
           <h1 className="text-[12px] md:text-[15px]">0%</h1>
         </div>
-        <div className="w-full bg-gray-100 rounded-full h-1.5 mb-4 dark:bg-gray-700">
-          <div className="w-1 bg-sky-500 h-1.5 rounded-full dark:bg-blue-500"></div>
+        <div className="w-full bg-gray-100 rounded-full h-3 mb-4 dark:bg-gray-100">
+          <div className="w-3 bg-sky-500 h-full rounded-full dark:bg-blue-500"></div>
         </div>
         <div className="mb-1 text-base font-medium dark:text-white flex justify-between items-center">
           <h1 className="text-[12px] md:text-[15px]">Kangkep Boak</h1>
           <h1 className="text-[12px] md:text-[15px]">0%</h1>
         </div>
-        <div className="w-full bg-gray-100 rounded-full h-1.5 mb-4 dark:bg-gray-700">
-          <div className="w-1 bg-sky-500 h-1.5 rounded-full dark:bg-blue-500"></div>
+        <div className="w-full bg-gray-100 rounded-full h-3 mb-4 dark:bg-gray-100">
+          <div className="w-3 bg-sky-500 h-full rounded-full dark:bg-blue-500"></div>
         </div>
         <div className="mb-1 text-base font-medium dark:text-white flex justify-between items-center">
           <h1 className="text-[12px] md:text-[15px]">Khmer Curry</h1>
           <h1 className="text-[12px] md:text-[15px]">0%</h1>
         </div>
-        <div className="w-full bg-gray-100 rounded-full h-1.5 mb-4 dark:bg-gray-700">
-          <div className="w-1 bg-sky-500 h-1.5 rounded-full dark:bg-blue-500"></div>
+        <div className="w-full bg-gray-100 rounded-full h-3 mb-4 dark:bg-gray-100">
+          <div className="w-3 bg-sky-500 h-full rounded-full dark:bg-blue-500"></div>
         </div>
         <div className="mb-1 text-base font-medium dark:text-white flex justify-between items-center">
           <h1 className="text-[12px] md:text-[15px]">Fried Chicken</h1>
           <h1 className="text-[12px] md:text-[15px]">0%</h1>
         </div>
-        <div className="w-full bg-gray-100 rounded-full h-1.5 mb-4 dark:bg-gray-700">
-          <div className="w-1 bg-sky-500 h-1.5 rounded-full dark:bg-blue-500"></div>
+        <div className="w-full bg-gray-100 rounded-full h-3 mb-4 dark:bg-gray-100">
+          <div className="w-3 bg-sky-500 h-full rounded-full dark:bg-blue-500"></div>
         </div>
       </div>
       <div className="btn-delete flex justify-end items-center mb-5 mr-5">
-      <button className="bg-red-500 text-white font-sans  text-[13px] py-1 px-2 rounded-full flex items-center gap-x-1 w-fit md:text-[17px] md:py-2 md:px-3">
-          <AiOutlineDelete style={deleteBtnIcon}/>
+        <button className="bg-red-500 text-white font-sans  text-[13px] py-1 px-2 rounded-full flex items-center gap-x-1 w-fit md:text-[17px] md:py-2 md:px-3">
+          <AiOutlineDelete style={deleteBtnIcon} />
           <span>Delete</span>
         </button>
       </div>

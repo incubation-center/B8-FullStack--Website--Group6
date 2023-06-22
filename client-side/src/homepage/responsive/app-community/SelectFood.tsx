@@ -53,8 +53,8 @@ function SelectFood() {
           <h1 className="md:text-[17px]">Please Vote</h1>
           <h1 className="text-sky-500 font-bold md:text-[17px]">2/3</h1>
         </div>
-        <div className="w-full bg-gray-100 rounded-full h-1.5 mb-4 dark:bg-gray-700">
-          <div className="w-2/6 bg-sky-500 h-1.5 rounded-full dark:bg-blue-500"></div>
+        <div className="w-full bg-gray-100 rounded-full h-3 mb-4 dark:bg-gray-100">
+          <div className="w-2/6 bg-sky-500 h-full rounded-full dark:bg-blue-500"></div>
         </div>
       </div>
     </div>

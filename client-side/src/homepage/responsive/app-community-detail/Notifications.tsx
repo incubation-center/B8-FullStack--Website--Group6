@@ -22,7 +22,7 @@ function Notifications() {
     <div className="flex flex-col gap-y-5 mt-5">
       <div className="flex justify-start items-center ml-5 gap-x-5">
         <FiSettings className="w-6 h-6" style={notificationICons} />
-        <h1>Setting</h1>
+        <h1>Edit</h1>
       </div>
       <div className="notifications flex justify-between items-center ml-5 mr-5">
         <div className="toggle-btn flex gap-x-4">

@@ -25,8 +25,9 @@ function CreatePoll() {
     <div className="container flex flex-col bg-slate-200 gap-y-5 w-screen h-auto font-sans">
       <div className="bg-white flex flex-col gap-y-8">
         <div className="logo-profile-createPoll flex justify-between items-center mt-5 ml-5 mr-5">
-          <p className="whitespace-normal font-sans font-bold text-sky-500 text-sm">
-            Welcome to the PitCool bro TED!
+          <p className="whitespace-normal font-sans">
+            Welcome to the PitCool bro{" "}
+            <span className="text-blue-custom font-bold">TED </span>!
           </p>
           <div className="translate flex gap-x-3 items-center lg:hidden">
             <MdTranslate className="w-6 h-6" />
