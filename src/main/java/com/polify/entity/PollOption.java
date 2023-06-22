@@ -25,6 +25,17 @@ public class PollOption {
     @JoinColumn(name = "poll_id", nullable = false)
     private Poll poll;
 
+    @Column(name = "percentage")
+    private float percentage;
+
+    @Column(name = "option_voted")
+    private Long optionVoted;
+
+    @PrePersist
+    public void onCreate(){
+        optionVoted = 0L;
+    }
+
     public PollOption(String optionText, Poll poll) {
         this.optionText = optionText;
         this.poll = poll;
@@ -52,6 +63,22 @@ public class PollOption {
 
     public void setPoll(Poll poll) {
         this.poll = poll;
+    }
+
+    public float getPercentage() {
+        return percentage;
+    }
+
+    public void setPercentage(float percentage) {
+        this.percentage = percentage;
+    }
+
+    public Long getOptionVoted() {
+        return optionVoted;
+    }
+
+    public void setOptionVoted(Long optionVoted) {
+        this.optionVoted = optionVoted;
     }
 
 }

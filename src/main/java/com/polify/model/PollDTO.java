@@ -3,6 +3,8 @@ package com.polify.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
+import java.util.List;
+
 public class PollDTO {
 
     @Getter
@@ -11,9 +13,17 @@ public class PollDTO {
 
     @Getter
     @JsonProperty
-    private String pollDescription;
+    private int limitVote;
 
     @Getter
     @JsonProperty
-    private Long post_id;
+    private String duration;
+
+    @Getter
+    @JsonProperty
+    private List<String> options;
+
+    @Getter
+    @JsonProperty
+    private Long user_id;
 }

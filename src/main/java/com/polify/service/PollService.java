@@ -1,16 +1,19 @@
 package com.polify.service;
 
+import com.polify.entity.Community;
 import com.polify.entity.Poll;
-import com.polify.entity.Post;
+import com.polify.entity.User;
 
 import java.util.List;
 
 public interface PollService {
 
 
-    public List<Poll> getPoll();
+    public List<Poll> getPoll(Long id);
 
-    public void addPoll(Poll poll);
+    public Poll addPoll(Poll poll);
 
-    public Post getPostById(Long id);
+    public Community getCommunityById(Long id);
+
+    public User getUserById(Long id);
 }

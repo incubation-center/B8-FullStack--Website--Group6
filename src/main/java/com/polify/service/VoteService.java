@@ -15,4 +15,6 @@ public interface VoteService {
     public User getUserById(Long id);
 
     public PollOption getPollOptionById(Long id);
+
+    public Long countOptionId(Long id);
 }

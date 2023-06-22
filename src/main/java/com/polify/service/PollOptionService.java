@@ -8,9 +8,11 @@ import java.util.List;
 
 public interface PollOptionService {
 
-    public List<PollOption> getPollOption();
+    public List<PollOption> getPollOptionByPollId(Long id);
 
     public void addPollOption(PollOption pollOption);
 
     public Poll getPollById(Long id);
+
+    public Long countTotalVoted(Long pollId);
 }

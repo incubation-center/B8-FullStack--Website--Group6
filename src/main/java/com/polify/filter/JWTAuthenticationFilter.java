@@ -28,7 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 	public static final String SECRET = "FG^723fhhQW12~123qwert123#@$fr!67DSWa";
-	public static final long EXPIRATION_TIME = 100000; 
+	public static final long EXPIRATION_TIME = 100000000;
 	public static final String TOKEN_PREFIX = "Bearer ";
 	public static final String HEADER_STRING = "Authorization";
 

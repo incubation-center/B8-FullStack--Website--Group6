@@ -7,7 +7,9 @@ import com.polify.model.CommunityMembersDTO;
 import com.polify.service.CommunityMembersService;
 import com.polify.utils.ProjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +22,9 @@ public class CommunityMembersController {
     private CommunityMembersService communityMembersService;
 
     @GetMapping(path = "/user/{id}")
-    public List<CommunityMembers> getUserCommunity(@PathVariable Long id){
+    public List<CommunityMembers> getUserCommunity(@PathVariable Long id, Authentication authentication){
+        String username = authentication.getName();
+        System.out.println("Username is: " + username);
         return communityMembersService.getUserCommunity(id);
     }
 
@@ -30,20 +34,20 @@ public class CommunityMembersController {
     }
 
     @PostMapping
-    public ResponseEntity<CommunityMembers> addCommunityMembers(@RequestBody CommunityMembersDTO communityMembersDTO){
+    public ResponseEntity<String> addCommunityMembers(@RequestBody CommunityMembersDTO communityMembersDTO){
 
         User user = communityMembersService.getUserById(communityMembersDTO.getUser_id());
         Community community = communityMembersService.getCommunityById(communityMembersDTO.getCommunity_id());
-
+        System.out.println("-----------------Result: " + communityMembersService.isExist(community, user));
         if (communityMembersService.isExist(community, user)){
-            throw new IllegalStateException("User is already in Community!!!");
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("User is already in Community");
         }
         CommunityMembers communityMembers = new CommunityMembers();
         communityMembers.setUsers(user);
         communityMembers.setCommunity(community);
 
-        CommunityMembers savedCommunityMembers = communityMembersService.addCommunityMembers(communityMembers);
+        communityMembersService.addCommunityMembers(communityMembers);
 
-        return ResponseEntity.ok(savedCommunityMembers);
+        return ResponseEntity.ok("User is added to the community!!!");
     }
 }

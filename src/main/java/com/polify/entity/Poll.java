@@ -20,21 +20,33 @@ public class Poll {
     @Column(name = "poll_question", nullable = false)
     private String pollQuestion;
 
-    @Column(name = "poll_description")
-    private String pollDescription;
+    @Column(name = "limit_vote", nullable = false)
+    private int limitVote;
+
+    @Column(name = "duration", nullable = false)
+    private String duration;
 
     @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)
-    private Post post;
+    @JoinColumn(name = "community_id", nullable = false)
+    private Community community;
 
-//    @ManyToOne
-//    @JoinColumn(name = "community_id", nullable = false)
-//    private Community community;
+    @Column(name = "poll_date")
+    private LocalDate pollDate;
 
-    public Poll(String pollQuestion, String pollDescription, Post post) {
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @PrePersist
+    public void onCreate(){
+        pollDate = LocalDate.now();
+    }
+
+    public Poll(String pollQuestion, int limitVote, String duration, Community community) {
         this.pollQuestion = pollQuestion;
-        this.pollDescription = pollDescription;
-        this.post = post;
+        this.limitVote = limitVote;
+        this.duration = duration;
+        this.community = community;
     }
 
     public Long getId() {
@@ -53,20 +65,43 @@ public class Poll {
         this.pollQuestion = pollQuestion;
     }
 
-    public String getPollDescription() {
-        return pollDescription;
+    public int getLimitVote() {
+        return limitVote;
     }
 
-    public void setPollDescription(String pollDescription) {
-        this.pollDescription = pollDescription;
+    public void setLimitVote(int limitVote) {
+        this.limitVote = limitVote;
     }
 
-    public Post getPost() {
-        return post;
+    public String getDuration() {
+        return duration;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
+    public void setDuration(String duration) {
+        this.duration = duration;
     }
 
+    public Community getCommunity() {
+        return community;
+    }
+
+    public void setCommunity(Community community) {
+        this.community = community;
+    }
+
+    public LocalDate getPollDate() {
+        return pollDate;
+    }
+
+    public void setPollDate(LocalDate pollDate) {
+        this.pollDate = pollDate;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

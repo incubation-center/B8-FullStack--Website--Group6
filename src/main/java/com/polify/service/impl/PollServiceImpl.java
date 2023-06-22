@@ -1,9 +1,11 @@
 package com.polify.service.impl;
 
+import com.polify.entity.Community;
 import com.polify.entity.Poll;
-import com.polify.entity.Post;
+import com.polify.entity.User;
+import com.polify.repository.CommunityRepository;
 import com.polify.repository.PollRepository;
-import com.polify.repository.PostRepository;
+import com.polify.repository.UserRepository;
 import com.polify.service.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,21 +19,30 @@ public class PollServiceImpl implements PollService {
     private PollRepository pollRepository;
 
     @Autowired
-    private PostRepository postRepository;
+    private CommunityRepository communityRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
-    public List<Poll> getPoll() {
-        return pollRepository.findAll();
+    public List<Poll> getPoll(Long id) {
+        return pollRepository.findByCommunityId(id);
     }
 
     @Override
-    public void addPoll(Poll poll) {
-        pollRepository.save(poll);
+    public Poll addPoll(Poll poll) {
+        return pollRepository.save(poll);
     }
 
     @Override
-    public Post getPostById(Long id) {
-        return postRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Post not found!!!"));
+    public Community getCommunityById(Long id) {
+        return communityRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Community not found!!!"));
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found!!!"));
     }
 }

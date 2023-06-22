@@ -50,6 +50,11 @@ public class User {
 	@Setter
 	@Column(name = "email_address", nullable = false)
 	private String email;
+
+	@Getter
+	@Setter
+	@Column(name = "image")
+	private String image;
     
 	@Getter
 	@Setter
@@ -88,6 +93,12 @@ public class User {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+	}
+
+	@PrePersist
+	public void onCreate(){
+		updatedAt = new Date();
+		createdAt = new Date();
 	}
 
 }

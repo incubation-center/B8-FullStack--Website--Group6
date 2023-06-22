@@ -18,10 +18,6 @@ public class PollOptionController {
     @Autowired
     private PollOptionService pollOptionService;
 
-    @GetMapping
-    public List<PollOption> getPollOption() {
-        return pollOptionService.getPollOption();
-    }
 
     @PostMapping
     public void addPollOption(@RequestBody PollOptionDTO pollOptionDTO) {

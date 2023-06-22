@@ -3,9 +3,9 @@ package com.polify.service.impl;
 import com.polify.entity.PollOption;
 import com.polify.entity.User;
 import com.polify.entity.Vote;
-import com.polify.repository.PollOptionRepository;
 import com.polify.repository.UserRepository;
 import com.polify.repository.VoteRepository;
+import com.polify.repository.PollOptionRepository;
 import com.polify.service.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,5 +44,10 @@ public class VoteServiceImpl implements VoteService {
     public PollOption getPollOptionById(Long id) {
         return pollOptionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Poll Option not found!!!"));
+    }
+
+    @Override
+    public Long countOptionId(Long id) {
+        return voteRepository.countByOptionId(id);
     }
 }

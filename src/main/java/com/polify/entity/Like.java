@@ -19,12 +19,12 @@ public class Like {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)
-    private Post post;
-
-    @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User users;
+
+    @ManyToOne
+    @JoinColumn(name = "poll_id", nullable = false)
+    private Poll poll;
 
     @Column(name = "like_date", nullable = false)
     private LocalDate likeDate;
@@ -34,8 +34,8 @@ public class Like {
         likeDate = LocalDate.now();
     }
 
-    public Like(Post post, User users) {
-        this.post = post;
+    public Like(Poll poll, User users) {
+        this.poll = poll;
         this.users = users;
     }
 
@@ -47,12 +47,12 @@ public class Like {
         this.id = id;
     }
 
-    public Post getPost() {
-        return post;
+    public Poll getPoll() {
+        return poll;
     }
 
-    public void setPost(Post post) {
-        this.post = post;
+    public void setPoll(Poll poll) {
+        this.poll = poll;
     }
 
     public User getUsers() {
@@ -71,13 +71,4 @@ public class Like {
         this.likeDate = likeDate;
     }
 
-    @Override
-    public String toString() {
-        return "Like{" +
-                "id=" + id +
-                ", post=" + post +
-                ", users=" + users +
-                ", likeDate=" + likeDate +
-                '}';
-    }
 }
