@@ -51,10 +51,10 @@ public class User {
 	@Column(name = "email_address", nullable = false)
 	private String email;
 
-	@Getter
-	@Setter
-	@Column(name = "image")
-	private String image;
+//	@Getter
+//	@Setter
+//	@Column(name = "image")
+//	private String image;
     
 	@Getter
 	@Setter
