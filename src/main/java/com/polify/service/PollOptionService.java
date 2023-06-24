@@ -5,14 +5,15 @@ import com.polify.entity.PollOption;
 import com.polify.entity.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PollOptionService {
 
     public List<PollOption> getPollOptionByPollId(Long id);
 
-    public void addPollOption(PollOption pollOption);
+    public PollOption addPollOption(PollOption pollOption);
 
     public Poll getPollById(Long id);
 
-    public Long countTotalVoted(Long pollId);
+    public Map<String, Object> getPollOptionResponse(PollOption pollOption);
 }

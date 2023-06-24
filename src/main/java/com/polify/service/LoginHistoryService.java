@@ -9,10 +9,10 @@ import com.polify.entity.LoginHistory;
 @Service
 public interface LoginHistoryService {
 	
-	public LoginHistory save(String username, String attemptStatus);
+	public LoginHistory save(String email, String attemptStatus);
 	
 	public LoginHistory save(LoginHistory entity);
 	
-	public List<LoginHistory> findByUsername(String username);
+	public List<LoginHistory> findByEmail(String email);
 
 }

@@ -10,7 +10,9 @@ import com.polify.service.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PollServiceImpl implements PollService {
@@ -44,5 +46,18 @@ public class PollServiceImpl implements PollService {
     public User getUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found!!!"));
+    }
+
+    @Override
+    public Map<String, Object> getPollResponse(Poll poll) {
+        Map<String, Object> pollMap = new HashMap<>();
+        pollMap.put("id", poll.getId());
+        pollMap.put("pollQuestion", poll.getPollQuestion());
+        pollMap.put("limitVote", poll.getLimitVote());
+        pollMap.put("duration", poll.getDuration());
+        pollMap.put("community", poll.getCommunity());
+        pollMap.put("pollDate", poll.getPollDate());
+        pollMap.put("user", poll.getUser());
+        return pollMap;
     }
 }

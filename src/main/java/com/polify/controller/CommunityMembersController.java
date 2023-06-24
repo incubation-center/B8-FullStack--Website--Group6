@@ -5,14 +5,17 @@ import com.polify.entity.CommunityMembers;
 import com.polify.entity.User;
 import com.polify.model.CommunityMembersDTO;
 import com.polify.service.CommunityMembersService;
+import com.polify.service.UserAccountService;
 import com.polify.utils.ProjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(ProjectUtils.COMMUNITY_MEMBERS_URL)
@@ -21,11 +24,15 @@ public class CommunityMembersController {
     @Autowired
     private CommunityMembersService communityMembersService;
 
-    @GetMapping(path = "/user/{id}")
-    public List<CommunityMembers> getUserCommunity(@PathVariable Long id, Authentication authentication){
-        String username = authentication.getName();
-        System.out.println("Username is: " + username);
-        return communityMembersService.getUserCommunity(id);
+    @Autowired
+    private UserAccountService userAccountService;
+
+    @GetMapping(path = "/user")
+    public List<CommunityMembers> getUserCommunity(Authentication authentication){
+        String email = authentication.getName();
+        User user = userAccountService.getUserByEmail(email);
+
+        return communityMembersService.getUserCommunity(user.getId());
     }
 
     @GetMapping(path = "/community/{id}")
@@ -34,20 +41,20 @@ public class CommunityMembersController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addCommunityMembers(@RequestBody CommunityMembersDTO communityMembersDTO){
+    public ResponseEntity<Object> addCommunityMembers(@RequestBody CommunityMembersDTO communityMembersDTO){
 
         User user = communityMembersService.getUserById(communityMembersDTO.getUser_id());
         Community community = communityMembersService.getCommunityById(communityMembersDTO.getCommunity_id());
         System.out.println("-----------------Result: " + communityMembersService.isExist(community, user));
         if (communityMembersService.isExist(community, user)){
-            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("User is already in Community");
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("User is already in Community!!!");
         }
         CommunityMembers communityMembers = new CommunityMembers();
         communityMembers.setUsers(user);
         communityMembers.setCommunity(community);
 
-        communityMembersService.addCommunityMembers(communityMembers);
+        CommunityMembers savedCommunityMembers = communityMembersService.addCommunityMembers(communityMembers);
 
-        return ResponseEntity.ok("User is added to the community!!!");
+        return ResponseEntity.ok(savedCommunityMembers);
     }
 }

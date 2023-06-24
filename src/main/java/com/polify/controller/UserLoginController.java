@@ -52,7 +52,7 @@ public class UserLoginController {
 	/**
 	 * Register user.
 	 *
-	 * @param user
+	 * @param userDTO
 	 * @return the user
 	 */
 	@PostMapping(ProjectUtils.REGISTER_USER_URL)
@@ -65,15 +65,15 @@ public class UserLoginController {
 	/**
 	 * Get login history by username
 	 *
-	 * @param username
+	 * @param email
 	 * @return login history
 	 * @throws ResourceNotFoundException the resource not found exception
 	 */
-	@GetMapping("/login-history/{username}")
+	@GetMapping("/login-history/{email}")
 	public ResponseEntity<List<LoginHistoryDTO>> getLoginHistoryByUser(
-			@PathVariable(value = "username") String username) throws ResourceNotFoundException {
+			@PathVariable(value = "email") String email) throws ResourceNotFoundException {
 		return ResponseEntity.status(HttpStatus.OK)
-				.body(loginHistoryConverter.createFromEntities(loginHistoryService.findByUsername(username)));
+				.body(loginHistoryConverter.createFromEntities(loginHistoryService.findByEmail(email)));
 	}
 
 	@Bean

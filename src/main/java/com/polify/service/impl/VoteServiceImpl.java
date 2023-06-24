@@ -1,8 +1,10 @@
 package com.polify.service.impl;
 
+import com.polify.entity.Poll;
 import com.polify.entity.PollOption;
 import com.polify.entity.User;
 import com.polify.entity.Vote;
+import com.polify.repository.PollRepository;
 import com.polify.repository.UserRepository;
 import com.polify.repository.VoteRepository;
 import com.polify.repository.PollOptionRepository;
@@ -23,6 +25,9 @@ public class VoteServiceImpl implements VoteService {
 
     @Autowired
     private PollOptionRepository pollOptionRepository;
+
+    @Autowired
+    private PollRepository pollRepository;
 
     @Override
     public List<Vote> getVote() {
@@ -47,7 +52,8 @@ public class VoteServiceImpl implements VoteService {
     }
 
     @Override
-    public Long countOptionId(Long id) {
-        return voteRepository.countByOptionId(id);
+    public Poll getPollByPollId(Long pollId) {
+        return pollRepository.findById(pollId)
+                .orElseThrow(() -> new RuntimeException("Poll not found"));
     }
 }

@@ -10,8 +10,4 @@ public class VoteDTO {
     @Getter
     @JsonProperty
     private List<Long> option_id;
-
-    @Getter
-    @JsonProperty
-    private Long user_id;
 }

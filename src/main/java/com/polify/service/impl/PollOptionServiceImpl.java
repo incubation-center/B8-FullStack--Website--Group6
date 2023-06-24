@@ -8,7 +8,9 @@ import com.polify.service.PollOptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PollOptionServiceImpl implements PollOptionService {
@@ -27,8 +29,8 @@ public class PollOptionServiceImpl implements PollOptionService {
     }
 
     @Override
-    public void addPollOption(PollOption pollOption) {
-        pollOptionRepository.save(pollOption);
+    public PollOption addPollOption(PollOption pollOption) {
+        return pollOptionRepository.save(pollOption);
     }
 
     @Override
@@ -38,13 +40,13 @@ public class PollOptionServiceImpl implements PollOptionService {
     }
 
     @Override
-    public Long countTotalVoted(Long pollId) {
-        List<PollOption> pollOptions = pollOptionRepository.findByPollId(pollId);
-        Long total = 0L;
-        for (PollOption pollOption: pollOptions) {
-            total += pollOption.getOptionVoted();
-        }
+    public Map<String, Object> getPollOptionResponse(PollOption pollOption) {
+        Map<String, Object> pollOptionMap = new HashMap<>();
 
-        return total;
+        pollOptionMap.put("id", pollOption.getId());
+        pollOptionMap.put("optionText", pollOption.getOptionText());
+        pollOptionMap.put("percentage", pollOption.getPercentage());
+
+        return pollOptionMap;
     }
 }

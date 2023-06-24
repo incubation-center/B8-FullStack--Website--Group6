@@ -62,8 +62,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 			UserDTO loginUser = new ObjectMapper().readValue(request.getInputStream(),
 					UserDTO.class);
-			this.setLoginHistory(loginHistoryService.save(loginUser.getUsername(),ProjectUtils.PENDING_STATUS));
-			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getUsername(),
+			this.setLoginHistory(loginHistoryService.save(loginUser.getEmail(),ProjectUtils.PENDING_STATUS));
+			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getEmail(),
 					loginUser.getPassword(), new ArrayList<>()));
 		} catch (IOException e) {
 			throw new RuntimeException(e);

@@ -22,8 +22,4 @@ public class PollDTO {
     @Getter
     @JsonProperty
     private List<String> options;
-
-    @Getter
-    @JsonProperty
-    private Long user_id;
 }

@@ -5,6 +5,7 @@ import com.polify.entity.Poll;
 import com.polify.entity.User;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PollService {
 
@@ -16,4 +17,6 @@ public interface PollService {
     public Community getCommunityById(Long id);
 
     public User getUserById(Long id);
+
+    public Map<String, Object> getPollResponse(Poll poll);
 }

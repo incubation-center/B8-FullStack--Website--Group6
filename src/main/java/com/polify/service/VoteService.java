@@ -1,5 +1,6 @@
 package com.polify.service;
 
+import com.polify.entity.Poll;
 import com.polify.entity.PollOption;
 import com.polify.entity.User;
 import com.polify.entity.Vote;
@@ -16,5 +17,5 @@ public interface VoteService {
 
     public PollOption getPollOptionById(Long id);
 
-    public Long countOptionId(Long id);
+    public Poll getPollByPollId(Long pollId);
 }
