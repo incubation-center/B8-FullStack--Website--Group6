@@ -10,12 +10,12 @@ public class LoginHistoryConverter extends Converter<LoginHistoryDTO, LoginHisto
 	}
 	
 	private static LoginHistoryDTO convertToDto(LoginHistory loginHistory) {		
-		return new LoginHistoryDTO(loginHistory.getId(), loginHistory.getEmail(), loginHistory.getAttemptStatus(),
+		return new LoginHistoryDTO(loginHistory.getId(), loginHistory.getUsername(), loginHistory.getAttemptStatus(),
 				loginHistory.getAttemptAt());
 	}
 
 	private static LoginHistory convertToEntity(LoginHistoryDTO loginHistoryDTO) {
-		return new LoginHistory(loginHistoryDTO.getId(), loginHistoryDTO.getEmail(), loginHistoryDTO.getAttemptStatus(),
+		return new LoginHistory(loginHistoryDTO.getId(), loginHistoryDTO.getUsername(), loginHistoryDTO.getAttemptStatus(),
 				loginHistoryDTO.getAttemptAt());
 	}
 	

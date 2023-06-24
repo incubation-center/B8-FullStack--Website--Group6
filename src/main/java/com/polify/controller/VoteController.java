@@ -37,8 +37,8 @@ public class VoteController {
     @PostMapping(path = "{poll_id}")
     public ResponseEntity<Map<String, Object>> addVote(@RequestBody VoteDTO voteDTO, @PathVariable Long poll_id, Authentication authentication){
 
-        String email = authentication.getName();
-        User user = userAccountService.getUserByEmail(email);
+        String username = authentication.getName();
+        User user = userAccountService.getUserByUsername(username);
 
         for (Long optionId: voteDTO.getOption_id()){
             Vote vote = new Vote();

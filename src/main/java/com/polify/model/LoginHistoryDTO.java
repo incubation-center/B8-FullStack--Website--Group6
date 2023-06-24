@@ -15,8 +15,8 @@ public class LoginHistoryDTO {
 	@JsonProperty("id")
     private long id;
 
-	@JsonProperty("email")
-    private String email;
+	@JsonProperty("username")
+    private String username;
     
 	@JsonProperty("attemptStatus")
     private String attemptStatus;

@@ -29,8 +29,8 @@ public class CommunityMembersController {
 
     @GetMapping(path = "/user")
     public List<CommunityMembers> getUserCommunity(Authentication authentication){
-        String email = authentication.getName();
-        User user = userAccountService.getUserByEmail(email);
+        String username = authentication.getName();
+        User user = userAccountService.getUserByUsername(username);
 
         return communityMembersService.getUserCommunity(user.getId());
     }

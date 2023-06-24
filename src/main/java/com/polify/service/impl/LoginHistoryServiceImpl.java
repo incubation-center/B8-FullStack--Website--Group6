@@ -21,18 +21,18 @@ public class LoginHistoryServiceImpl implements LoginHistoryService {
 	private LoginHistoryRepository loginHistoryRepository;
 
 	@Override
-	public LoginHistory save(String email, String attemptStatus) {
+	public LoginHistory save(String username, String attemptStatus) {
 		LoginHistory entity = new LoginHistory();
-		entity.setEmail(email);
+		entity.setUsername(username);
 		entity.setAttemptStatus(attemptStatus);
 		entity.setAttemptAt(new Date());
 		return loginHistoryRepository.saveAndFlush(entity);
 	}
 
 	@Override
-	public List<LoginHistory> findByEmail(String email) {
+	public List<LoginHistory> findByUsername(String username) {
 		Pageable pageable = PageRequest.of(0, 5, Sort.by(Direction.DESC, "attemptAt"));
-		return loginHistoryRepository.findByEmail(email, pageable);
+		return loginHistoryRepository.findByUsername(username, pageable);
 	}
 
 	@Override

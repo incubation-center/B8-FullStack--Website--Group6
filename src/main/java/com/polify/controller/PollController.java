@@ -64,8 +64,8 @@ public class PollController {
         poll.setDuration(pollDTO.getDuration());
         poll.setCommunity(pollService.getCommunityById(community_id));
 
-        String email = authentication.getName();
-        User user = userAccountService.getUserByEmail(email);
+        String username = authentication.getName();
+        User user = userAccountService.getUserByUsername(username);
 
         poll.setUser(pollService.getUserById(user.getId()));
 

@@ -44,8 +44,8 @@ public class CommunityController {
         community.setCommunityName(communityDTO.getCommunityName());
         community.setCommunityDescription(communityDTO.getCommunityDescription());
 
-        String email = authentication.getName();
-        User user = userAccountService.getUserByEmail(email);
+        String username = authentication.getName();
+        User user = userAccountService.getUserByUsername(username);
 
         community.setUsers(communityService.getUserById(user.getId()));
         Long community_id = communityService.addCommunity(community);

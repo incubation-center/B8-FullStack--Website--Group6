@@ -35,7 +35,7 @@ public class UserDetailServiceImpl implements UserAccountService {
 	}
 
 	@Override
-	public User getUserByEmail(String email) {
-		return userRepository.findByEmail(email);
+	public User getUserByUsername(String username) {
+		return userRepository.findUserByUsername(username);
 	}
 }

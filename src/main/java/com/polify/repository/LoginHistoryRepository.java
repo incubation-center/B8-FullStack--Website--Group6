@@ -11,5 +11,5 @@ import com.polify.entity.LoginHistory;
 @Repository
 public interface LoginHistoryRepository extends JpaRepository<LoginHistory, Long> {
 
-	List<LoginHistory> findByEmail(String email, Pageable pageable);
+	List<LoginHistory> findByUsername(String username, Pageable pageable);
 }

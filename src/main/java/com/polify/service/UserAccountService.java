@@ -10,6 +10,6 @@ public interface UserAccountService extends UserDetailsService {
 	
 	public User save(User user);
 
-	public User getUserByEmail(String email);
+	public User getUserByUsername(String username);
 
 }

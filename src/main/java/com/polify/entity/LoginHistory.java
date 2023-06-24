@@ -28,8 +28,8 @@ public class LoginHistory {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
-	@Column(name = "email", nullable = false)
-	private String email;
+	@Column(name = "username", nullable = false)
+	private String username;
 
 	@Column(name = "attempt_status", nullable = false)
 	private String attemptStatus;
