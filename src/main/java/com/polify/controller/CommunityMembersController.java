@@ -45,7 +45,6 @@ public class CommunityMembersController {
 
         User user = communityMembersService.getUserById(communityMembersDTO.getUser_id());
         Community community = communityMembersService.getCommunityById(communityMembersDTO.getCommunity_id());
-        System.out.println("-----------------Result: " + communityMembersService.isExist(community, user));
         if (communityMembersService.isExist(community, user)){
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("User is already in Community!!!");
         }
