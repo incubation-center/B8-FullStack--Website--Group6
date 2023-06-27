@@ -16,11 +16,11 @@ body {
   }
 }
 
-.custom-line {
+/* .custom-line {
   height: 0.05rem;
   width: 50%;
   background-color: #a0aec0;
-}
+} */
 
 /* remove scrollbar */
 *::-webkit-scrollbar {

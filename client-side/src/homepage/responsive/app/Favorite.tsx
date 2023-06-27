@@ -1,12 +1,12 @@
 import React from "react";
-import Ellipse1008 from "../../assets/community/Ellipse1008.png";
-import Ellipse10010 from "../../assets/community/Ellipse10010.png";
-import Ellipse10011 from "../../assets/community/Ellipse10011.png";
-import Ellipse1009 from "../../assets/community/Ellipse1009.png";
+import Ellipse1008 from "../../../assets/community/Ellipse1008.png";
+import Ellipse10010 from "../../../assets/community/Ellipse10010.png";
+import Ellipse10011 from "../../../assets/community/Ellipse10011.png";
+import Ellipse1009 from "../../../assets/community/Ellipse1009.png";
 
-function Favorite1() {
+function Favorite() {
   return (
-    <div className="profile flex flex-col gap-y-7">
+    <div className="profile flex flex-col gap-y-4 ml-5 mr-5">
       <div className="flex">
         <img
           src={Ellipse1008}
@@ -43,4 +43,4 @@ function Favorite1() {
   );
 }
 
-export default Favorite1;
+export default Favorite;

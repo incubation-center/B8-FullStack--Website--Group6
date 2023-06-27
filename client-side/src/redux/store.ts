@@ -1,12 +1,12 @@
 // Store state globalizely
 import { configureStore } from "@reduxjs/toolkit";
 import registerReducer from "./slices/RegisterForm";
-import communitySlice from "./slices/Community";
+import communityReducer from "./slices/Community";
 
 const store = configureStore({
   reducer: {
     register: registerReducer,
-    createCommunity: communitySlice,
+    createCommunity: communityReducer,
   },
 });
 
