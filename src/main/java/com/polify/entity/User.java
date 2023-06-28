@@ -38,16 +38,6 @@ public class User {
     
 	@Getter
 	@Setter
-	@Column(name = "first_name", nullable = false)
-	private String firstName;
-    
-	@Getter
-	@Setter
-	@Column(name = "last_name", nullable = false)
-	private String lastName;
-    
-	@Getter
-	@Setter
 	@Column(name = "email_address", nullable = false)
 	private String email;
 
@@ -87,18 +77,25 @@ public class User {
 		return password;
 	}
 
-	public User(String username, String password, String firstName, String lastName, String email) {
+	public User(String username, String password, String email) {
 		this.username = username;
 		this.password = password;
-		this.firstName = firstName;
-		this.lastName = lastName;
 		this.email = email;
 	}
 
-	@PrePersist
+    public User(long id, String username, String password, String email) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
+    @PrePersist
 	public void onCreate(){
 		updatedAt = new Date();
 		createdAt = new Date();
+        createdBy = this.username;
+        updatedBy = this.username;
 	}
 
 }

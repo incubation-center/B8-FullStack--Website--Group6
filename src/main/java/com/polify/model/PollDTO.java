@@ -3,6 +3,7 @@ package com.polify.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
+import java.util.Date;
 import java.util.List;
 
 public class PollDTO {
@@ -17,7 +18,7 @@ public class PollDTO {
 
     @Getter
     @JsonProperty
-    private String duration;
+    private Date duration;
 
     @Getter
     @JsonProperty
