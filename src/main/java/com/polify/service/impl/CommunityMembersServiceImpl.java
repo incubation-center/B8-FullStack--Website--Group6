@@ -10,8 +10,8 @@ import com.polify.service.CommunityMembersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 public class CommunityMembersServiceImpl implements CommunityMembersService {
@@ -55,5 +55,67 @@ public class CommunityMembersServiceImpl implements CommunityMembersService {
     @Override
     public boolean isExist(Community community, User user) {
         return communityMembersRepository.findByCommunityAndUsers(community, user).isPresent();
+    }
+
+    @Override
+    public Map<String, Object> getCommunityMembersResponse(Long id) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<CommunityMembers> communityMembers = getCommunityMembers(id);
+        Community community = communityRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Community not found!!!"));
+
+        String name = community.getCommunityName();
+        String description = community.getCommunityDescription();
+        LocalDate dateCreated = community.getDateCreated();
+
+        response.put("id", id);
+        response.put("name", name);
+        response.put("description", description);
+        response.put("dateCreated", dateCreated);
+
+        List<Map<String, Object>> userList = new ArrayList<>();
+        for (CommunityMembers communityMember: communityMembers) {
+            Map<String, Object> userMap = new HashMap<>();
+            User user = communityMember.getUsers();
+
+            userMap.put("id", user.getId());
+            userMap.put("username", user.getUsername());
+            userMap.put("email", user.getEmail());
+
+            userList.add(userMap);
+        }
+
+        response.put("user", userList);
+
+
+        return response;
+    }
+
+    @Override
+    public Map<String, Object> getUserCommunityResponse(Long id) {
+        Map<String, Object> response = new HashMap<>();
+
+        List<CommunityMembers> communityMembers = getUserCommunity(id);
+        User user = userRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("User not found!!!"));
+
+        response.put("id", id);
+        response.put("username", user.getUsername());
+        response.put("email", user.getEmail());
+
+        List<Map<String, Object>> communityList = new ArrayList<>();
+        for (CommunityMembers communityMember: communityMembers) {
+            Map<String, Object> communityMap = new HashMap<>();
+            Community community = communityMember.getCommunity();
+            communityMap.put("id", community.getId());
+            communityMap.put("name", community.getCommunityName());
+            communityMap.put("description", community.getCommunityDescription());
+
+            communityList.add(communityMap);
+        }
+        response.put("community", communityList);
+
+        return response;
     }
 }

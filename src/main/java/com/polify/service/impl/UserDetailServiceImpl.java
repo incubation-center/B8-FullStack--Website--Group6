@@ -10,6 +10,7 @@ import com.polify.repository.UserRepository;
 import com.polify.service.UserAccountService;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -38,4 +39,9 @@ public class UserDetailServiceImpl implements UserAccountService {
 	public User getUserByUsername(String username) {
 		return userRepository.findUserByUsername(username);
 	}
+
+    @Override
+    public List<User> getAllUser() {
+        return userRepository.findAll();
+    }
 }

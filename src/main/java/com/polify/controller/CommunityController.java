@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(ProjectUtils.COMMUNITY_URL)
@@ -39,22 +40,27 @@ public class CommunityController {
     }
 
     @PostMapping(path = "")
-    public ResponseEntity<CommunityMembers> addCommunity(@RequestBody CommunityDTO communityDTO, Authentication authentication){
+    public Map<String, Object> addCommunity(@RequestBody CommunityDTO communityDTO,
+                            Authentication authentication){
+        String username = authentication.getName();
+        User creator = userAccountService.getUserByUsername(username);
+
         Community community = new Community();
         community.setCommunityName(communityDTO.getCommunityName());
         community.setCommunityDescription(communityDTO.getCommunityDescription());
+        community.setUsers(creator);
+        Community savedCommunity = communityService.addCommunity(community);
 
-        String username = authentication.getName();
-        User user = userAccountService.getUserByUsername(username);
+        List<Long> userIdList = communityDTO.getUserId();
+        userIdList.add(0, creator.getId());
+        for (Long userId: userIdList) {
+            CommunityMembers communityMembers = new CommunityMembers();
+            communityMembers.setCommunity(savedCommunity);
+            User user = communityService.getUserById(userId);
+            communityMembers.setUsers(user);
+            communityMembersService.addCommunityMembers(communityMembers);
+        }
 
-        community.setUsers(communityService.getUserById(user.getId()));
-        Long community_id = communityService.addCommunity(community);
-
-        CommunityMembers communityMembers = new CommunityMembers();
-        communityMembers.setCommunity(communityMembersService.getCommunityById(community_id));
-        communityMembers.setUsers(communityMembersService.getUserById(user.getId()));
-
-        CommunityMembers savedCommunityMembers = communityMembersService.addCommunityMembers(communityMembers);
-        return ResponseEntity.ok(savedCommunityMembers);
+        return communityMembersService.getCommunityMembersResponse(savedCommunity.getId());
     }
 }

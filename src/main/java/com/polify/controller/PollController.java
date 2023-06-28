@@ -29,7 +29,7 @@ public class PollController {
     private PollOptionService pollOptionService;
     @Autowired
     private UserAccountService userAccountService;
-    @GetMapping(path = "{community_id}")
+    @GetMapping(path = "community/{community_id}")
     public List<Map<String, Object>> getPoll(@PathVariable Long community_id){
         List<Map<String, Object>> pollResult = new ArrayList<>();
         List<Poll> pollList = pollService.getPoll(community_id);
@@ -52,7 +52,7 @@ public class PollController {
         return pollResult;
     }
 
-    @PostMapping(path = "{community_id}")
+    @PostMapping(path = "community/{community_id}")
     public ResponseEntity<Map<String, Object>> addPoll(@RequestBody PollDTO pollDTO, @PathVariable Long community_id, Authentication authentication){
 
 

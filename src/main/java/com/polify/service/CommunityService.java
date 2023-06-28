@@ -9,7 +9,7 @@ public interface CommunityService {
 
     public List<Community> getAllCommunity();
 
-    public Long addCommunity(Community community);
+    public Community addCommunity(Community community);
 
     public User getUserById(Long id);
 

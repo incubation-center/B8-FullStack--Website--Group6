@@ -21,6 +21,8 @@ public class ProjectUtils {
 	public static final String POST_URL = ProjectUtils.API_URL + "/post";
 
 	public static final String VOTE_URL = ProjectUtils.API_URL + "/vote";
+
+    public static final String USER_URL = ProjectUtils.API_URL + "/user";
 	
 	public static final String SUCCESS_STATUS = "SUCCESS";
 	

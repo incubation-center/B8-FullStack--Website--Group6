@@ -11,16 +11,13 @@ public class UserConverter extends Converter<UserDTO, User> {
 	}
 
 	private static UserDTO convertToDto(User user) {		
-		return new UserDTO(ProjectUtils.getValue(user.getId()), ProjectUtils.getValue(user.getUsername()), null, 
-				user.getFirstName(), user.getLastName(), 
-				user.getEmail(), user.getCreatedAt(), user.getCreatedBy(), 
-				user.getUpdatedAt(), user.getUpdatedBy());
+		return new UserDTO(ProjectUtils.getValue(user.getId()), ProjectUtils.getValue(user.getUsername()), null,
+				user.getEmail());
 	}
 
 	private static User convertToEntity(UserDTO user) {
-		return new User(ProjectUtils.getValue(user.getId()), user.getUsername(), ProjectUtils.getValue(user.getPassword()), user.getFirstName(), 
-				user.getLastName(), user.getEmail(), user.getCreatedAt(), user.getCreatedBy(), 
-				user.getUpdatedAt(), user.getUpdatedBy());
+		return new User(ProjectUtils.getValue(user.getId()), user.getUsername(), ProjectUtils.getValue(user.getPassword()),
+				user.getEmail());
 	}
 		
 }	

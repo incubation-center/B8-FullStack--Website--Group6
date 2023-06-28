@@ -27,26 +27,8 @@ public class UserDTO {
 	@JsonProperty("password")
     private String password;
 
-	@JsonProperty("firstName")
-    private String firstName;
-	
-	@JsonProperty("lastName")
-    private String lastName;
-	
 	@JsonProperty("email")
     private String email;
-	
-	@JsonProperty("createdAt")
-    private Date createdAt;
-	
-	@JsonProperty("createdBy")
-    private String createdBy;
-	
-	@JsonProperty("updatedAt")
-    private Date updatedAt;
-	
-	@JsonProperty("updatedBy")
-    private String updatedBy;
 	
 	@JsonIgnore
 	@JsonProperty(value = "password")

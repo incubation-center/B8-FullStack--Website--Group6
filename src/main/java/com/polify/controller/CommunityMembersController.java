@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -28,27 +29,29 @@ public class CommunityMembersController {
     private UserAccountService userAccountService;
 
     @GetMapping(path = "/user")
-    public List<CommunityMembers> getUserCommunity(Authentication authentication){
+    public Map<String, Object> getUserCommunity(Authentication authentication){
         String username = authentication.getName();
         User user = userAccountService.getUserByUsername(username);
 
-        return communityMembersService.getUserCommunity(user.getId());
+        return communityMembersService.getUserCommunityResponse(user.getId());
     }
 
     @GetMapping(path = "/community/{id}")
-    public List<CommunityMembers> getCommunityMembers(@PathVariable Long id){
-        return communityMembersService.getCommunityMembers(id);
+    public Map<String, Object> getCommunityMembers(@PathVariable Long id){
+        return communityMembersService.getCommunityMembersResponse(id);
     }
 
     @PostMapping
     public ResponseEntity<Object> addCommunityMembers(@RequestBody CommunityMembersDTO communityMembersDTO){
 
-        User user = communityMembersService.getUserById(communityMembersDTO.getUser_id());
         Community community = communityMembersService.getCommunityById(communityMembersDTO.getCommunity_id());
+        User user = communityMembersService.getUserById(communityMembersDTO.getUser_id());
+
         if (communityMembersService.isExist(community, user)){
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("User is already in Community!!!");
         }
         CommunityMembers communityMembers = new CommunityMembers();
+
         communityMembers.setUsers(user);
         communityMembers.setCommunity(community);
 

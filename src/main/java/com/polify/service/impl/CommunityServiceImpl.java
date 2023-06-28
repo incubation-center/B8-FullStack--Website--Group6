@@ -27,9 +27,8 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
-    public Long addCommunity(Community community) {
-        Community savedCommunity = communityRepository.save(community);
-        return savedCommunity.getId();
+    public Community addCommunity(Community community) {
+        return communityRepository.save(community);
     }
 
     @Override
