@@ -1,6 +1,5 @@
 import React from "react";
 import { AiFillTrophy } from "react-icons/ai";
-import Poll1 from "./Poll1";
 
 const trophy = {
   color: "blue", // Customize color
@@ -43,15 +42,18 @@ function CreatePoll() {
             />
           </div>
 
-          <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold whitespace-nowrap rounded-full px-6 py-4'>
+          <a
+            href='/test'
+            className='bg-blue-500 hover:bg-blue-700 text-white font-bold whitespace-nowrap rounded-full px-6 py-4'
+          >
             Create Poll
-          </button>
+          </a>
           <AiFillTrophy
             className='mr-10 border-2 border-blue-500 rounded-full p-1'
             style={trophy}
           />
         </div>
-        <Poll1 />
+        
       </div>
     </>
   );
