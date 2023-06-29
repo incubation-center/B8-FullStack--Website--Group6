@@ -3,6 +3,8 @@
 interface OtpState {
   otpCodes: Array<string>;
   activeOtpIndex: number;
+  isValid: boolean;
+  errorMessage: string;
 }
 
 const UpdateOtpAction = "OTP Verify";

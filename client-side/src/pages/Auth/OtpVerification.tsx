@@ -1,14 +1,21 @@
 import React, { useRef, useEffect } from "react";
 import { BsCheckCircle } from "react-icons/bs";
+import { RxCrossCircled } from "react-icons/rx";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
-import { setOtpCodes, setActiveOtpIndex } from "../../redux/slices/Otp";
+import {
+  setOtpCodes,
+  setActiveOtpIndex,
+  setIsValid,
+  setErrorMessage,
+} from "../../redux/slices/Otp";
 
 let currentOtpIndex = 0;
+const result = true;
 
 const OtpVerification = () => {
   const dispatch = useDispatch();
-  const { otpCodes, activeOtpIndex } = useSelector(
+  const { otpCodes, activeOtpIndex, isValid, errorMessage } = useSelector(
     (state: RootState) => state.otp
   );
 
@@ -42,7 +49,9 @@ const OtpVerification = () => {
   };
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Verifying");
+    console.log("Verifying", otpCodes);
+    if (!result) dispatch(setIsValid(true));
+    else dispatch(setErrorMessage("Verification code is invalid."));
   };
 
   return (
@@ -53,9 +62,15 @@ const OtpVerification = () => {
       >
         <div className="flex items-center gap-2">
           <h1 className="text-blue-custom text-2xl font-bold">Verification</h1>
-          <BsCheckCircle className="text-green-600" />
+          {isValid ? <BsCheckCircle className="text-green-600" /> : null}
+          {errorMessage && <RxCrossCircled className="text-red-600 w-5 h-5" />}
         </div>
         <small>Please enter the verification code we sent to your email.</small>
+        {errorMessage && (
+          <small className="text-red-600 mt-2 text-center">
+            {errorMessage}
+          </small>
+        )}
         <div className="my-4 flex space-x-3 md:justify-around lg:justify-around items-center">
           {otpCodes.map((_, index) => {
             return (
