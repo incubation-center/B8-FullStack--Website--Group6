@@ -6,8 +6,6 @@ import RegisterState, {
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: RegisterState = {
-  firstname: "",
-  lastname: "",
   username: "",
   email: "",
   password: "",

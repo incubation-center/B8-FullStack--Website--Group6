@@ -66,44 +66,47 @@ const RegisterForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Submit");
+    const userData = { username, email, password };
 
-    try {
-      // Perform API call to sign up with the backend
-      const userData = { username, email, password };
-      let response = await fetch(
-        "http://18.142.116.48:8080/api/v1/register-user",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify(userData),
+    const registerUser = async () => {
+      try {
+        // Perform API call to sign up with the backend
+        let response = await fetch(
+          "http://13.251.127.67:8080/api/v1/register-user",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+            },
+            body: JSON.stringify(userData),
+          }
+        );
+
+        if (response.ok) {
+          response = await response.json();
+          localStorage.setItem("user-info", JSON.stringify(response));
+
+          // Clear form inputs
+          dispatch(setUsername(""));
+          dispatch(setEmail(""));
+          dispatch(setPassword(""));
+          dispatch(setIsAgree(false));
+          setShowPassword(false);
+          navigate("/auth/verification");
+        } else {
+          // Registration failed, handle the error
+          const errorData = await response.json();
+          console.log("Registration failed:", errorData);
         }
-      );
-
-      if (response.ok) {
-        response = await response.json();
-        localStorage.setItem("user-info", JSON.stringify(response));
-
-        // Clear form inputs
-        dispatch(setUsername(""));
-        dispatch(setEmail(""));
-        dispatch(setPassword(""));
-        dispatch(setIsAgree(false));
-        setShowPassword(false);
-        navigate("/community");
-      } else {
-        // Registration failed, handle the error
-        const errorData = await response.json();
-        console.log("Registration failed:", errorData);
+      } catch (error) {
+        // Handle error response from the backend
+        // setErrorMessage("Sign-up failed. Please try again.");
+        console.log("An error occurred:", error);
       }
-    } catch (error) {
-      // Handle error response from the backend
-      // setErrorMessage("Sign-up failed. Please try again.");
-      console.log("An error occurred:", error);
-    }
+    };
+
+    registerUser();
   };
 
   return (
@@ -201,7 +204,7 @@ const RegisterForm = () => {
           <span className="flex-grow border-t border-gray-300 mx-2"></span>
         </div>
         <div className="flex justify-center mt-4 space-x-4">
-          <button id="google" type="button">
+          <button id="facebook" type="button">
             <BsFacebook className="w-6 h-6 text-blue-600 hover:opacity-70" />
           </button>
           <button id="github" type="button">

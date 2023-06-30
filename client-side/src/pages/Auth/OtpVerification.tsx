@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { BsCheckCircle } from "react-icons/bs";
 import { RxCrossCircled } from "react-icons/rx";
+import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
 import {
@@ -15,6 +16,7 @@ const result = true;
 
 const OtpVerification = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { otpCodes, activeOtpIndex, isValid, errorMessage } = useSelector(
     (state: RootState) => state.otp
   );
@@ -47,11 +49,14 @@ const OtpVerification = () => {
   const handleResend = () => {
     console.log("Resend Code");
   };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Verifying", otpCodes);
-    if (!result) dispatch(setIsValid(true));
+    if (result) dispatch(setIsValid(true));
     else dispatch(setErrorMessage("Verification code is invalid."));
+
+    navigate("/community");
   };
 
   return (
