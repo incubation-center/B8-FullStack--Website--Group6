@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../redux/store";
 import PolliFy from "../../../assets/PolliFy.png";
 import Avatar from "../../../assets/Avatar.png";
 import { MdTranslate } from "react-icons/md";
@@ -6,20 +8,24 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { BsFillPlusCircleFill } from "react-icons/bs";
 import AddedFavorite from "./AddedFavorite";
 import Favorite from "./Favorite";
+import { openCreateCommunity } from "../../../redux/slices/Community";
+import CreateCommunity from "../../popup/CreateCommunity";
 import { QueryClient, QueryClientProvider } from "react-query";
 
-const iconStyle = {
-  color: "blue",
-  fontSize: "30px",
-  opacity: 0.6,
-};
-
 function Community() {
+  const dispatch = useDispatch();
+  const { isCreateCommunityOpen } = useSelector(
+    (state: RootState) => state.createCommunity
+  );
+
   const queryClient: QueryClient = new QueryClient();
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const handleCreateCommunity = () => {
+    dispatch(openCreateCommunity());
+  };
 
   return (
-    <div className="container flex flex-col bg-white gap-y-8 h-auto font-sans lg:w-2/6 invisible sm:invisible md:invisible lg:visible">
+    <div className="container flex flex-col bg-white gap-y-8 h-auto font-sans lg:w-2/6">
       <div className="logo-profile flex justify-between items-center mt-5 ml-5 mr-5">
         <img src={PolliFy} alt="Profile 1" className="logo w-fit h-7" />
         <div className="translate flex gap-x-3 items-center lg:hidden">
@@ -29,7 +35,7 @@ function Community() {
             <img
               src={Avatar}
               alt="Profile 1"
-              className="w-8 h-8 rounded-full mr-2 border-2 border-blue-500"
+              className="w-8 h-8 rounded-full mr-2 border-2 border-blue-custom"
             />
             <span className="bottom-0 left-7 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
           </div>
@@ -63,9 +69,16 @@ function Community() {
         />
       </div>
       <div className="create-community flex items-center gap-x-3 ml-5 mr-5">
-        <BsFillPlusCircleFill style={iconStyle} />
+        <button
+          className="cursor-pointer hover:opacity-70"
+          type="button"
+          onClick={handleCreateCommunity}
+        >
+          <BsFillPlusCircleFill className="w-7 h-7 text-blue-custom" />
+        </button>
         <h1>Create Community</h1>
       </div>
+      {isCreateCommunityOpen && <CreateCommunity />}
       <h1 className="ml-5 mr-5">Favorite</h1>
       <AddedFavorite />
       <h1 className="ml-5 mr-5">Favorite</h1>
