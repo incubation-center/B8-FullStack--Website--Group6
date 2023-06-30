@@ -8,6 +8,12 @@ function AddedFavorite() {
   const handleClick = () => {
     navigate("/createpoll");
   };
+
+  // const addedFavorites = [
+  //   { image: Ellipse1006, name: "KIT" },
+  //   { image: Ellipse1007, name: "Moringa" },
+  // ];
+
   return (
     <div className="profile flex flex-col gap-y-4 ml-5 mr-5">
       <div className="flex">

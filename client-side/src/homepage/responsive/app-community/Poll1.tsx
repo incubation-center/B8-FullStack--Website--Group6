@@ -6,7 +6,7 @@ import { AiOutlineDelete } from "react-icons/ai";
 const deleteBtnIcon = {
   color: "white",
   fontSize: "19px",
-}
+};
 
 function Poll1() {
   return (
@@ -75,8 +75,8 @@ function Poll1() {
         </div>
       </div>
       <div className="btn-delete flex justify-end items-center mb-5 mr-5">
-      <button className="bg-red-500 text-white font-sans  text-[13px] py-1 px-2 rounded-full flex items-center gap-x-1 w-fit md:text-[17px] md:py-2 md:px-3">
-          <AiOutlineDelete style={deleteBtnIcon}/>
+        <button className="bg-red-500 text-white font-sans  text-[13px] py-1 px-2 rounded-full flex items-center gap-x-1 w-fit md:text-[17px] md:py-2 md:px-3">
+          <AiOutlineDelete style={deleteBtnIcon} />
           <span>Delete</span>
         </button>
       </div>

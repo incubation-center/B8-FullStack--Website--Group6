@@ -32,14 +32,14 @@ function Rating() {
             <h4>21 Jul</h4>
           </h5>
         </div>
-        <div className="rating flex items-center gap-x-3 mt-5 mr-5 md:gap-x-2">
-         <div className="stars flex gap-x-2 invisible lg:visible">
-         <CiStar className="w-5 h-5" />
-          <CiStar className="w-5 h-5" />
-          <BsFillStarFill className="w-5 h-5" style={starIcons} />
-          <BsFillStarFill className="w-5 h-5" style={starIcons} />
-          <BsFillStarFill className="w-5 h-5" style={starIcons} />
-         </div>
+        <div className="rating flex items-center gap-x-3 mt-5 mr-5">
+          <div className="stars flex gap-x-2 invisible sm:invisible md:visible lg:visible">
+            <CiStar className="w-5 h-5" />
+            <CiStar className="w-5 h-5" />
+            <BsFillStarFill className="w-5 h-5" style={starIcons} />
+            <BsFillStarFill className="w-5 h-5" style={starIcons} />
+            <BsFillStarFill className="w-5 h-5" style={starIcons} />
+          </div>
           <CiCircleCheck className="w-8 h-8" style={selectIcon} />
         </div>
       </div>
@@ -76,8 +76,8 @@ function Rating() {
           <h4 className="text-[#2D9CDB]">50%</h4> */}
         </div>
       </div>
-      <div className="border border-gray-200 ml-5 mr-5 mb-5 md:hidden"></div>
-      <div className="line flex justify-center items-center gap-x-2 mb-5 md:hidden">
+      <div className="border border-gray-200 ml-5 mr-5 mb-5 md:invisible"></div>
+      <div className="line flex justify-center items-center gap-x-2 mb-5 md:invisible">
         <CiStar className="w-5 h-5" />
         <CiStar className="w-5 h-5" />
         <BsFillStarFill className="w-5 h-5" style={starIcons} />

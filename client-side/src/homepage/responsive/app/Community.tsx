@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PolliFy from "../../../assets/PolliFy.png";
 import Avatar from "../../../assets/Avatar.png";
 import { MdTranslate } from "react-icons/md";
@@ -6,6 +6,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { BsFillPlusCircleFill } from "react-icons/bs";
 import AddedFavorite from "./AddedFavorite";
 import Favorite from "./Favorite";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const iconStyle = {
   color: "blue",
@@ -14,9 +15,11 @@ const iconStyle = {
 };
 
 function Community() {
+  const queryClient:QueryClient = new QueryClient();
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   return (
-    <div className="container flex flex-col bg-white gap-y-8 h-auto font-sans lg:w-2/6">
+    <div className="container flex flex-col bg-white gap-y-8 h-auto font-sans lg:w-2/6 invisible sm:invisible md:invisible lg:visible">
       <div className="logo-profile flex justify-between items-center mt-5 ml-5 mr-5">
         <img src={PolliFy} alt="Profile 1" className="logo w-fit h-7" />
         <div className="translate flex gap-x-3 items-center lg:hidden">
@@ -52,6 +55,8 @@ function Community() {
           </svg>
         </div>
         <input
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           type="text"
           placeholder="Search community"
           className="py-2 pl-10 border border-gray-300 w-full bg-white rounded-full focus:outline-none focus:border-blue-500"
@@ -64,7 +69,10 @@ function Community() {
       <h1 className="ml-5 mr-5">Favorite</h1>
       <AddedFavorite />
       <h1 className="ml-5 mr-5">Favorite</h1>
-      <Favorite />
+      <QueryClientProvider client = {queryClient}>
+      <Favorite searchQuery={searchQuery} />
+      </QueryClientProvider>
+    
     </div>
   );
 }
