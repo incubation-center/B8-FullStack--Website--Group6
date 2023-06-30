@@ -4,10 +4,7 @@ import com.polify.entity.PollOption;
 import com.polify.entity.User;
 import com.polify.entity.Vote;
 import com.polify.model.VoteDTO;
-import com.polify.service.PollOptionService;
-import com.polify.service.PollService;
-import com.polify.service.UserAccountService;
-import com.polify.service.VoteService;
+import com.polify.service.*;
 import com.polify.utils.ProjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,11 +31,15 @@ public class VoteController {
     @Autowired
     private PollService pollService;
 
+    @Autowired
+    private HasVotedService hasVotedService;
+
     @PostMapping(path = "poll/{poll_id}")
     public ResponseEntity<Map<String, Object>> addVote(@RequestBody VoteDTO voteDTO, @PathVariable Long poll_id, Authentication authentication){
 
         String username = authentication.getName();
         User user = userAccountService.getUserByUsername(username);
+        hasVotedService.addHasVoted(poll_id, user.getId());
 
         for (Long optionId: voteDTO.getOption_id()){
             Vote vote = new Vote();
