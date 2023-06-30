@@ -28,7 +28,7 @@ public class HasVotedServiceImpl implements HasVotedService {
         Poll poll = pollRepository.findById(pollId)
             .orElseThrow(() -> new RuntimeException("Poll not found!!!"));
 
-        User user = userRepository.findById(pollId)
+        User user = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("User not found!!!"));
 
         return hasVotedRepository.findByPollAndUser(poll, user).isPresent();
@@ -39,8 +39,10 @@ public class HasVotedServiceImpl implements HasVotedService {
         Poll poll = pollRepository.findById(pollId)
             .orElseThrow(() -> new RuntimeException("Poll not found!!!"));
 
-        User user = userRepository.findById(pollId)
+        System.out.println("User id: " + userId);
+        User user = userRepository.findById(userId)
             .orElseThrow(() -> new RuntimeException("User not found!!!"));
+        System.out.println("No Error");
 
         HasVoted hasVoted = new HasVoted();
         hasVoted.setPoll(poll);

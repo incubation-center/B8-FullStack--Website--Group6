@@ -55,8 +55,6 @@ public class PollController {
     @PostMapping(path = "community/{community_id}")
     public ResponseEntity<Map<String, Object>> addPoll(@RequestBody PollDTO pollDTO, @PathVariable Long community_id, Authentication authentication){
 
-
-
         Poll poll = new Poll();
 
         poll.setPollQuestion(pollDTO.getPollQuestion());
