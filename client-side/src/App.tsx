@@ -5,7 +5,7 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import { RegisterForm, LoginForm } from "./pages";
+import { RegisterForm, OtpVerification, LoginForm } from "./pages";
 import Dashboard2 from "./homepage/Dashboard2";
 import Community from "./homepage/responsive/app/Community";
 import CreatePoll from "./homepage/responsive/app-community/CreatePoll";
@@ -21,6 +21,7 @@ const App = () => {
       <Route path="/responsive" element={<Community />} />
       <Route path="/createpoll" element={<CreatePoll />} />
       <Route path="/communitydetail" element={<CommunityProfile />} />
+      <Route path="/auth/verification" element={<OtpVerification />} />
     </Routes>
   );
 };
