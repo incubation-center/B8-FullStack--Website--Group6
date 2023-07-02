@@ -5,7 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import { BsFacebook } from "react-icons/bs";
 import { FaGithub, FaTwitter } from "react-icons/fa";
 import pollifyLogo from "../../assets/PolliFy.png";
-import GoogleLogin from "react-google-login";
+// import GoogleLogin from "react-google-login";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
 import {

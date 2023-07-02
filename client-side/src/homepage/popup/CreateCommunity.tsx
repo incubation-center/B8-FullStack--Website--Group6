@@ -18,7 +18,7 @@ import {
 import { User } from "../../types/redux/community";
 
 const token =
-  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5YW1hIiwiZXhwIjoxNjg4MTMzMTI2fQ.LV_PQ8BZ8qIWnvNIgZTWFXu5RToJRzspDMiiaTo-aV-rxo5YzroFq03hvKPEyXCt1LoZDJ90Ek5i1iTPSZphAw";
+  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5YW1hIiwiZXhwIjoxNjg4MzgyNDM0fQ.XPHncYkHYp5P4HixH5Y2mJaY0KiGedlZOcYkLKETGJ04bbRiscg3QO7kJBPpvCUrGhlTSGEXY8cc4ua783n5-A";
 
 function CreateCommunity() {
   const dispatch = useDispatch();
@@ -88,6 +88,8 @@ function CreateCommunity() {
               email,
             })
           );
+
+          console.log(updatedData)
 
           dispatch(setUserData(updatedData));
         }

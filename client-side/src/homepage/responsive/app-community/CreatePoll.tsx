@@ -39,29 +39,29 @@ function CreatePoll() {
     dispatch(openCreatePollPopup());
   };
 
-  const { isLoading, error, data } = useQuery("pollData", async () => {
-    const response = await fetch(API_URL, {
-      headers: {
-        Authorization:
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5YW1hIiwiZXhwIjoxNjg4MTg5Mzg0fQ.sFseVTDLYz6W5PD2NGjDatXD12i92fjoXjCcRKo6IR1uvLaOOWM0gFb2HmyOvn-kUc4Tk2wVIazeVZbhv-FH7w",
-      },
-    });
+  // const { isLoading, error, data } = useQuery("pollData", async () => {
+  //   const response = await fetch(API_URL, {
+  //     headers: {
+  //       Authorization:
+  //         "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5YW1hIiwiZXhwIjoxNjg4MTg5Mzg0fQ.sFseVTDLYz6W5PD2NGjDatXD12i92fjoXjCcRKo6IR1uvLaOOWM0gFb2HmyOvn-kUc4Tk2wVIazeVZbhv-FH7w",
+  //     },
+  //   });
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch poll data");
-    }
+  //   if (!response.ok) {
+  //     throw new Error("Failed to fetch poll data");
+  //   }
 
-    return response.json();
-  });
-  console.log("data", data);
+  //   return response.json();
+  // });
+  // console.log("data", data);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
-  if (error) {
-    return <div>Error: {error.toString()}</div>;
-  }
+  // if (error) {
+  //   return <div>Error: {error.toString()}</div>;
+  // }
 
   return (
     <div className="container flex flex-col bg-slate-200 gap-y-5 w-screen h-auto font-sans">
@@ -123,18 +123,18 @@ function CreatePoll() {
         </div>
         {isCreatePollPopupOpen && <CreatePollPopup />}
       </div>
-      {data && data.length > 0 ? (
+      {/* {data && data.length > 0 ? ( */}
         <div>
           <Poll1 />
           <Poll2 />
           <SelectFood />
           <Rating />
         </div>
-      ) : (
+      {/* ) : (
         <div className="flex justify-center items-center">
           There is currently no poll within your community
         </div>
-      )}
+      )} */}
     </div>
   );
 }
