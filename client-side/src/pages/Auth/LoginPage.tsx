@@ -8,13 +8,14 @@ import { FcGoogle } from "react-icons/fc";
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
+  const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(event.target.value);
   };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,28 +26,43 @@ const LoginForm = () => {
     navigate("/user/sign_up");
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (!email || !password) {
-      return;
-    }
-
-    if (rememberMe) {
-      localStorage.setItem("rememberMe", "true");
-    } else {
-      localStorage.removeItem("rememberMe");
-    }
-
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("Remember Me:", rememberMe);
-
-    navigate("/community");
-
+    setError("");
     try {
-      navigate("/community");
+      const apiUrl = "http://13.251.127.67:8080";
+      const accessToken =
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5YW1hIiwiZXhwIjoxNjg4NDYzOTc5fQ.FovhzFpayYtVs_1YjlVGgRZT9DR3VxnjItnTI5rEWPydNsqmwwBkqMvt64Ri0h4KpoHcr2HfAqJFu0_zFC0Ucg";
+
+      const response = await fetch(`${apiUrl}/api/v1/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        console.log("Login successful");
+        if (rememberMe) {
+          localStorage.setItem("rememberMe", "true");
+        } else {
+          localStorage.removeItem("rememberMe");
+        }
+
+        navigate("/community");
+      } else {
+        if (response.status === 401 || response.status === 403) {
+          console.log("Incorrect user name or password");
+          setError("Incorrect username or password!");
+        } else {
+          console.log("An error occurred");
+          setError("An error occurred");
+        }
+      }
     } catch (error) {
-      console.log("cannot log in");
+      console.log("An Unknown error has been occurred: ", error);
     }
   };
 
@@ -84,11 +100,11 @@ const LoginForm = () => {
         <div>
           <input
             className='border text-gray-700 border-gray-300 rounded px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full mb-4'
-            id='email'
-            type='email'
-            placeholder='Email'
-            value={email}
-            onChange={handleEmailChange}
+            id='username'
+            type='text'
+            placeholder='Username'
+            value={username}
+            onChange={handleUsernameChange}
             required
           />
         </div>
@@ -114,7 +130,7 @@ const LoginForm = () => {
             )}
           </button>
         </div>
-        <div className='flex items-center mb-6 pt-2'>
+        <div className='flex items-center mb-4 pt-2'>
           <input
             className='mr-2 w-4 h-4 leading-tight'
             type='checkbox'
@@ -132,6 +148,8 @@ const LoginForm = () => {
             Forgot password?
           </a>
         </div>
+        {error && <p className='text-red-500 mb-2'>{error}</p>}
+
         <div className='flex items-center justify-between'>
           <button
             className='w-full uppercase bg-[#2D9CDB] hover:opacity-80 text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline'
