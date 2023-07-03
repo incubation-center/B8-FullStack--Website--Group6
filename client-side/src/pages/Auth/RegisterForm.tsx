@@ -16,10 +16,13 @@ import {
   setPasswordErrorMessage,
 } from "../../redux/slices/RegisterForm";
 
-const clientId =
-  "169663001832-rnhhvl1ump4dj98k56gi44ejt8h5i0mn.apps.googleusercontent.com";
+import { apiURL } from "../../config/config";
+
+// const clientId =
+//   "169663001832-rnhhvl1ump4dj98k56gi44ejt8h5i0mn.apps.googleusercontent.com";
 
 const RegisterForm = () => {
+  console.log("API URL", apiURL);
   const dispatch = useDispatch();
   const { username, email, password, isAgree, errorMessage } = useSelector(
     (state: RootState) => state.register
@@ -71,17 +74,14 @@ const RegisterForm = () => {
     const registerUser = async () => {
       try {
         // Perform API call to sign up with the backend
-        let response = await fetch(
-          "http://13.251.127.67:8080/api/v1/register-user",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-            },
-            body: JSON.stringify(userData),
-          }
-        );
+        let response = await fetch(`${apiURL}/api/v1/register-user`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(userData),
+        });
 
         if (response.ok) {
           response = await response.json();
@@ -95,6 +95,7 @@ const RegisterForm = () => {
           setShowPassword(false);
           navigate("/auth/verification");
         } else {
+          // console.log(response.error)
           // Registration failed, handle the error
           const errorData = await response.json();
           console.log("Registration failed:", errorData);

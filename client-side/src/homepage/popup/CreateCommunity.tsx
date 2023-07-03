@@ -16,9 +16,7 @@ import {
   setInvitedUsers,
 } from "../../redux/slices/Community";
 import { User } from "../../types/redux/community";
-
-const token =
-  "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5YW1hIiwiZXhwIjoxNjg4MTMzMTI2fQ.LV_PQ8BZ8qIWnvNIgZTWFXu5RToJRzspDMiiaTo-aV-rxo5YzroFq03hvKPEyXCt1LoZDJ90Ek5i1iTPSZphAw";
+import { apiURL, accessToken } from "../../config/config";
 
 function CreateCommunity() {
   const dispatch = useDispatch();
@@ -63,14 +61,11 @@ function CreateCommunity() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          "http://13.251.127.67:8080/api/v1/user/all",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await fetch(`${apiURL}/api/v1/user/all`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
         if (response.ok) {
           const userData = await response.json();
           const updatedData = userData.map(
@@ -130,18 +125,15 @@ function CreateCommunity() {
 
     const createCommunity = async () => {
       try {
-        const response = await fetch(
-          "http://13.251.127.67:8080/api/v1/community",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(communityData),
-          }
-        );
+        const response = await fetch(`${apiURL}/api/v1/community`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(communityData),
+        });
 
         if (response.ok) {
           console.log("Create Community Success");
