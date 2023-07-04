@@ -41,6 +41,11 @@ public class User {
 	@Column(name = "email_address", nullable = false)
 	private String email;
 
+    @Getter
+    @Setter
+    @Column(name = "is_verified", nullable = true)
+    private boolean isVerified;
+
 //	@Getter
 //	@Setter
 //	@Column(name = "image")
