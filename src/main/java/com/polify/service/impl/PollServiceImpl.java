@@ -6,6 +6,7 @@ import com.polify.entity.User;
 import com.polify.repository.CommunityRepository;
 import com.polify.repository.PollRepository;
 import com.polify.repository.UserRepository;
+import com.polify.service.HasVotedService;
 import com.polify.service.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,9 @@ public class PollServiceImpl implements PollService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private HasVotedService hasVotedService;
 
     @Override
     public List<Poll> getPoll(Long id) {
@@ -55,9 +59,9 @@ public class PollServiceImpl implements PollService {
         pollMap.put("pollQuestion", poll.getPollQuestion());
         pollMap.put("limitVote", poll.getLimitVote());
         pollMap.put("duration", poll.getDuration());
-        pollMap.put("community", poll.getCommunity());
         pollMap.put("pollDate", poll.getPollDate());
         pollMap.put("user", poll.getUser());
+        pollMap.put("hasVoted", hasVotedService.getHasVoted(poll.getId(), poll.getUser().getId()));
         return pollMap;
     }
 }
