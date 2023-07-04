@@ -35,8 +35,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	private AuthenticationManager authenticationManager;
 	
 	private LoginHistoryService loginHistoryService;
-	
+
 	private LoginHistory loginHistory;
+
+    private User user;
 
 	public JWTAuthenticationFilter(AuthenticationManager authenticationManager,
 			LoginHistoryService loginHistoryService) {
@@ -55,6 +57,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	}
 
 
+
+
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
@@ -64,6 +68,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 					UserDTO.class);
 			System.out.println("-------------------------loginUser: " + loginUser);
 			this.setLoginHistory(loginHistoryService.save(loginUser.getUsername(),ProjectUtils.PENDING_STATUS));
+
 			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getUsername(),
 					loginUser.getPassword(), new ArrayList<>()));
 		} catch (IOException e) {

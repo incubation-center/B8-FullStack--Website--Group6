@@ -3,9 +3,11 @@ package com.polify.utils;
 public class ProjectUtils {
 	
 	public static final String API_URL = "/api/v1";
-	
-		public static final String REGISTER_USER_URL = "/register-user";
-	
+
+    public static final String REGISTER_USER_URL = "/register-user";
+    public static final String VERIFY_USER_URL = "/verify-user";
+
+    public static final String VERIFY_USER_FULL_URL = ProjectUtils.API_URL+ "/verify-user";
 	public static final String REGISTER_USER_FULL_URL = ProjectUtils.API_URL + "/register-user";
 	
 	public static final String LOGIN_URL = ProjectUtils.API_URL + "/auth/login";
@@ -29,6 +31,8 @@ public class ProjectUtils {
 	public static final String FAIL_STATUS = "FAIL";
 	
 	public static final String PENDING_STATUS = "PENDING";
+    public static final String MAIL_PASSWORD = "zlnsnijqyuzlhszs";
+    public static final String SENDER_EMAIL = "pollify.app@gmail.com";
 	
 	public static <T> T getValue(T value) {
 		return value == null ? null : value;
