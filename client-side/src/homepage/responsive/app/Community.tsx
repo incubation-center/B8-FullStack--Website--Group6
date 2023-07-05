@@ -25,7 +25,7 @@ function Community() {
   };
 
   return (
-    <div className="container flex flex-col bg-white gap-y-8 h-auto font-sans lg:w-2/6">
+    <div className=" bg-white gap-y-8 h-auto font-sans lg:w-2/6 hidden lg:flex lg:flex-col">
       <div className="logo-profile flex justify-between items-center mt-5 ml-5 mr-5">
         <img src={PolliFy} alt="Profile 1" className="logo w-fit h-7" />
         <div className="translate flex gap-x-3 items-center lg:hidden">

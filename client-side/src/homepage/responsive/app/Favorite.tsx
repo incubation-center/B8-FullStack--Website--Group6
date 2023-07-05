@@ -23,7 +23,6 @@ function Favorite({ searchQuery }: FavoriteProps) {
         headers: {
           Authorization:
             "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzb2tsaW4iLCJleHAiOjE2ODcxODc2MzJ9.RoNlY-glY_fcZFUMZQIZeO8zYEPJ4A3LSdBDpm-Y3iXsW1Yat4ql4atNhGrV1aSaMWcbPanonYiSb5-4Ifs5Uw",
-        },
       })
         .then((response) => response.json())
         .then((data) => data)

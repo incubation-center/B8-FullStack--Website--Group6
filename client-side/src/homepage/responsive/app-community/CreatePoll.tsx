@@ -7,13 +7,13 @@ import Poll1 from "./Poll1";
 import Poll2 from "./Poll2";
 import SelectFood from "./SelectFood";
 import Rating from "./Rating";
-
 import { RootState } from "../../../redux/store";
 import { useNavigate } from "react-router-dom";
 import CreatePollPopup from "../../popup/CreatePollPopup";
 import { useDispatch, useSelector } from "react-redux";
 import { openCreatePollPopup } from "../../../redux/slices/CreatePoll";
 import { useQuery } from "react-query";
+import PolliFy from "../../../assets/PolliFy.png";
 
 const trophyIcons = {
   color: "blue",
@@ -43,7 +43,7 @@ function CreatePoll() {
     const response = await fetch(API_URL, {
       headers: {
         Authorization:
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5YW1hIiwiZXhwIjoxNjg4MTg5Mzg0fQ.sFseVTDLYz6W5PD2NGjDatXD12i92fjoXjCcRKo6IR1uvLaOOWM0gFb2HmyOvn-kUc4Tk2wVIazeVZbhv-FH7w",
+          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5YW1hIiwiZXhwIjoxNjg4NTUzMTQ0fQ.Lvxn-n2Ok9AnMSsP_2xUkLwYzXQKWJssn8w91RQMN85axeO2IR0RmZ_CTqraZDRtbzoujAe15J1PaHPdaxrQhg",
       },
     });
 
@@ -64,13 +64,16 @@ function CreatePoll() {
   }
 
   return (
-    <div className="container flex flex-col bg-slate-200 gap-y-5 w-screen h-auto font-sans">
+    <div className="bg-slate-200 gap-y-5 w-full lg:w-full  md:w-screen sm:w-full h-auto font-sans">
       <div className="bg-white flex flex-col gap-y-8">
-        <div className="logo-profile-createPoll flex justify-between items-center mt-5 ml-5 mr-5">
-          <p className="whitespace-normal font-sans">
-            Welcome to the PitCool bro{" "}
-            <span className="text-blue-custom font-bold">TED </span>!
-          </p>
+        <div className="logo-profile-createPoll flex justify-between items-center mt-5 mx-5">
+          <div className="logo-text">
+            <p className="whitespace-normal font-sans font-bold hidden lg:block">
+              Welcome to the PitCool bro
+              <span className="text-blue-custom font-bold">TED </span>!
+            </p>
+            <img src={PolliFy} alt="pollify" className="w-fit h-7 lg:hidden" />
+          </div>
           <div className="translate flex gap-x-3 items-center lg:hidden">
             <MdTranslate className="w-6 h-6" />
             <IoMdNotificationsOutline className="w-6 h-6" />
@@ -78,9 +81,9 @@ function CreatePoll() {
               <img
                 src={Avatar}
                 alt="Profile 1"
-                className="w-8 h-8 rounded-full mr-2 border-2 border-blue-500"
+                className="w-10 h-10 rounded-full mr-2 border-2 border-blue-500"
               />
-              <span className="bottom-0 left-7 absolute  w-3.5 h-3.5 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
+              <span className="bottom-1 left-8 absolute  w-3 h-3 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
             </div>
           </div>
         </div>
@@ -123,18 +126,16 @@ function CreatePoll() {
         </div>
         {isCreatePollPopupOpen && <CreatePollPopup />}
       </div>
-      {data && data.length > 0 ? (
-        <div>
-          <Poll1 />
-          <Poll2 />
-          <SelectFood />
-          <Rating />
-        </div>
-      ) : (
-        <div className="flex justify-center items-center">
-          There is currently no poll within your community
-        </div>
-      )}
+      <div className="flex flex-col gap-y-5 mt-5 ">
+        <Poll1 />
+        <Poll2 />
+        <SelectFood />
+        <Rating />
+      </div>
+
+      <div className="flex justify-center items-center">
+        There is currently no poll within your community
+      </div>
     </div>
   );
 }
