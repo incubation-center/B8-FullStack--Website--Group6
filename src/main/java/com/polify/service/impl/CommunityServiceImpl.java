@@ -2,7 +2,6 @@ package com.polify.service.impl;
 
 import com.polify.entity.Community;
 import com.polify.entity.User;
-import com.polify.repository.CommunityMembersRepository;
 import com.polify.repository.CommunityRepository;
 import com.polify.repository.UserRepository;
 import com.polify.service.CommunityService;
