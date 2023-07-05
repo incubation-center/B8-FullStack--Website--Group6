@@ -21,7 +21,7 @@ function Favorite({ searchQuery }: FavoriteProps) {
       fetch("http://13.251.127.67:8080/api/v1/community/all", {
         headers: {
           Authorization:
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5YW1hIiwiZXhwIjoxNjg4MTI4ODUwfQ.Jdh6x3kk9slMIDqY5leQIpG-T5lMEc8-BojUwq5brzfaIYIW-oEf3UmQefNJOc7dS30iZI0U-333nyDm0-9c4Q",
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5YW1hIiwiZXhwIjoxNjg4NTUzMTQ0fQ.Lvxn-n2Ok9AnMSsP_2xUkLwYzXQKWJssn8w91RQMN85axeO2IR0RmZ_CTqraZDRtbzoujAe15J1PaHPdaxrQhg",
         },
       })
         .then((response) => response.json())
