@@ -66,6 +66,8 @@ function CreateCommunity() {
             Authorization: `Bearer ${accessToken}`,
           },
         });
+        console.log(response);
+
         if (response.ok) {
           const userData = await response.json();
           const updatedData = userData.map(
@@ -125,7 +127,7 @@ function CreateCommunity() {
 
     const createCommunity = async () => {
       try {
-        const response = await fetch(`${apiURL}/api/v1/community`, {
+        const response = await fetch(`${apiURL}/api/v1/community/all`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
