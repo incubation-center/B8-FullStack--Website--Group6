@@ -1,4 +1,5 @@
 import React from "react";
+// import { useQuery } from "react-query";
 import { useQuery } from "react-query";
 import Ellipse1008 from "../../../assets/community/Ellipse1008.png";
 import Ellipse10010 from "../../../assets/community/Ellipse10010.png";
@@ -21,8 +22,7 @@ function Favorite({ searchQuery }: FavoriteProps) {
       fetch("http://13.251.127.67:8080/api/v1/community/all", {
         headers: {
           Authorization:
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5YW1hIiwiZXhwIjoxNjg4NTUzMTQ0fQ.Lvxn-n2Ok9AnMSsP_2xUkLwYzXQKWJssn8w91RQMN85axeO2IR0RmZ_CTqraZDRtbzoujAe15J1PaHPdaxrQhg",
-        },
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzb2tsaW4iLCJleHAiOjE2ODcxODc2MzJ9.RoNlY-glY_fcZFUMZQIZeO8zYEPJ4A3LSdBDpm-Y3iXsW1Yat4ql4atNhGrV1aSaMWcbPanonYiSb5-4Ifs5Uw",
       })
         .then((response) => response.json())
         .then((data) => data)
@@ -49,7 +49,7 @@ function Favorite({ searchQuery }: FavoriteProps) {
 
   return (
     <div className="profile flex flex-col gap-y-4 ml-5 mr-5">
-      {data?.map((community) => (
+      {data?.map((community: any) => (
         <div className="flex" key={community.id}>
           <img
             src={community.communityName}
