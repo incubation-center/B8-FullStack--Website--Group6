@@ -18,7 +18,7 @@ const selectIcon = {
 
 function Rating() {
   return (
-    <div className="Rating flex flex-col bg-white ml-5 mr-5 border h-fit mb-10 rounded-md">
+    <div className="Rating flex flex-col bg-white border h-fit mb-10 rounded-md">
       <div className=" userChart flex justify-between items-center">
         <div className="User flex mt-5 ml-5 relative">
           <img
@@ -33,13 +33,13 @@ function Rating() {
           </h5>
         </div>
         <div className="rating flex items-center gap-x-3 mt-5 mr-5 md:gap-x-2">
-         <div className="stars flex gap-x-2 invisible lg:visible">
-         <CiStar className="w-5 h-5" />
-          <CiStar className="w-5 h-5" />
-          <BsFillStarFill className="w-5 h-5" style={starIcons} />
-          <BsFillStarFill className="w-5 h-5" style={starIcons} />
-          <BsFillStarFill className="w-5 h-5" style={starIcons} />
-         </div>
+          <div className="stars flex gap-x-2 invisible lg:visible">
+            <CiStar className="w-5 h-5" />
+            <CiStar className="w-5 h-5" />
+            <BsFillStarFill className="w-5 h-5" style={starIcons} />
+            <BsFillStarFill className="w-5 h-5" style={starIcons} />
+            <BsFillStarFill className="w-5 h-5" style={starIcons} />
+          </div>
           <CiCircleCheck className="w-8 h-8" style={selectIcon} />
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
 import PolliFy from "../../../assets/PolliFy.png";
@@ -12,12 +12,15 @@ import UserCommunity from "./UserCommunity";
 import { openCreateCommunity } from "../../../redux/slices/Community";
 import CreateCommunity from "../../popup/CreateCommunity";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { apiURL, accessToken } from "../../../config/config";
+import { setUserCommunity } from "../../../redux/slices/UserCommunity";
 
 function Community() {
   const dispatch = useDispatch();
   const { isCreateCommunityOpen } = useSelector(
     (state: RootState) => state.community
   );
+  const { community } = useSelector((state: RootState) => state.userCommunity);
 
   const queryClient: QueryClient = new QueryClient();
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -25,8 +28,32 @@ function Community() {
     dispatch(openCreateCommunity());
   };
 
+  // get data all users data
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${apiURL}/api/v1/community_members/user`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+
+        if (response.ok) {
+          const userCommunity = await response.json();
+          dispatch(setUserCommunity(userCommunity));
+        }
+      } catch (error) {
+        console.error("An error occurred: ", error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
-    <div className=" bg-white h-screen lg:w-2/6 lg:flex lg:flex-col">
+    <div className=" bg-white h-screen hidden lg:w-2/6 lg:flex lg:flex-col">
       <div className="logo-profile flex justify-between items-center">
         <div className="flex justify-center w-full pt-5">
           <img src={PolliFy} alt="Profile 1" className="logo w-fit h-10" />
@@ -53,7 +80,7 @@ function Community() {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           type="text"
-          placeholder="Search community"
+          placeholder="Search Community"
           className="py-2 px-4 pl-9 border-2 border-gray-300 w-full rounded-full focus:outline-none focus:border-blue-500"
         />
       </div>
@@ -68,13 +95,17 @@ function Community() {
         <h1>Create Community</h1>
       </div>
       {isCreateCommunityOpen && <CreateCommunity />}
-      <h1 className="mt-4 px-4">Favorite</h1>
-      <AddedFavorite />
+      {community && community.length > 0 ? (
+        <div>
+          <h1 className="mt-4 px-4">Favorite</h1>
+          <AddedFavorite />
 
-      <h1 className="mt-4 px-4">Your Community</h1>
-      <QueryClientProvider client={queryClient}>
-        <UserCommunity searchQuery={searchQuery} />
-      </QueryClientProvider>
+          <h1 className="mt-4 px-4">Your Community</h1>
+          <QueryClientProvider client={queryClient}>
+            <UserCommunity searchQuery={searchQuery} />
+          </QueryClientProvider>
+        </div>
+      ) : null}
     </div>
   );
 }

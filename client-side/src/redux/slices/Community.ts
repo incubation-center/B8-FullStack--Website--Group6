@@ -8,6 +8,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 const initialState: CommunityState = {
   userProfile: null,
   inCommunityId: 0,
+  userCommunity: 0,
+  pollInCommunity: 0,
   communityName: "",
   searchTerm: "",
   communityDescription: "Description",
@@ -25,6 +27,12 @@ export const communitySlice = createSlice({
     },
     setInCommunityId: (state, action: PayloadAction<number>) => {
       state.inCommunityId = action.payload;
+    },
+    setUserCommunity: (state, action: PayloadAction<number>) => {
+      state.userCommunity = action.payload;
+    },
+    setPollInCommunity: (state, action: PayloadAction<number>) => {
+      state.pollInCommunity = action.payload;
     },
     setCommunityName: (state, action: PayloadAction<string>) => {
       state.communityName = action.payload;
@@ -51,6 +59,8 @@ export const communitySlice = createSlice({
 export const {
   setUserProfile,
   setInCommunityId,
+  setUserCommunity,
+  setPollInCommunity,
   setCommunityName,
   setSearchTerm,
   openCreateCommunity,

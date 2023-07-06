@@ -10,7 +10,7 @@ const selectFoodIcons = {
 
 function SelectFood() {
   return (
-    <div className="select-food flex flex-col ml-5 mr-5 border h-fit bg-white rounded-md">
+    <div className="select-food flex flex-col border h-fit bg-white rounded-md">
       <div className="userChart flex justify-between items-center">
         <div className="User flex mt-5 ml-5 relative">
           <img

@@ -21,25 +21,7 @@ interface FavoriteProps {
 
 function UserCommunity({ searchQuery }: FavoriteProps) {
   const dispatch = useDispatch();
-  const { inCommunityId } = useSelector((state: RootState) => state.community);
-  const [isClicked, setIsClicked] = useState(false);
-  const { data, isLoading, isError, error } = useQuery("communityData", () =>
-    fetch(`${apiURL}/api/v1/community_members/user`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => data)
-  );
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error: {(error as Error)?.message}</div>;
-  }
+  const { community } = useSelector((state: RootState) => state.userCommunity);
 
   const favorites = [
     { image: Ellipse1008, name: "Party" },
@@ -56,15 +38,12 @@ function UserCommunity({ searchQuery }: FavoriteProps) {
     e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>,
     community: Community
   ): void => {
-    console.log("Clicked", community.id);
-    setIsClicked(true);
-
     dispatch(setInCommunityId(community.id));
   };
 
   return (
-    <div className="profile flex flex-col gap-y-2 pb-4 mt-5 h-80 overflow-hidden hover:overflow-auto community-scrolling">
-      {data?.community.map((community: any, index: any) => {
+    <div className="profile flex flex-col gap-y-2 pb-4 mt-5 mr-1 h-80 overflow-hidden hover:overflow-auto community-scrolling">
+      {community.map((community: any, index: any) => {
         return (
           <React.Fragment key={index}>
             <div
