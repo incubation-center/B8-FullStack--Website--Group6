@@ -85,7 +85,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 				.sign(Algorithm.HMAC512(SECRET.getBytes())); // JWT Signature
 		this.getLoginHistory().setAttemptStatus(ProjectUtils.SUCCESS_STATUS);
 		loginHistoryService.save(this.getLoginHistory());
-		response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+//		response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write("{\"token\":\"" + TOKEN_PREFIX + token + "\"}");
 	}
     
 	@Override
