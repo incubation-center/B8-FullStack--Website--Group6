@@ -16,6 +16,8 @@ import { openCreatePollPopup } from "../../../redux/slices/CreatePoll";
 import { useQuery } from "react-query";
 import { apiURL, accessToken } from "../../../config/config";
 import PolliFy from "../../../assets/PolliFy.png";
+import { NoPoll } from "../../../homepage";
+import TrophyIcon from "../../../assets/icons/trophy.svg";
 
 const trophyIcons = {
   color: "blue",
@@ -105,28 +107,25 @@ function CreatePoll() {
           >
             Create Poll
           </button>
-          <div className="border border-blue-custom rounded-full w-12 h-11">
-            <AiFillTrophy className="w-full h-full text-blue-custom p-1" />
+          <div className="flex justify-center items-center border border-blue-custom rounded-full w-14 h-12">
+            <img className="w-8 h-8" src={TrophyIcon} alt="Trophy" />
           </div>
         </div>
         {isCreatePollPopupOpen && <CreatePollPopup />}
       </div>
       <div className="flex flex-col gap-y-5 h-[87%] lg:h-[85%] overflow-auto py-10 pl-5 pr-4 home-scrolling">
-        <Poll1 />
-        <Poll1 />
-        <Poll2 />
-        <SelectFood />
-        <Rating />
-        <Poll1 />
+        {/* <Poll1 />
         <Poll1 />
         <Poll2 />
         <SelectFood />
         <Rating />
+        <Poll1 />
+        <Poll1 />
+        <Poll2 />
+        <SelectFood />
+        <Rating /> */}
+        <NoPoll />
       </div>
-
-      {/* <div className="flex justify-center items-center">
-        There is currently no poll within your community
-      </div> */}
     </div>
   );
 }

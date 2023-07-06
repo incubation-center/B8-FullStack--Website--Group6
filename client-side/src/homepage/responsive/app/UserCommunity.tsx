@@ -5,6 +5,9 @@ import Ellipse10010 from "../../../assets/community/Ellipse10010.png";
 import Ellipse10011 from "../../../assets/community/Ellipse10011.png";
 import Ellipse1009 from "../../../assets/community/Ellipse1009.png";
 import { apiURL, accessToken } from "../../../config/config";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { setInCommunityId } from "../../../redux/slices/Community";
 
 interface Community {
   id: number;
@@ -17,6 +20,8 @@ interface FavoriteProps {
 }
 
 function UserCommunity({ searchQuery }: FavoriteProps) {
+  const dispatch = useDispatch();
+  const { inCommunityId } = useSelector((state: RootState) => state.community);
   const [isClicked, setIsClicked] = useState(false);
   const { data, isLoading, isError, error } = useQuery("communityData", () =>
     fetch(`${apiURL}/api/v1/community_members/user`, {
@@ -53,15 +58,17 @@ function UserCommunity({ searchQuery }: FavoriteProps) {
   ): void => {
     console.log("Clicked", community.id);
     setIsClicked(true);
+
+    dispatch(setInCommunityId(community.id));
   };
 
   return (
-    <div className="profile flex flex-col gap-y-3 pb-4 ml-5 mr-1 overflow-hidden hover:overflow-auto community-scrolling">
+    <div className="profile flex flex-col gap-y-2 pb-4 mt-5 h-80 overflow-hidden hover:overflow-auto community-scrolling">
       {data?.community.map((community: any, index: any) => {
         return (
           <React.Fragment key={index}>
             <div
-              className={`flex cursor-pointer`}
+              className={`flex cursor-pointer py-2 hover:bg-gray-200 px-4`}
               key={community.id}
               onClick={(e) => handleCommunityClick(e, community)}
             >

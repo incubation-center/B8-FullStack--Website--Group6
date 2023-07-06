@@ -13,6 +13,7 @@ export interface User {
 
 interface CommunitySate {
   userProfile: File | null;
+  inCommunityId: number;
   communityName: string;
   searchTerm: string;
   communityDescription: string;
@@ -21,7 +22,7 @@ interface CommunitySate {
   invitedUsers: User[];
 }
 
-const UpdateCreateCommunityAction = "Create Community";
+const UpdateCommunityAction = "Community";
 
 export default CommunitySate;
-export { UpdateCreateCommunityAction };
+export { UpdateCommunityAction };

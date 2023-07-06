@@ -8,13 +8,11 @@ import otpReducer from "./slices/Otp";
 const store = configureStore({
   reducer: {
     register: registerReducer,
-    createCommunity: communityReducer,
+    community: communityReducer,
     createPoll: CreatePollReducer,
     otp: otpReducer,
   },
 });
-
-
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

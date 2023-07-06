@@ -6,7 +6,7 @@ import Avatar from "../../../assets/Avatar.png";
 import { MdTranslate } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { AiOutlineSearch } from "react-icons/ai";
-import { BsFillPlusCircleFill } from "react-icons/bs";
+import { BsPlus } from "react-icons/bs";
 import AddedFavorite from "./AddedFavorite";
 import UserCommunity from "./UserCommunity";
 import { openCreateCommunity } from "../../../redux/slices/Community";
@@ -16,7 +16,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 function Community() {
   const dispatch = useDispatch();
   const { isCreateCommunityOpen } = useSelector(
-    (state: RootState) => state.createCommunity
+    (state: RootState) => state.community
   );
 
   const queryClient: QueryClient = new QueryClient();
@@ -26,9 +26,11 @@ function Community() {
   };
 
   return (
-    <div className=" bg-white gap-y-8 h-screen lg:w-2/6 hidden lg:flex lg:flex-col">
-      <div className="logo-profile flex justify-between items-center mt-5 ml-5">
-        <img src={PolliFy} alt="Profile 1" className="logo w-fit h-7" />
+    <div className=" bg-white h-screen lg:w-2/6 lg:flex lg:flex-col">
+      <div className="logo-profile flex justify-between items-center">
+        <div className="flex justify-center w-full pt-5">
+          <img src={PolliFy} alt="Profile 1" className="logo w-fit h-10" />
+        </div>
         <div className="translate flex gap-x-3 items-center lg:hidden">
           <MdTranslate className="w-6 h-6" />
           <IoMdNotificationsOutline className="w-6 h-6" />
@@ -43,8 +45,8 @@ function Community() {
         </div>
       </div>
       <div className="line border border-gray-200 ml-5 mr-5 lg:hidden"></div>
-      <div className="search-community-field relative mr-5 flex ml-5">
-        <div className="w-full absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+      <div className="search-community-field relative mt-5 px-4 flex justify-center">
+        <div className="w-full left-7 absolute inset-y-0 flex items-center pointer-events-none">
           <AiOutlineSearch className="text-gray-400 w-5 h-5" />
         </div>
         <input
@@ -55,20 +57,21 @@ function Community() {
           className="py-2 px-4 pl-9 border-2 border-gray-300 w-full rounded-full focus:outline-none focus:border-blue-500"
         />
       </div>
-      <div className="create-community flex items-center gap-x-3 ml-5 mr-5">
+      <div className="create-community flex items-center gap-x-3 px-4 mt-7">
         <button
-          className="cursor-pointer hover:opacity-70"
+          className="flex justify-center items-center cursor-pointer w-9 h-9 rounded-full bg-blue-custom hover:opacity-70"
           type="button"
           onClick={handleCreateCommunity}
         >
-          <BsFillPlusCircleFill className="w-7 h-7 text-blue-custom" />
+          <BsPlus className="w-6 h-6 text-white" />
         </button>
         <h1>Create Community</h1>
       </div>
       {isCreateCommunityOpen && <CreateCommunity />}
-      <h1 className="ml-5">Favorite</h1>
+      <h1 className="mt-4 px-4">Favorite</h1>
       <AddedFavorite />
-      <h1 className="ml-5">Your Community</h1>
+
+      <h1 className="mt-4 px-4">Your Community</h1>
       <QueryClientProvider client={queryClient}>
         <UserCommunity searchQuery={searchQuery} />
       </QueryClientProvider>

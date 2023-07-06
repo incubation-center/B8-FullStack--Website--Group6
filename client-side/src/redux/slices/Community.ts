@@ -1,12 +1,13 @@
 // Define state reducer
 import CommunityState, {
-  UpdateCreateCommunityAction,
+  UpdateCommunityAction,
   User,
 } from "../../types/redux/community";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: CommunityState = {
   userProfile: null,
+  inCommunityId: 0,
   communityName: "",
   searchTerm: "",
   communityDescription: "Description",
@@ -16,11 +17,14 @@ const initialState: CommunityState = {
 };
 
 export const communitySlice = createSlice({
-  name: UpdateCreateCommunityAction,
+  name: UpdateCommunityAction,
   initialState: initialState,
   reducers: {
     setUserProfile: (state, action: PayloadAction<File | null>) => {
       state.userProfile = action.payload;
+    },
+    setInCommunityId: (state, action: PayloadAction<number>) => {
+      state.inCommunityId = action.payload;
     },
     setCommunityName: (state, action: PayloadAction<string>) => {
       state.communityName = action.payload;
@@ -46,6 +50,7 @@ export const communitySlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   setUserProfile,
+  setInCommunityId,
   setCommunityName,
   setSearchTerm,
   openCreateCommunity,

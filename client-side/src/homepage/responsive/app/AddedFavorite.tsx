@@ -10,8 +10,8 @@ function AddedFavorite() {
     console.log("Favorite");
   };
   return (
-    <div className="profile flex flex-col gap-y-4 h-24 ml-5 mr-1 overflow-auto community-scrolling">
-      <div className="flex">
+    <div className="profile flex flex-col h-28 gap-y-4 mt-7 overflow-hidden hover:overflow-auto community-scrolling">
+      <div className="flex px-4">
         <img
           src={Ellipse1006}
           alt="Profile 1"
@@ -20,7 +20,29 @@ function AddedFavorite() {
         <h1>KIT</h1>
       </div>
       <div
-        className="flex bg-sky-100 py-2 w-full border-l-4 border-l-sky-500 cursor-pointer"
+        className="flex px-4 bg-sky-100 py-2 w-full border-l-4 border-l-sky-500 cursor-pointer"
+        onClick={handleClick}
+      >
+        <img
+          src={Ellipse1007}
+          alt="Profile 1"
+          className="w-8 h-8 rounded-full mr-2 border-2 border-blue-500"
+        />
+        <h1>Moringa</h1>
+      </div>
+      <div
+        className="flex px-4 bg-sky-100 py-2 w-full border-l-4 border-l-sky-500 cursor-pointer"
+        onClick={handleClick}
+      >
+        <img
+          src={Ellipse1007}
+          alt="Profile 1"
+          className="w-8 h-8 rounded-full mr-2 border-2 border-blue-500"
+        />
+        <h1>Moringa</h1>
+      </div>
+      <div
+        className="flex px-4 bg-sky-100 py-2 w-full border-l-4 border-l-sky-500 cursor-pointer"
         onClick={handleClick}
       >
         <img
