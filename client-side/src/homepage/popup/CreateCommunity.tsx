@@ -66,7 +66,6 @@ function CreateCommunity() {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        console.log(response);
 
         if (response.ok) {
           const userData = await response.json();
@@ -102,6 +101,9 @@ function CreateCommunity() {
     if (!invitedUsers.some((invitedUser) => invitedUser.id === user.id)) {
       const updatedInvitedUsers = [...invitedUsers, user];
       dispatch(setInvitedUsers(updatedInvitedUsers));
+
+      // clear user input
+      dispatch(setSearchTerm(""));
     }
   };
 
@@ -127,7 +129,7 @@ function CreateCommunity() {
 
     const createCommunity = async () => {
       try {
-        const response = await fetch(`${apiURL}/api/v1/community/all`, {
+        const response = await fetch(`${apiURL}/api/v1/community`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -218,6 +220,7 @@ function CreateCommunity() {
               className="text-gray-700 mt-2 py-2 px-4 w-full rounded border-2 border-neutral-300 focus:outline-none"
               type="email"
               placeholder="Type email..."
+              value={searchTerm}
               onChange={(e) => dispatch(setSearchTerm(e.target.value))}
             />
           </div>
@@ -230,7 +233,7 @@ function CreateCommunity() {
               {invitedUsers.map((user, index) => {
                 return (
                   <React.Fragment key={index}>
-                    <div className="flex flex-row items-center pl-1 h-9 space-x-2 w-auto border border-blue-custom rounded-full">
+                    <div className="flex flex-row items-center pl-1 h-8 space-x-2 w-auto border border-blue-custom rounded-full">
                       <img className="w-6 h-6" src={avatar2} alt="" />
                       <p className="text-sm text-blue-custom">
                         {user.username}

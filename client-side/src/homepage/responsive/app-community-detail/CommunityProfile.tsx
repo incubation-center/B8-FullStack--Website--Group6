@@ -67,7 +67,7 @@ function CommunityProfile() {
       <PopupModal isOpen={isOpen} onClose={closeModal} />
       <div className="line border border-gray-100 ml-5 mr-5"></div>
       <Notifications />
-      <CommunityMembers />
+      {/* <CommunityMembers /> */}
     </div>
   );
 }
