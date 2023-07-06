@@ -30,7 +30,7 @@ function SelectFood() {
         here is the new menus for this lunch. <br />
         Please vote for 3 food options.
       </p>
-      <div className="foodSelected grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 mt-5 ml-5 mr-5">
+      <div className="foodSelected grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 mt-5 ml-5 mr-5 text-gray-800">
         <div className="border border-neutral-300 px-5 py-3 flex bg-white items-center gap-x-2 rounded-xl shadow">
           <div className="radio w-4 h-4 border border-gray-300 rounded-full"></div>
           <h1 className="font-bold font-sans text-[15px]">BBQ</h1>

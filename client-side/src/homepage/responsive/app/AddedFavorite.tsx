@@ -6,10 +6,11 @@ import { useNavigate } from "react-router-dom";
 function AddedFavorite() {
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate("/createpoll");
+    // navigate("/createpoll");
+    console.log("Favorite");
   };
   return (
-    <div className="profile flex flex-col gap-y-4 ml-5 mr-5">
+    <div className="profile flex flex-col gap-y-4 h-24 ml-5 mr-1 overflow-auto community-scrolling">
       <div className="flex">
         <img
           src={Ellipse1006}

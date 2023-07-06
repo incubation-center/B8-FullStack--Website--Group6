@@ -30,7 +30,7 @@ function Poll2() {
         here is the new menus for this lunch. <br />
         Please vote for 3 food options.
       </p>
-      <div className="food-menu grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 mr-5 ml-5 gap-4 mt-5">
+      <div className="food-menu grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 mr-5 ml-5 gap-4 mt-5 text-gray-800">
         <div className="text-[15px] font-sans font-bold border border-neutral-300 shadow px-5 py-3 rounded-xl ">
           Somlor Korko
         </div>

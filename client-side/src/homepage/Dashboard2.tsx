@@ -5,7 +5,7 @@ import CommunityProfile from "./responsive/app-community-detail/CommunityProfile
 
 function Dashboard2() {
   return (
-    <div className="flex flex-row bg-white w-screen">
+    <div className="flex flex-row bg-white text-gray-500 w-screen h-screen overflow-hidden">
       <Community />
       <CreatePoll />
       <CommunityProfile />
