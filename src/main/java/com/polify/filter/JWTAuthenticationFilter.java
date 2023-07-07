@@ -3,6 +3,8 @@ package com.polify.filter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -22,6 +25,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.polify.entity.LoginHistory;
 import com.polify.model.UserDTO;
 import com.polify.service.LoginHistoryService;
+import com.polify.service.UserAccountService;
 import com.polify.utils.ProjectUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -36,15 +40,19 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	
 	private LoginHistoryService loginHistoryService;
 
+    private UserAccountService userAccountService;
+
 	private LoginHistory loginHistory;
 
     private User user;
 
 	public JWTAuthenticationFilter(AuthenticationManager authenticationManager,
-			LoginHistoryService loginHistoryService) {
+			LoginHistoryService loginHistoryService, UserAccountService userAccountService) {
 		this.authenticationManager = authenticationManager;
 		this.loginHistoryService = loginHistoryService;
-	}
+        this.userAccountService = userAccountService;
+
+    }
 	
 
 	public LoginHistory getLoginHistory() {
@@ -68,13 +76,27 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 					UserDTO.class);
 			System.out.println("-------------------------loginUser: " + loginUser);
 			this.setLoginHistory(loginHistoryService.save(loginUser.getUsername(),ProjectUtils.PENDING_STATUS));
+            com.polify.entity.User user = userAccountService.getUserByUsername(loginUser.getUsername());
 
-			return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getUsername(),
-					loginUser.getPassword(), new ArrayList<>()));
+            if(user.isVerified()) {
+                return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getUsername(),
+                    loginUser.getPassword(), new ArrayList<>()));
+            }else {
+                throw new BadCredentialsException("User in not verified");
+            }
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+            Map<String, String> errorMap = new HashMap<>();
+            errorMap.put("message", "User is not verified");
+
+            StringBuilder sb = new StringBuilder();
+            for (Map.Entry<String, String> entry : errorMap.entrySet()) {
+                sb.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+            }
+            String errorString = sb.toString();
+
+            throw new BadCredentialsException(errorString, e);
 		}
-	}
+    }
 
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,

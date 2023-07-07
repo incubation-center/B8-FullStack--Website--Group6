@@ -33,6 +33,9 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private LoginHistoryService loginHistoryService;
 
+    @Autowired
+    private UserAccountService userAccountService;
+
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -67,7 +70,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
 	public JWTAuthenticationFilter getJWTAuthenticationFilter() throws Exception {
 		final JWTAuthenticationFilter filter = new JWTAuthenticationFilter(authenticationManager(),
-				loginHistoryService);
+				loginHistoryService, userAccountService);
 		filter.setFilterProcessesUrl(ProjectUtils.LOGIN_URL); // override the default spring login URL
 		return filter;
 	}

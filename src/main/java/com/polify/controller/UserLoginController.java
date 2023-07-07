@@ -127,7 +127,7 @@ public class UserLoginController {
 	}
 
     @PostMapping(ProjectUtils.VERIFY_USER_URL)
-    public ResponseEntity<VerifyUserDTO> verifySignUp(@Valid @RequestBody VerifyUserDTO userDTO) throws MessagingException {
+    public ResponseEntity<Map> verifySignUp(@Valid @RequestBody VerifyUserDTO userDTO) throws MessagingException {
         String username = userDTO.getUsername();
         int code = userDTO.getCode();
         Optional<OTP> obj = otpService.findCodeByCreatedBy(username);
@@ -138,11 +138,20 @@ public class UserLoginController {
 
             user_obj.setVerified(true);
             userAccountService.save(user_obj);
-            return ResponseEntity.ok(userDTO);
+
+            Map<String, String> responseMap = new HashMap<>();
+            responseMap.put("message", "SUCCESS");
+            return new ResponseEntity<>(
+                responseMap,
+                HttpStatus.OK);
+
         } else {
             Map<String, String> responseMap = new HashMap<>();
             responseMap.put("message", "Invalid code");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return new ResponseEntity<>(
+                responseMap,
+                HttpStatus.BAD_REQUEST);
+
         }
     }
 
