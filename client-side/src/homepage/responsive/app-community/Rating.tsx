@@ -76,8 +76,8 @@ function Rating() {
           <h4 className="text-[#2D9CDB]">50%</h4> */}
         </div>
       </div>
-      <div className="border border-gray-200 ml-5 mr-5 mb-5 md:hidden"></div>
-      <div className="line flex justify-center items-center gap-x-2 mb-5 md:hidden">
+      <div className="border border-gray-200 ml-5 mr-5 mb-5 md:visible lg:invisible"></div>
+      <div className="line flex justify-center items-center gap-x-2 mb-5 md:visible lg:invisible">
         <CiStar className="w-5 h-5" />
         <CiStar className="w-5 h-5" />
         <BsFillStarFill className="w-5 h-5" style={starIcons} />
