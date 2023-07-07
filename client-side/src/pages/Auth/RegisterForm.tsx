@@ -72,7 +72,7 @@ const RegisterForm = () => {
       try {
         // Perform API call to sign up with the backend
         let response = await fetch(
-          "http://13.251.127.67:8080/api/v1/register-user",
+          "http://18.142.146.129:8080/api/v1/register-user",
           {
             method: "POST",
             headers: {

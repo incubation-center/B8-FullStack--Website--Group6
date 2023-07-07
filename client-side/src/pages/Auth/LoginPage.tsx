@@ -30,9 +30,9 @@ const LoginForm = () => {
     event.preventDefault();
     setError("");
     try {
-      const apiUrl = "http://13.251.127.67:8080";
+      const apiUrl = "http://18.142.146.129:8080";
       const accessToken =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ5YW1hIiwiZXhwIjoxNjg4NDYzOTc5fQ.FovhzFpayYtVs_1YjlVGgRZT9DR3VxnjItnTI5rEWPydNsqmwwBkqMvt64Ri0h4KpoHcr2HfAqJFu0_zFC0Ucg";
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGFuIiwiZXhwIjoxNjg4NzU4OTM0fQ.mbBjvhOxWQ7C5Qo46zm0ACsqSgAgMYmDdUZkcsGxCSEZyJSeNwOkaznvymdcRCl3QA9yExf5fa2ilc_SV1nvDA";
 
       const response = await fetch(`${apiUrl}/api/v1/auth/login`, {
         method: "POST",
@@ -53,13 +53,12 @@ const LoginForm = () => {
 
         navigate("/community");
       } else {
-        if (response.status === 401 || response.status === 403) {
-          console.log("Incorrect user name or password");
-          setError("Incorrect username or password!");
-        } else {
-          console.log("An error occurred");
-          setError("An error occurred");
-        }
+        // if (response.status === 401 || response.status === 403) {
+        //   console.log("Incorrect user name or password");
+        //   setError("Incorrect username or password!");
+        // } else {
+        console.log("Incorrect user name or password");
+        setError("Incorrect username or password!");
       }
     } catch (error) {
       console.log("An Unknown error has been occurred: ", error);
