@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useQuery } from "react-query";
 import Ellipse1008 from "../../../assets/community/Ellipse1008.png";
 import Ellipse10010 from "../../../assets/community/Ellipse10010.png";
 import Ellipse10011 from "../../../assets/community/Ellipse10011.png";
 import Ellipse1009 from "../../../assets/community/Ellipse1009.png";
 import { apiURL, accessToken } from "../../../config/config";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { setInCommunityId } from "../../../redux/slices/Community";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Community {
   id: number;
@@ -17,24 +21,9 @@ interface FavoriteProps {
 }
 
 function UserCommunity({ searchQuery }: FavoriteProps) {
-  const [isClicked, setIsClicked] = useState(false);
-  const { data, isLoading, isError, error } = useQuery("communityData", () =>
-    fetch(`${apiURL}/api/v1/community_members/user`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => data)
-  );
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error: {(error as Error)?.message}</div>;
-  }
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { community } = useSelector((state: RootState) => state.userCommunity);
 
   const favorites = [
     { image: Ellipse1008, name: "Party" },
@@ -43,33 +32,46 @@ function UserCommunity({ searchQuery }: FavoriteProps) {
     { image: Ellipse1009, name: "Saturday Phirk" },
   ];
 
-  const filteredFavorites = favorites.filter((favorite) =>
-    favorite.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const firstButtonRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Simulate a click on the first button when the component mounts
+    if (firstButtonRef.current) {
+      firstButtonRef.current.click();
+    }
+  }, []);
 
   const handleCommunityClick = (
     e: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>,
     community: Community
   ): void => {
-    console.log("Clicked", community.id);
-    setIsClicked(true);
+    e.preventDefault();
+    dispatch(setInCommunityId(community.id));
+
+    navigate(`/community/${community.id}`);
   };
 
   return (
-    <div className="profile flex flex-col gap-y-3 pb-4 ml-5 mr-1 overflow-hidden hover:overflow-auto community-scrolling">
-      {data?.community.map((community: any, index: any) => {
+    <div className="profile flex flex-col gap-y-1 pb-4 mt-5 mr-1 h-80 overflow-hidden hover:overflow-auto community-scrolling">
+      {community.map((community: any, index: any) => {
         return (
           <React.Fragment key={index}>
             <div
-              className={`flex cursor-pointer`}
+              ref={index === 0 ? firstButtonRef : null}
+              className={`flex items-center cursor-pointer py-2 hover:bg-sky-100 hover:border-l-sky-500 hover:border-l-4 px-4`}
               key={community.id}
               onClick={(e) => handleCommunityClick(e, community)}
             >
-              <img
+              {/* <img
                 src={Ellipse1008}
                 alt={`Community ${community.id}`}
                 className="w-8 h-8 rounded-full mr-2 border-2 border-blue-500"
-              />
+              /> */}
+              <div className="flex justify-center items-center w-9 h-9 rounded-full mr-2 border border-blue-500">
+                <span className="font-bold text-xl uppercase">
+                  {community.name[0]}
+                </span>
+              </div>
               <h1>{community.name}</h1>
             </div>
           </React.Fragment>

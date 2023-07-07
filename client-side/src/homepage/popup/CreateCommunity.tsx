@@ -28,7 +28,7 @@ function CreateCommunity() {
     searchTerm,
     userData,
     invitedUsers,
-  } = useSelector((state: RootState) => state.createCommunity);
+  } = useSelector((state: RootState) => state.community);
 
   // style
   const height = invitedUsers.length !== 0 ? "h-20" : "h-auto";

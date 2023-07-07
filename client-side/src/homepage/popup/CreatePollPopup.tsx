@@ -25,6 +25,7 @@ const CreatePollPopup = () => {
     Object.keys(durationOptions)[0]
   );
   const [error, setError] = useState("");
+  const communityId = useSelector((state: RootState) => state.community.inCommunityId);
 
   //giving input, add, delete options
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,8 +117,9 @@ const CreatePollPopup = () => {
 
     console.log(pollData);
 
+
     try {
-      const response = await fetch(`${apiUrl}/api/v1/poll/community/24`, {
+      const response = await fetch(`${apiUrl}/api/v1/poll/community/${communityId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -125,6 +127,7 @@ const CreatePollPopup = () => {
         },
         body: JSON.stringify(pollData),
       });
+
 
       if (response.ok) {
         console.log("Poll created successfully");
