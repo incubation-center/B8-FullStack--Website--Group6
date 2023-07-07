@@ -13,4 +13,5 @@ export interface UserCommunitySate {
 
 const UpdateUserCommunityAction = "User Community";
 
+export default UserCommunitySate;
 export { UpdateUserCommunityAction };

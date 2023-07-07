@@ -14,6 +14,10 @@ const NoPoll = () => {
     (state: RootState) => state.userCommunity
   );
 
+  const { inCommunityId } = useSelector((state: RootState) => state.community);
+
+  const inCommunity = community.find((obj) => obj.id === inCommunityId);
+
   return (
     <div className="flex flex-col justify-center pb-20 items-center px-4 h-full border bg-white rounded-md">
       <div className="w-36 h-36 mb-3">
@@ -22,7 +26,7 @@ const NoPoll = () => {
       {community && community.length > 0 ? (
         <div className="flex flex-col justify-center items-center">
           <h1 className="font-bold text-2xl text-center">
-            Welcome to {communityName} Community!
+            Welcome to {inCommunity?.name} Community!
           </h1>
           <small className="text-center">
             This is the beginning of this community. Create poll now.

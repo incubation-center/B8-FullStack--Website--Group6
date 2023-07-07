@@ -18,6 +18,7 @@ import PolliFy from "../../../assets/PolliFy.png";
 import { NoPoll } from "../../../homepage";
 import TrophyIcon from "../../../assets/icons/trophy.svg";
 import { setPollInCommunity } from "../../../redux/slices/Community";
+import { useParams } from "react-router-dom";
 
 function CreatePoll() {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ function CreatePoll() {
   const { inCommunityId, pollInCommunity } = useSelector(
     (state: RootState) => state.community
   );
-
+  const { username } = useSelector((state: RootState) => state.userCommunity);
   const { community } = useSelector((state: RootState) => state.userCommunity);
 
   const navigate = useNavigate();
@@ -72,7 +73,11 @@ function CreatePoll() {
           <div className="logo-text">
             <p className="whitespace-normal text-lg hidden text-gray-700 lg:block">
               Welcome to the PitCool bro
-              <span className="text-blue-custom font-bold"> TED </span>!
+              <span className="text-blue-custom font-bold uppercase">
+                {" "}
+                {username}{" "}
+              </span>
+              !
             </p>
             <img src={PolliFy} alt="pollify" className="w-fit h-7 lg:hidden" />
           </div>

@@ -101,9 +101,7 @@ function Community() {
           <AddedFavorite />
 
           <h1 className="mt-4 px-4">Your Community</h1>
-          <QueryClientProvider client={queryClient}>
-            <UserCommunity searchQuery={searchQuery} />
-          </QueryClientProvider>
+          <UserCommunity searchQuery={searchQuery} />
         </div>
       ) : null}
     </div>
