@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Avatar from "../../../assets/Avatar.png";
 import { MdTranslate } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { AiOutlineSearch } from "react-icons/ai";
-import { AiFillTrophy } from "react-icons/ai";
 import Poll1 from "./Poll1";
 import Poll2 from "./Poll2";
 import SelectFood from "./SelectFood";
@@ -16,20 +15,21 @@ import { openCreatePollPopup } from "../../../redux/slices/CreatePoll";
 import { useQuery } from "react-query";
 import { apiURL, accessToken } from "../../../config/config";
 import PolliFy from "../../../assets/PolliFy.png";
-
-const trophyIcons = {
-  color: "blue",
-  opacity: 0.7,
-  fontSize: "50px",
-};
-
-const API_URL = "http://13.251.127.67:8080/api/v1/poll/community/1";
+import { NoPoll } from "../../../homepage";
+import TrophyIcon from "../../../assets/icons/trophy.svg";
+import { setPollInCommunity } from "../../../redux/slices/Community";
+import { useParams } from "react-router-dom";
 
 function CreatePoll() {
   const dispatch = useDispatch();
   const isCreatePollPopupOpen = useSelector(
     (state: RootState) => state.createPoll.isCreatePollPopupOpen
   );
+  const { inCommunityId, pollInCommunity } = useSelector(
+    (state: RootState) => state.community
+  );
+  const { username } = useSelector((state: RootState) => state.userCommunity);
+  const { community } = useSelector((state: RootState) => state.userCommunity);
 
   const navigate = useNavigate();
   const handleClick = () => {
@@ -41,36 +41,43 @@ function CreatePoll() {
     dispatch(openCreatePollPopup());
   };
 
-  const { isLoading, error, data } = useQuery("pollData", async () => {
-    const response = await fetch(`${apiURL}/api/v1/poll/community/1`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+  useEffect(() => {
+    if (inCommunityId !== 0) {
+      const fetchData = async () => {
+        try {
+          const response = await fetch(
+            `${apiURL}/api/v1/poll/community/${inCommunityId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch poll data");
+          if (response.ok) {
+            const communityPollData = await response.json();
+            dispatch(setPollInCommunity(communityPollData.length));
+          }
+        } catch (error) {
+          console.error("An error occurred: ", error);
+        }
+      };
+      fetchData();
     }
-
-    return response.json();
-  });
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.toString()}</div>;
-  }
+  }, [inCommunityId]);
 
   return (
     <div className="bg-gray-100 w-full lg:w-full md:w-screen sm:w-full font-san h-screen">
-      <div className="bg-white flex flex-col pl-10 pr-12 py-6 gap-y-7">
+      <div className="bg-white flex flex-col pl-6 pr-7 py-6 gap-y-7">
         <div className="logo-profile-createPoll flex justify-between items-center">
           <div className="logo-text">
             <p className="whitespace-normal text-lg hidden text-gray-700 lg:block">
               Welcome to the PitCool bro
-              <span className="text-blue-custom font-bold">TED </span>!
+              <span className="text-blue-custom font-bold uppercase">
+                {" "}
+                {username}{" "}
+              </span>
+              !
             </p>
             <img src={PolliFy} alt="pollify" className="w-fit h-7 lg:hidden" />
           </div>
@@ -94,7 +101,7 @@ function CreatePoll() {
             </div>
             <input
               type="text"
-              placeholder="Search community"
+              placeholder="Search Poll"
               className="py-2 px-4 pl-9 border-2 border-gray-300 w-full rounded-full focus:outline-none focus:border-blue-500"
             />
           </div>
@@ -102,31 +109,30 @@ function CreatePoll() {
           <button
             onClick={handleCreatePoll}
             className="bg-blue-custom hover:opacity-70 text-white whitespace-nowrap rounded-full px-4 py-2.5"
+            disabled={community.length === 0}
           >
             Create Poll
           </button>
-          <div className="border border-blue-custom rounded-full w-12 h-11">
-            <AiFillTrophy className="w-full h-full text-blue-custom p-1" />
+          <div className="flex justify-center items-center border border-blue-custom rounded-full w-14 h-12">
+            <img className="w-8 h-8" src={TrophyIcon} alt="Trophy" />
           </div>
         </div>
         {isCreatePollPopupOpen && <CreatePollPopup />}
       </div>
-      <div className="flex flex-col gap-y-5 h-[87%] lg:h-[85%] overflow-auto py-10 pl-5 pr-4 home-scrolling">
-        <Poll1 />
-        <Poll1 />
-        <Poll2 />
-        <SelectFood />
-        <Rating />
-        <Poll1 />
-        <Poll1 />
-        <Poll2 />
-        <SelectFood />
-        <Rating />
+      <div className="flex flex-col gap-y-5 h-[87%] lg:h-[85%] overflow-auto p-6 home-scrolling">
+        {pollInCommunity && pollInCommunity > 0 ? (
+          <div className="flex flex-col gap-y-5">
+            {" "}
+            <Poll1 />
+            <Poll1 />
+            <Poll2 />
+            <SelectFood />
+            <Rating />
+          </div>
+        ) : (
+          <NoPoll />
+        )}
       </div>
-
-      {/* <div className="flex justify-center items-center">
-        There is currently no poll within your community
-      </div> */}
     </div>
   );
 }
