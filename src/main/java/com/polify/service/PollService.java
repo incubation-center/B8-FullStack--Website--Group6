@@ -18,5 +18,5 @@ public interface PollService {
 
     public User getUserById(Long id);
 
-    public Map<String, Object> getPollResponse(Poll poll);
+    public Map<String, Object> getPollResponse(Poll poll, User user);
 }

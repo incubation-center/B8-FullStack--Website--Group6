@@ -26,6 +26,10 @@ public class HasVoted {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "poll_option_id", nullable = false)
+    private PollOption pollOption;
+
     public Long getId() {
         return id;
     }
@@ -50,4 +54,11 @@ public class HasVoted {
         this.user = user;
     }
 
+    public PollOption getPollOption() {
+        return pollOption;
+    }
+
+    public void setPollOption(PollOption pollOption) {
+        this.pollOption = pollOption;
+    }
 }

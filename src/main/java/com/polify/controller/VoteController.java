@@ -1,5 +1,6 @@
 package com.polify.controller;
 
+import com.polify.entity.HasVoted;
 import com.polify.entity.PollOption;
 import com.polify.entity.User;
 import com.polify.entity.Vote;
@@ -7,11 +8,13 @@ import com.polify.model.VoteDTO;
 import com.polify.service.*;
 import com.polify.utils.ProjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +42,12 @@ public class VoteController {
 
         String username = authentication.getName();
         User user = userAccountService.getUserByUsername(username);
-        hasVotedService.addHasVoted(poll_id, user.getId());
+        if (hasVotedService.getHasVoted(poll_id, user.getId())){
+            Map<String, Object> error_message = new HashMap<>();
+            error_message.put("Message", "User already vote");
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(error_message);
+        }
+        HasVoted hasVoted = hasVotedService.addHasVoted(poll_id, user.getId(), voteDTO.getOption_id().get(0));
 
         for (Long optionId: voteDTO.getOption_id()){
             Vote vote = new Vote();
@@ -66,7 +74,7 @@ public class VoteController {
             options.add(pollOptionMap);
         }
 
-        Map<String, Object> pollMap = pollService.getPollResponse(voteService.getPollByPollId(poll_id));
+        Map<String, Object> pollMap = pollService.getPollResponse(voteService.getPollByPollId(poll_id), user);
         pollMap.put("options", options);
 
         return ResponseEntity.ok(pollMap);

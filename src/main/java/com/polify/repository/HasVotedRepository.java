@@ -11,5 +11,6 @@ import java.util.Optional;
 @Repository
 public interface HasVotedRepository extends JpaRepository<HasVoted, Long> {
 
-    Optional<HasVoted> findByPollAndUser(Poll poll, User user);
+    HasVoted findByPollAndUser(Poll poll, User user);
+
 }

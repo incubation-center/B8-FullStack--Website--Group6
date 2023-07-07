@@ -30,12 +30,15 @@ public class PollController {
     @Autowired
     private UserAccountService userAccountService;
     @GetMapping(path = "community/{community_id}")
-    public List<Map<String, Object>> getPoll(@PathVariable Long community_id){
+    public List<Map<String, Object>> getPoll(@PathVariable Long community_id, Authentication authentication){
         List<Map<String, Object>> pollResult = new ArrayList<>();
         List<Poll> pollList = pollService.getPoll(community_id);
 
+        String username = authentication.getName();
+        User user = userAccountService.getUserByUsername(username);
+
         for (Poll poll: pollList){
-            Map<String, Object> pollMap = pollService.getPollResponse(poll);
+            Map<String, Object> pollMap = pollService.getPollResponse(poll, user);
 
 
             List<Map<String, Object>> options = new ArrayList<>();
@@ -79,7 +82,7 @@ public class PollController {
             options.add(pollOptionMap);
         }
 
-        Map<String, Object> pollMap = pollService.getPollResponse(savedPoll);
+        Map<String, Object> pollMap = pollService.getPollResponse(savedPoll, user);
         pollMap.put("options", options);
 
         return ResponseEntity.ok(pollMap);

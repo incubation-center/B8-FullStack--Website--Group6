@@ -53,7 +53,7 @@ public class PollServiceImpl implements PollService {
     }
 
     @Override
-    public Map<String, Object> getPollResponse(Poll poll) {
+    public Map<String, Object> getPollResponse(Poll poll, User user) {
         Map<String, Object> pollMap = new HashMap<>();
         pollMap.put("id", poll.getId());
         pollMap.put("pollQuestion", poll.getPollQuestion());
@@ -61,7 +61,8 @@ public class PollServiceImpl implements PollService {
         pollMap.put("duration", poll.getDuration());
         pollMap.put("pollDate", poll.getPollDate());
         pollMap.put("user", poll.getUser());
-        pollMap.put("hasVoted", hasVotedService.getHasVoted(poll.getId(), poll.getUser().getId()));
+        pollMap.put("hasVoted", hasVotedService.getHasVoted(poll.getId(), user.getId()));
+        pollMap.put("votedOn", hasVotedService.votedOn(poll.getId(), user.getId()));
         return pollMap;
     }
 }
