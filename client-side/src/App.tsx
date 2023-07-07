@@ -8,7 +8,6 @@ import {
 import { RegisterForm, OtpVerification, LoginForm } from "./pages";
 import Dashboard2 from "./homepage/Dashboard2";
 import Community from "./homepage/responsive/app/Community";
-import CreatePoll from "./homepage/responsive/app-community/CreatePoll";
 import CommunityProfile from "./homepage/responsive/app-community-detail/CommunityProfile";
 import CreatePollPopup from "./homepage/popup/CreatePollPopup";
 
