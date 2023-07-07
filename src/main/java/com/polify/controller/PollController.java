@@ -30,9 +30,9 @@ public class PollController {
     @Autowired
     private UserAccountService userAccountService;
     @GetMapping(path = "community/{community_id}")
-    public List<Map<String, Object>> getPoll(@PathVariable Long community_id, Authentication authentication){
+    public List<Map<String, Object>> getCommunityPoll(@PathVariable Long community_id, Authentication authentication){
         List<Map<String, Object>> pollResult = new ArrayList<>();
-        List<Poll> pollList = pollService.getPoll(community_id);
+        List<Poll> pollList = pollService.getCommunityPoll(community_id);
 
         String username = authentication.getName();
         User user = userAccountService.getUserByUsername(username);
@@ -85,6 +85,23 @@ public class PollController {
         Map<String, Object> pollMap = pollService.getPollResponse(savedPoll, user);
         pollMap.put("options", options);
 
+        return ResponseEntity.ok(pollMap);
+    }
+
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<Map<String, Object>> getPoll(@PathVariable Long id, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userAccountService.getUserByUsername(username);
+
+        Poll poll = pollService.getPoll(id);
+        Map<String, Object> pollMap = pollService.getPollResponse(poll, user);
+        List<Map<String, Object>> options = new ArrayList<>();
+        for (PollOption pollOption: pollOptionService.getPollOptionByPollId(poll.getId())) {
+            Map<String, Object> pollOptionMap = pollOptionService.getPollOptionResponse(pollOption);
+
+            options.add(pollOptionMap);
+        }
+        pollMap.put("options", options);
         return ResponseEntity.ok(pollMap);
     }
 }

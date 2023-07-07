@@ -72,7 +72,7 @@ public class HasVotedServiceImpl implements HasVotedService {
 
         HasVoted hasVoted = hasVotedRepository.findByPollAndUser(poll, user);
         if (hasVoted != null){
-            return hasVoted.getId();
+            return hasVoted.getPollOption().getId();
         }
         return null;
     }

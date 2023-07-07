@@ -31,7 +31,13 @@ public class PollServiceImpl implements PollService {
     private HasVotedService hasVotedService;
 
     @Override
-    public List<Poll> getPoll(Long id) {
+    public Poll getPoll(Long id) {
+        return pollRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Poll not found!!!"));
+    }
+
+    @Override
+    public List<Poll> getCommunityPoll(Long id) {
         return pollRepository.findByCommunityId(id);
     }
 

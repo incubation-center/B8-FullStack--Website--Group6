@@ -9,8 +9,9 @@ import java.util.Map;
 
 public interface PollService {
 
+    public Poll getPoll(Long id);
 
-    public List<Poll> getPoll(Long id);
+    public List<Poll> getCommunityPoll(Long id);
 
     public Poll addPoll(Poll poll);
 
