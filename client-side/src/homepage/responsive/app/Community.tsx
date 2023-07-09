@@ -14,16 +14,15 @@ import CreateCommunity from "../../popup/CreateCommunity";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { apiURL } from "../../../config/config";
 import { setUserCommunity } from "../../../redux/slices/UserCommunity";
+import { setSearchTerm } from "../../../redux/slices/Community";
 
 function Community() {
   const dispatch = useDispatch();
-  const { isCreateCommunityOpen } = useSelector(
+  const { isCreateCommunityOpen, searchTerm } = useSelector(
     (state: RootState) => state.community
   );
   const { community } = useSelector((state: RootState) => state.userCommunity);
 
-  const queryClient: QueryClient = new QueryClient();
-  const [searchQuery, setSearchQuery] = useState<string>("");
   const handleCreateCommunity = () => {
     dispatch(openCreateCommunity());
   };
@@ -75,8 +74,8 @@ function Community() {
           <AiOutlineSearch className="text-gray-400 w-5 h-5" />
         </div>
         <input
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          value={searchTerm}
+          onChange={(e) => dispatch(setSearchTerm(e.target.value))}
           type="text"
           placeholder="Search Community"
           className="py-2 px-4 pl-9 border-2 border-gray-300 w-full rounded-full focus:outline-none focus:border-blue-500"
@@ -99,7 +98,7 @@ function Community() {
           <AddedFavorite />
 
           <h1 className="mt-4 px-4">Your Community</h1>
-          <UserCommunity searchQuery={searchQuery} />
+          <UserCommunity />
         </div>
       ) : null}
     </div>
