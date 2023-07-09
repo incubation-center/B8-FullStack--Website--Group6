@@ -5,12 +5,19 @@ import { FaGithub, FaTwitter } from "react-icons/fa";
 import { BsFacebook } from "react-icons/bs";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
+import { useDispatch, useSelector } from "react-redux";
+import { AuthState, setAccessToken } from "../../redux/slices/Auth";
+import api from "../../utils/api";
 
 const LoginForm = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  // Handling login
+  const dispatch = useDispatch();
+  // const accessToken = useSelector((state: any) => state.auth.accessToken);
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -24,16 +31,29 @@ const LoginForm = () => {
     navigate("/user/sign_up");
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!email || !password) {
       return;
     }
+    const data = {
+      username: email,
+      password: password,
+    };
 
     try {
-      navigate("/community");
+      const response = await api.post("/auth/login", data);
+
+      if (response.status === 200) {
+        const { token } = response.data;
+
+        dispatch(setAccessToken(token));
+        localStorage.setItem("accessToken", `${token}`);
+        navigate("/community");
+      }
     } catch (error) {
-      console.log("cannot log in");
+      alert("Can not login");
+      console.log("cannot log in", error);
     }
   };
 
@@ -58,8 +78,8 @@ const LoginForm = () => {
           <input
             className="border text-gray-700 border-gray-300 rounded px-3 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full mb-4"
             id="email"
-            type="email"
-            placeholder="Email"
+            type="text"
+            placeholder="Username"
             value={email}
             onChange={handleEmailChange}
           />

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Avatar from "../../../assets/Avatar.png";
 import { MdTranslate } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
@@ -13,23 +13,28 @@ import CreatePollPopup from "../../popup/CreatePollPopup";
 import { useDispatch, useSelector } from "react-redux";
 import { openCreatePollPopup } from "../../../redux/slices/CreatePoll";
 import { useQuery } from "react-query";
-import { apiURL, accessToken } from "../../../config/config";
 import PolliFy from "../../../assets/PolliFy.png";
 import { NoPoll } from "../../../homepage";
 import TrophyIcon from "../../../assets/icons/trophy.svg";
 import { setPollInCommunity } from "../../../redux/slices/Community";
-import { useParams } from "react-router-dom";
+import { Poll } from "../../../types/redux/create_poll";
+import api from "../../../utils/api";
 
 function CreatePoll() {
   const dispatch = useDispatch();
   const isCreatePollPopupOpen = useSelector(
     (state: RootState) => state.createPoll.isCreatePollPopupOpen
   );
+
+  // fetched poll state
+  const [polls, setPolls] = useState<Poll[]>([]);
+
   const { inCommunityId, pollInCommunity } = useSelector(
     (state: RootState) => state.community
   );
   const { username } = useSelector((state: RootState) => state.userCommunity);
   const { community } = useSelector((state: RootState) => state.userCommunity);
+  const communityId = localStorage.getItem("communityId");
 
   const navigate = useNavigate();
   const handleClick = () => {
@@ -42,29 +47,26 @@ function CreatePoll() {
   };
 
   useEffect(() => {
-    if (inCommunityId !== 0) {
-      const fetchData = async () => {
-        try {
-          const response = await fetch(
-            `${apiURL}/api/v1/poll/community/${inCommunityId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            }
-          );
-
-          if (response.ok) {
-            const communityPollData = await response.json();
-            dispatch(setPollInCommunity(communityPollData.length));
-          }
-        } catch (error) {
-          console.error("An error occurred: ", error);
-        }
+    const fetchPolls = async () => {
+      const accessToken = localStorage.getItem("accessToken");
+      const headers = {
+        Authorization: `${accessToken}`,
       };
-      fetchData();
-    }
-  }, [inCommunityId]);
+      try {
+        const response = await api.get(`/poll/community/${communityId}`, {
+          headers,
+        });
+        if (response.status === 200) {
+          const pollData = response.data.reverse();
+          setPolls(pollData);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    fetchPolls();
+  }, [communityId]);
 
   return (
     <div className="bg-gray-100 w-full lg:w-full md:w-screen sm:w-full font-san h-screen">
@@ -119,15 +121,20 @@ function CreatePoll() {
         </div>
         {isCreatePollPopupOpen && <CreatePollPopup />}
       </div>
-      <div className="flex flex-col gap-y-5 h-[87%] lg:h-[85%] overflow-auto p-6 home-scrolling">
-        {pollInCommunity && pollInCommunity > 0 ? (
+      <div className="flex flex-col gap-y-5 h-[87%] lg:h-[80%] overflow-auto p-6 home-scrolling">
+        {polls.length > 0 ? (
           <div className="flex flex-col gap-y-5">
-            {" "}
-            <Poll1 />
-            <Poll1 />
-            <Poll2 />
-            <SelectFood />
-            <Rating />
+            {polls.map((poll: any) => (
+              <Poll1
+                key={poll.id}
+                votedOn={poll.votedOn}
+                pollId={poll.id}
+                createdBy={poll.user.createdBy}
+                pollDate={poll.user.createdAt}
+                options={poll.options}
+                pollQuestion={poll.pollQuestion}
+              />
+            ))}
           </div>
         ) : (
           <NoPoll />

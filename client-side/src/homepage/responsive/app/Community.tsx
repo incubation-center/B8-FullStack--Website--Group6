@@ -12,7 +12,7 @@ import UserCommunity from "./UserCommunity";
 import { openCreateCommunity } from "../../../redux/slices/Community";
 import CreateCommunity from "../../popup/CreateCommunity";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { apiURL, accessToken } from "../../../config/config";
+import { apiURL } from "../../../config/config";
 import { setUserCommunity } from "../../../redux/slices/UserCommunity";
 
 function Community() {
@@ -32,14 +32,12 @@ function Community() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `${apiURL}/api/v1/community_members/user`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        const accessToken = localStorage.getItem("accessToken");
+        const response = await fetch(`${apiURL}/community_members/user`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
 
         if (response.ok) {
           const userCommunity = await response.json();

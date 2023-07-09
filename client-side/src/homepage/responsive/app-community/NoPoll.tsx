@@ -14,9 +14,13 @@ const NoPoll = () => {
     (state: RootState) => state.userCommunity
   );
 
-  const { inCommunityId } = useSelector((state: RootState) => state.community);
+  const communityId = localStorage.getItem("communityId");
+  const inCommunity =
+    communityId !== null
+      ? community.find((obj) => obj.id === parseInt(communityId))
+      : null;
 
-  const inCommunity = community.find((obj) => obj.id === inCommunityId);
+  console.log("inCommunity", inCommunity);
 
   return (
     <div className="flex flex-col justify-center pb-20 items-center px-4 h-full border bg-white rounded-md">

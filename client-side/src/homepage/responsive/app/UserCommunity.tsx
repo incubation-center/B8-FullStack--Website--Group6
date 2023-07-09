@@ -4,7 +4,6 @@ import Ellipse1008 from "../../../assets/community/Ellipse1008.png";
 import Ellipse10010 from "../../../assets/community/Ellipse10010.png";
 import Ellipse10011 from "../../../assets/community/Ellipse10011.png";
 import Ellipse1009 from "../../../assets/community/Ellipse1009.png";
-import { apiURL, accessToken } from "../../../config/config";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { setInCommunityId } from "../../../redux/slices/Community";
@@ -23,6 +22,7 @@ interface FavoriteProps {
 function UserCommunity({ searchQuery }: FavoriteProps) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [activeCommunity, setActiveCommunity] = useState<number | null>(null);
   const { community } = useSelector((state: RootState) => state.userCommunity);
 
   const favorites = [
@@ -46,22 +46,32 @@ function UserCommunity({ searchQuery }: FavoriteProps) {
     community: Community
   ): void => {
     e.preventDefault();
+    setActiveCommunity(community.id);
     dispatch(setInCommunityId(community.id));
+    localStorage.setItem("communityId", `${community.id}`);
+    console.log("Clicked", community.id);
 
     navigate(`/community/${community.id}`);
   };
 
   return (
-    <div className="profile flex flex-col gap-y-1 pb-4 mt-5 mr-1 h-80 overflow-hidden hover:overflow-auto community-scrolling">
+    <div className="profile flex flex-col pt-2 gap-y-2  mt-5 mr-1 h-80 overflow-hidden hover:overflow-auto community-scrolling">
       {community.map((community: any, index: any) => {
         return (
           <React.Fragment key={index}>
             <div
               ref={index === 0 ? firstButtonRef : null}
-              className={`flex items-center cursor-pointer py-2 hover:bg-sky-100 hover:border-l-sky-500 hover:border-l-4 px-4`}
+              // className={`flex items-center cursor-pointer py-2 hover:bg-sky-100 hover:border-l-sky-500 hover:border-l-4 px-4`}
+              className={`relative flex items-center cursor-pointer py-2 px-4 ${
+                activeCommunity === community.id &&
+                "bg-blue-100 transform -skew-x-0"
+              }`}
               key={community.id}
               onClick={(e) => handleCommunityClick(e, community)}
             >
+              {activeCommunity === community.id && (
+                <div className="absolute w-2 h-full left-0 rounded-tr-lg rounded-br-lg bg-gradient-to-b from-cyan-400 to-blue-500 opacity-90"></div>
+              )}
               {/* <img
                 src={Ellipse1008}
                 alt={`Community ${community.id}`}
