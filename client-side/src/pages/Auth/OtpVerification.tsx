@@ -62,7 +62,7 @@ const OtpVerification = () => {
 
     try {
       // Perform API call to sign up with the backend
-      const response = await fetch(`${apiURL}/api/v1/verify-user`, {
+      const response = await fetch(`${apiURL}/verify-user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
