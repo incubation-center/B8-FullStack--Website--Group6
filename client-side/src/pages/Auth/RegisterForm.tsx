@@ -87,7 +87,7 @@ const RegisterForm = () => {
     const userData = { username, email, password };
     try {
       // Perform API call to sign up with the backend
-      let response = await fetch(`${apiURL}/api/v1/register-user`, {
+      let response = await fetch(`${apiURL}/register-user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
