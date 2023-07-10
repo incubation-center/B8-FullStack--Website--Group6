@@ -4,6 +4,8 @@ import { MdClear } from "react-icons/md";
 import Avatar1 from "../../assets/userProfile/Avatar-1.png";
 import Avatar2 from "../../assets/userProfile/Avatar-2.png";
 import Avatar3 from "../../assets/userProfile/Avatar-3.png";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../redux/store";
 
 interface PopupModalProps {
   isOpen: boolean;
@@ -43,6 +45,12 @@ const clearIcons = {
 
 const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
+
+  const { communityMembers } = useSelector(
+    (state: RootState) => state.community
+  );
+
+  console.log(communityMembers);
 
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto flex items-center justify-center">

@@ -13,8 +13,6 @@ const NoPoll = () => {
       ? community.find((obj) => obj.id === parseInt(communityId))
       : null;
 
-  console.log("inCommunity", inCommunity);
-
   return (
     <div className="flex flex-col justify-center pb-20 items-center px-4 h-full border bg-white rounded-md">
       <div className="w-36 h-36 mb-3">
