@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import api from "../../../utils/api";
 import { User } from "../../../types/redux/community";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
+import { setCommunityMembers } from "../../../redux/slices/Community";
 import Avatar from "../../../assets/userProfile/Avatar.png";
 import Avatar1 from "../../../assets/userProfile/Avatar-1.png";
 import Avatar2 from "../../../assets/userProfile/Avatar-2.png";
@@ -15,30 +16,34 @@ import Avatar8 from "../../../assets/userProfile/Avatar-8.png";
 import Avatar9 from "../../../assets/userProfile/Avatar-9.png";
 
 function CommunityMembers() {
-  // fetched poll state
-  const [communityMembers, setCommunityMembers] = useState<User[]>([]);
+  const dispatch = useDispatch();
 
-  const { inCommunityId } = useSelector((state: RootState) => state.community);
+  const { inCommunityId, communityMembers } = useSelector(
+    (state: RootState) => state.community
+  );
 
   useEffect(() => {
+    const communityId = localStorage.getItem("communityId");
     const fetchCommunityMembers = async () => {
       const accessToken = localStorage.getItem("accessToken");
       const headers = {
         Authorization: `${accessToken}`,
       };
-      try {
-        const response = await api.get(
-          `/community_members/community/${inCommunityId}`,
-          {
-            headers,
+      if (inCommunityId !== 0) {
+        try {
+          const response = await api.get(
+            `/community_members/community/${inCommunityId}`,
+            {
+              headers,
+            }
+          );
+          if (response.status === 200) {
+            const communityMembersData = response.data.user;
+            dispatch(setCommunityMembers(communityMembersData));
           }
-        );
-        if (response.status === 200) {
-          const communityMembersData = response.data.user;
-          setCommunityMembers(communityMembersData);
+        } catch (error) {
+          console.log("An error occured: ", error);
         }
-      } catch (error) {
-        console.log("An error occured: ", error);
       }
     };
 

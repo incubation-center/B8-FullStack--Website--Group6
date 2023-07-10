@@ -21,6 +21,7 @@ interface CommunitySate {
   isCreateCommunityOpen: boolean;
   userData: User[];
   invitedUsers: User[];
+  communityMembers: User[];
 }
 
 const UpdateCommunityAction = "Community";
