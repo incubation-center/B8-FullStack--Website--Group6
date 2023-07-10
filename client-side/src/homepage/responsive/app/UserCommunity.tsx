@@ -1,22 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useQuery } from "react-query";
 import Ellipse1008 from "../../../assets/community/Ellipse1008.png";
-import Ellipse10010 from "../../../assets/community/Ellipse10010.png";
-import Ellipse10011 from "../../../assets/community/Ellipse10011.png";
-import Ellipse1009 from "../../../assets/community/Ellipse1009.png";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
+import { useNavigate } from "react-router-dom";
 import { setInCommunityId } from "../../../redux/slices/Community";
-import { Link, useNavigate } from "react-router-dom";
 
 interface Community {
   id: number;
   name: string;
   description: string;
-}
-
-interface FavoriteProps {
-  searchQuery: string;
 }
 
 function UserCommunity() {
@@ -26,13 +18,6 @@ function UserCommunity() {
   const { community } = useSelector((state: RootState) => state.userCommunity);
 
   const { searchTerm } = useSelector((state: RootState) => state.community);
-
-  const favorites = [
-    { image: Ellipse1008, name: "Party" },
-    { image: Ellipse10010, name: "Game Ball Weekend" },
-    { image: Ellipse10011, name: "Tv Phum C Ey" },
-    { image: Ellipse1009, name: "Saturday Phirk" },
-  ];
 
   const firstButtonRef = useRef<HTMLDivElement>(null);
 
@@ -51,7 +36,6 @@ function UserCommunity() {
     setActiveCommunity(community.id);
     dispatch(setInCommunityId(community.id));
     localStorage.setItem("communityId", `${community.id}`);
-    console.log("Clicked", community.id);
 
     navigate(`/community/${community.id}`);
   };
@@ -62,14 +46,13 @@ function UserCommunity() {
         .filter((community) => {
           return searchTerm.toLocaleLowerCase() === ""
             ? community
-            : community.name.includes(searchTerm);
+            : community.name.toLocaleLowerCase().includes(searchTerm);
         })
         .map((community: any, index: any) => {
           return (
             <React.Fragment key={index}>
               <div
                 ref={index === 0 ? firstButtonRef : null}
-                // className={`flex items-center cursor-pointer py-2 hover:bg-sky-100 hover:border-l-sky-500 hover:border-l-4 px-4`}
                 className={`relative flex items-center cursor-pointer py-2 px-4 ${
                   activeCommunity === community.id &&
                   "bg-blue-100 transform -skew-x-0"
@@ -78,7 +61,7 @@ function UserCommunity() {
                 onClick={(e) => handleCommunityClick(e, community)}
               >
                 {activeCommunity === community.id && (
-                  <div className="absolute w-2 h-full left-0 rounded-tr-lg rounded-br-lg bg-gradient-to-b from-cyan-400 to-blue-500 opacity-90"></div>
+                  <div className="absolute w-2 h-full left-0 rounded-tr-lg rounded-br-lg bg-gradient-to-b from-cyan-400 to-blue-500 opacity-70"></div>
                 )}
                 {/* <img
                 src={Ellipse1008}

@@ -26,9 +26,6 @@ const CreatePollPopup = () => {
     Object.keys(durationOptions)[0]
   );
   const [error, setError] = useState("");
-  const communityId = useSelector(
-    (state: RootState) => state.community.inCommunityId
-  );
 
   // Grabbing the access token
   const accessToken = localStorage.getItem("accessToken");
@@ -171,11 +168,11 @@ const CreatePollPopup = () => {
           onSubmit={handleCreatePoll}
           className="w-full h-auto flex flex-col fixed z-20 bg-white p-4 md:w-3/6 md:px-8 md:pt-6 md:pb-8 md:mb-4 md:rounded-md md:shadow-md lg:w-2/6 lg:shadow-md"
         >
-          <button className="absolute top-2 right-2" onClick={handleClosePoll}>
+          <button className="absolute top-6 right-7" onClick={handleClosePoll}>
             <RxCrossCircled className="w-7 h-7 text-gray-400 hover:text-blue-custom" />
           </button>
           <div className="w-full flex justify-center items-center">
-            <h1 className="text-[#2D9CDB] text font-semibold">Create Poll</h1>
+            <h1 className="text-blue-custom text-lg">Create Poll</h1>
           </div>
           <div className="w-full flex items-start pb-1">
             <label className="text-gray-300 text-sm" htmlFor="question">
@@ -286,7 +283,7 @@ const CreatePollPopup = () => {
           {error && <p className="text-red-500 mb-2">{error}</p>}
           <button
             type="submit"
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-lg text-lg font-semibold"
+            className="w-full bg-blue-custom hover:opacity-70 text-white px-6 py-3 rounded-lg text-lg font-semibold"
           >
             Create
           </button>

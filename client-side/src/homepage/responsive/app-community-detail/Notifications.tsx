@@ -24,17 +24,14 @@ function Notifications() {
   };
 
   return (
-    <div className="flex flex-col gap-y-5 mt-5">
-      <div className="flex justify-start items-center ml-5 gap-x-5">
-        <FiSettings className="w-6 h-6" style={notificationICons} />
+    <div className="flex flex-col gap-y-5 mt-4 border-y py-5 border-gray-300">
+      <div className="flex justify-start items-center gap-x-5">
+        <FiSettings className="w-6 h-6 text-gray-500" />
         <h1>Edit</h1>
       </div>
-      <div className="notifications flex justify-between items-center ml-5 mr-5">
+      <div className="notifications flex justify-between items-center">
         <div className="toggle-btn flex gap-x-4">
-          <IoIosNotificationsOutline
-            className="w-7 h-7"
-            style={notificationICons}
-          />
+          <IoIosNotificationsOutline className="w-7 h-7 text-gray-500" />
           <h1>Notification</h1>
         </div>
         <div
@@ -43,21 +40,20 @@ function Notifications() {
           style={notificationICons}
         >
           {isToggleOpen ? (
-            <CgToggleOn color="blue" className="w-6 h-fit" />
+            <CgToggleOn className="w-6 h-fit text-blue-custom" />
           ) : (
-            <CgToggleOff className="w-6 h-fit" />
+            <CgToggleOff className="w-6 h-fit text-gray-500" />
           )}
         </div>
       </div>
       <div
-        className="flex justify-start items-center ml-5 gap-x-5 cursor-pointer"
+        className="flex justify-start items-center gap-x-5 cursor-pointer"
         onClick={openModal}
       >
-        <MdOutlineGroups className="w-6 h-6" style={notificationICons} />
+        <MdOutlineGroups className="w-6 h-6 text-gray-500" />
         <h1>Add Permission</h1>
       </div>
       <AddPermission isOpen={isOpen} onClose={closeModal} />
-      <div className="border border-gray-100 mt-5 w-full"></div>
     </div>
   );
 }

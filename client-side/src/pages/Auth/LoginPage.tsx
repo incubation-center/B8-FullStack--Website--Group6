@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import MainLogo from "../../assets/images/pollify_logo.png";
 import { Link, useNavigate } from "react-router-dom";
+import GoogleLogin, {
+  GoogleLoginResponse,
+  GoogleLoginResponseOffline,
+} from "react-google-login";
+import { clientId } from "../../config/config";
 import { FaGithub, FaTwitter } from "react-icons/fa";
 import { BsFacebook } from "react-icons/bs";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
@@ -55,6 +60,16 @@ const LoginForm = () => {
       alert("Can not login");
       console.log("cannot log in", error);
     }
+  };
+
+  const handleGoogleSuccess = (
+    response: GoogleLoginResponse | GoogleLoginResponseOffline
+  ) => {
+    console.log("Google Sign up Success", response);
+  };
+
+  const handleGoogleFailure = (error: any) => {
+    console.log("Google Sign up Fail", error);
   };
 
   const handleShowPassword = () => {
@@ -145,7 +160,7 @@ const LoginForm = () => {
           <span className="flex-grow border-t border-gray-300 mx-2"></span>
         </div>
         <div className="flex items-center justify-center space-x-5 pt-4">
-          <span>
+          {/* <span>
             <BsFacebook className="text-blue-600 w-6 h-6 hover:opacity-70" />
           </span>
           <span>
@@ -156,7 +171,26 @@ const LoginForm = () => {
           </span>
           <span>
             <FcGoogle className="w-6 h-6 hover:opacity-70" />
-          </span>
+          </span> */}
+          <GoogleLogin
+            className="w-full flex justify-center"
+            clientId={clientId}
+            onSuccess={handleGoogleSuccess}
+            onFailure={handleGoogleFailure}
+            cookiePolicy={"single_host_origin"}
+            // uxMode="redirect"
+            isSignedIn={false}
+            render={(renderProps: any) => (
+              <button
+                className="flex border w-full justify-center items-center rounded py-3 gap-2 border-gray-300 hover:bg-gray-200 hover:border-gray-500"
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+              >
+                <FcGoogle className="w-5 h-5" />
+                <span className="text-sm">Sign up with Google</span>
+              </button>
+            )}
+          />
         </div>
       </form>
     </div>

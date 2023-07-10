@@ -71,7 +71,7 @@ function Community() {
       <div className="line border border-gray-200 ml-5 mr-5 lg:hidden"></div>
       <div className="search-community-field relative mt-5 px-4 flex justify-center">
         <div className="w-full left-7 absolute inset-y-0 flex items-center pointer-events-none">
-          <AiOutlineSearch className="text-gray-400 w-5 h-5" />
+          <AiOutlineSearch className="text-blue-custom w-5 h-5" />
         </div>
         <input
           value={searchTerm}

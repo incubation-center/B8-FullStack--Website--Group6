@@ -12,11 +12,9 @@ import { useNavigate } from "react-router-dom";
 import CreatePollPopup from "../../popup/CreatePollPopup";
 import { useDispatch, useSelector } from "react-redux";
 import { openCreatePollPopup } from "../../../redux/slices/CreatePoll";
-import { useQuery } from "react-query";
 import PolliFy from "../../../assets/PolliFy.png";
 import { NoPoll } from "../../../homepage";
 import TrophyIcon from "../../../assets/icons/trophy.svg";
-import { setPollInCommunity } from "../../../redux/slices/Community";
 import { Poll } from "../../../types/redux/create_poll";
 import api from "../../../utils/api";
 
@@ -29,9 +27,6 @@ function CreatePoll() {
   // fetched poll state
   const [polls, setPolls] = useState<Poll[]>([]);
 
-  const { inCommunityId, pollInCommunity } = useSelector(
-    (state: RootState) => state.community
-  );
   const { username } = useSelector((state: RootState) => state.userCommunity);
   const { community } = useSelector((state: RootState) => state.userCommunity);
   const communityId = localStorage.getItem("communityId");
@@ -99,7 +94,7 @@ function CreatePoll() {
         <div className="create-poll w-full flex flex-row justify-around items-center gap-x-3">
           <div className="search-field relative w-11/12 flex">
             <div className="w-full absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <AiOutlineSearch className="text-gray-400 w-5 h-5" />
+              <AiOutlineSearch className="text-blue-custom w-5 h-5" />
             </div>
             <input
               type="text"

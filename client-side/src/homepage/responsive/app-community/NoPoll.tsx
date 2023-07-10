@@ -1,18 +1,11 @@
 import React from "react";
 import WelcomeIcon from "../../../assets/icons/welcome.svg";
-import Avatar from "../../../assets/Avatar.png";
-import { FcPieChart } from "react-icons/fc";
-import { AiOutlineDelete } from "react-icons/ai";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
 
-const communityName = "Moringa";
-
 const NoPoll = () => {
   const dispatch = useDispatch();
-  const { id, username, email, community } = useSelector(
-    (state: RootState) => state.userCommunity
-  );
+  const { community } = useSelector((state: RootState) => state.userCommunity);
 
   const communityId = localStorage.getItem("communityId");
   const inCommunity =
