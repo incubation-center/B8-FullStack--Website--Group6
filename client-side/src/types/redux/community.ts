@@ -13,10 +13,9 @@ export interface User {
 
 interface CommunitySate {
   userProfile: File | null;
-  inCommunityId: number;
   userCommunity: number;
-  pollInCommunity: number;
   communityName: string;
+  inCommunityId: number;
   searchTerm: string;
   communityDescription: string;
   isCreateCommunityOpen: boolean;

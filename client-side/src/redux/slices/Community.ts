@@ -7,10 +7,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: CommunityState = {
   userProfile: null,
-  inCommunityId: 0,
   userCommunity: 0,
-  pollInCommunity: 0,
   communityName: "",
+  inCommunityId: 0,
   searchTerm: "",
   communityDescription: "Description",
   isCreateCommunityOpen: false,
@@ -25,14 +24,11 @@ export const communitySlice = createSlice({
     setUserProfile: (state, action: PayloadAction<File | null>) => {
       state.userProfile = action.payload;
     },
-    setInCommunityId: (state, action: PayloadAction<number>) => {
-      state.inCommunityId = action.payload;
-    },
     setUserCommunity: (state, action: PayloadAction<number>) => {
       state.userCommunity = action.payload;
     },
-    setPollInCommunity: (state, action: PayloadAction<number>) => {
-      state.pollInCommunity = action.payload;
+    setInCommunityId: (state, action: PayloadAction<number>) => {
+      state.inCommunityId = action.payload;
     },
     setCommunityName: (state, action: PayloadAction<string>) => {
       state.communityName = action.payload;
@@ -58,10 +54,9 @@ export const communitySlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   setUserProfile,
-  setInCommunityId,
   setUserCommunity,
-  setPollInCommunity,
   setCommunityName,
+  setInCommunityId,
   setSearchTerm,
   openCreateCommunity,
   closeCreateCommunity,
