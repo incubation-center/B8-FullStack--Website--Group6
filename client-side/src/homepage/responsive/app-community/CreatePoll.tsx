@@ -3,6 +3,7 @@ import Avatar from "../../../assets/Avatar.png";
 import { MdTranslate } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { AiOutlineSearch } from "react-icons/ai";
+import { IoIosArrowBack } from "react-icons/io";
 import Poll1 from "./Poll1";
 import Poll2 from "./Poll2";
 import SelectFood from "./SelectFood";
@@ -12,11 +13,16 @@ import { useNavigate } from "react-router-dom";
 import CreatePollPopup from "../../popup/CreatePollPopup";
 import { useDispatch, useSelector } from "react-redux";
 import { openCreatePollPopup } from "../../../redux/slices/CreatePoll";
+import {
+  setIsBackToCommunity,
+  setIsCommunityProfileOpen,
+} from "../../../redux/slices/Community";
 import PolliFy from "../../../assets/PolliFy.png";
 import { NoPoll } from "../../../homepage";
 import TrophyIcon from "../../../assets/icons/trophy.svg";
 import { Poll } from "../../../types/redux/create_poll";
 import api from "../../../utils/api";
+import Ellipse1007 from "../../../assets/community/Ellipse1007.png";
 
 function CreatePoll() {
   const dispatch = useDispatch();
@@ -29,16 +35,23 @@ function CreatePoll() {
 
   const { username } = useSelector((state: RootState) => state.userCommunity);
   const { community } = useSelector((state: RootState) => state.userCommunity);
+
   const communityId = localStorage.getItem("communityId");
 
-  const navigate = useNavigate();
-  const handleClick = () => {
-    navigate("/communitydetail");
+  const handleCommunityProfileClick = () => {
+    console.log("Profile");
+    dispatch(setIsCommunityProfileOpen(true));
+    // navigate("/communitydetail");
   };
 
   const handleCreatePoll = () => {
     console.log("Create Poll Clicked");
     dispatch(openCreatePollPopup());
+  };
+
+  const handleBackToCommunity = () => {
+    console.log("Back");
+    dispatch(setIsBackToCommunity(true));
   };
 
   useEffect(() => {
@@ -64,7 +77,7 @@ function CreatePoll() {
   }, [communityId]);
 
   return (
-    <div className="bg-gray-100 w-full lg:w-full md:w-screen sm:w-full font-san h-screen">
+    <div className="relative bg-gray-100 w-full lg:w-full md:w-screen sm:w-full font-san h-screen">
       <div className="bg-white flex flex-col pl-6 pr-7 py-6 gap-y-7">
         <div className="logo-profile-createPoll flex justify-between items-center">
           <div className="logo-text">
@@ -76,14 +89,24 @@ function CreatePoll() {
               </span>
               !
             </p>
-            <img src={PolliFy} alt="pollify" className="w-fit h-7 lg:hidden" />
+
+            <div
+              className="flex items-center gap-x-2 lg:hidden"
+              onClick={handleBackToCommunity}
+            >
+              <IoIosArrowBack className="w-6 h-6 text-blue-custom" />
+              <span className="text-lg">Communities</span>
+            </div>
           </div>
           <div className="translate flex gap-x-3 items-center lg:hidden">
             <MdTranslate className="w-6 h-6" />
             <IoMdNotificationsOutline className="w-6 h-6" />
-            <div className="relative cursor-pointer" onClick={handleClick}>
+            <div
+              className="relative cursor-pointer"
+              onClick={handleCommunityProfileClick}
+            >
               <img
-                src={Avatar}
+                src={Ellipse1007}
                 alt="Profile 1"
                 className="w-10 h-10 rounded-full mr-2 border-2 border-blue-500"
               />

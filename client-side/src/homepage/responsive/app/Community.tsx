@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
 import PolliFy from "../../../assets/PolliFy.png";
@@ -7,18 +7,16 @@ import { MdTranslate } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsPlus } from "react-icons/bs";
-import AddedFavorite from "./AddedFavorite";
 import UserCommunity from "./UserCommunity";
 import { openCreateCommunity } from "../../../redux/slices/Community";
 import CreateCommunity from "../../popup/CreateCommunity";
-import { QueryClient, QueryClientProvider } from "react-query";
 import { apiURL } from "../../../config/config";
 import { setUserCommunity } from "../../../redux/slices/UserCommunity";
 import { setSearchTerm } from "../../../redux/slices/Community";
 
 function Community() {
   const dispatch = useDispatch();
-  const { isCreateCommunityOpen, searchTerm } = useSelector(
+  const { isCreateCommunityOpen, searchTerm, isBackToCommunity } = useSelector(
     (state: RootState) => state.community
   );
   const { community } = useSelector((state: RootState) => state.userCommunity);
@@ -50,9 +48,13 @@ function Community() {
   }, []);
 
   return (
-    <div className=" bg-white h-screen hidden lg:w-2/6 lg:flex lg:flex-col">
-      <div className="logo-profile flex justify-between items-center">
-        <div className="flex justify-center w-full pt-5">
+    <div
+      className={`${
+        isBackToCommunity ? "w-full" : "w-0"
+      } absolute z-10 duration-300 bg-white lg:relative h-screen lg:w-2/6 lg:flex lg:flex-col overflow-hidden`}
+    >
+      <div className="logo-profile flex px-5 justify-between items-center">
+        <div className="flex lg:justify-center w-full pt-5">
           <img src={PolliFy} alt="Profile 1" className="logo w-fit h-10" />
         </div>
         <div className="translate flex gap-x-3 items-center lg:hidden">
@@ -68,7 +70,7 @@ function Community() {
           </div>
         </div>
       </div>
-      <div className="line border border-gray-200 ml-5 mr-5 lg:hidden"></div>
+      <div className="line border border-gray-200 mt-8 lg:hidden"></div>
       <div className="search-community-field relative mt-5 px-4 flex justify-center">
         <div className="w-full left-7 absolute inset-y-0 flex items-center pointer-events-none">
           <AiOutlineSearch className="text-blue-custom w-5 h-5" />
@@ -97,7 +99,6 @@ function Community() {
           {/* <h1 className="mt-4 px-4">Favorite</h1>
           <AddedFavorite /> */}
 
-          <h1 className="mt-6 px-4">Your Community</h1>
           <UserCommunity />
         </div>
       ) : null}
