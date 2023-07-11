@@ -30,9 +30,9 @@ const LoginForm = () => {
     event.preventDefault();
     setError("");
     try {
-      const apiUrl = "http://18.142.146.129:8080";
+      const apiUrl = "http://52.220.220.40:8080";
       const accessToken =
-        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGFuIiwiZXhwIjoxNjg4NzU4OTM0fQ.mbBjvhOxWQ7C5Qo46zm0ACsqSgAgMYmDdUZkcsGxCSEZyJSeNwOkaznvymdcRCl3QA9yExf5fa2ilc_SV1nvDA";
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGFuIiwiZXhwIjoxNjg5MTc1MDI0fQ.CYrl1PTp6juSnxdCjSVerePgqqDgNvGSx09Kd7lYL3kmb8lZHi2vwYjvWyMdm6pcg02eldobOqIKRnOIGRhn_Q";
 
       const response = await fetch(`${apiUrl}/api/v1/auth/login`, {
         method: "POST",

@@ -1,4 +1,4 @@
-import React, { ReactEventHandler, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { closeCreatePollPopup } from "../../redux/slices/CreatePoll";
 import Avatar from "../../assets/Avatar.png";
@@ -8,24 +8,26 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { LuWrapText } from "react-icons/lu";
 import { RootState } from "../../redux/store";
 import { RxCrossCircled } from "react-icons/rx";
+import Dropdown from "react-dropdown-select";
 
-const durationOptions = {
-  "1": "1",
-  "2": "2",
-  "30": "30",
-};
+// const durationOptions = {
+//   "1": "1",
+//   "2": "2",
+//   "30": "30",
+// };
 
 const CreatePollPopup = () => {
   const dispatch = useDispatch();
   const [options, setOptions] = useState<string[]>([]);
   const [pollQuestion, setPollQuestion] = useState<string>("");
   const [newOption, setNewOption] = useState<string>("");
-  const [limitVote, setLimitVote] = useState<number>(1);
-  const [selectedDuration, setSelectedDuration] = useState<string>(
-    Object.keys(durationOptions)[0]
-  );
+  const [limitVote, setLimitVote] = useState<string | number>(1);
+  const [selectedDuration, setSelectedDuration] = useState<string>("");
+  const [durationError, setDurationError] = useState("");
   const [error, setError] = useState("");
-  const communityId = useSelector((state: RootState) => state.community.inCommunityId);
+  const communityId = useSelector(
+    (state: RootState) => state.community.inCommunityId
+  );
 
   //giving input, add, delete options
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,14 +63,35 @@ const CreatePollPopup = () => {
     setPollQuestion(event.target.value);
   };
 
-  const handleVoteChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setLimitVote(parseInt(event.target.value));
+  // const handleVoteChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setLimitVote(parseInt(event.target.value));
+  // };
+
+  const handleLimitVoteChange = (
+    selectedOption: { value: string | number }[]
+  ) => {
+    const value = selectedOption[0]?.value;
+    if (value === "custom") {
+      setLimitVote("");
+    } else {
+      setLimitVote(value);
+    }
   };
 
-  const handleDurationChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
+  const handleCustomLimitVoteChange = (
+    event: React.ChangeEvent<HTMLInputElement>
   ) => {
+    const value = event.target.value;
+    if (value === "" || /^\d+$/.test(value)) {
+      setLimitVote(value);
+    } else {
+      throw new Error("Custom limit vote must be a number");
+    }
+  };
+
+  const handleDurationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedDuration(event.target.value); // Update the duration state
+    setDurationError(""); // Reset the duration error message
   };
 
   //process duration here
@@ -79,14 +102,27 @@ const CreatePollPopup = () => {
     });
 
     let durationToOffset;
+    const minutes = parseInt(selectedDuration);
 
-    if (selectedDuration === "30") {
-      durationToOffset = "+07:30";
-    } else {
-      durationToOffset = `+0${7 + parseInt(selectedDuration)}:00`;
+    if (isNaN(minutes) || minutes < 0) {
+      setDurationError("Please enter a positive number of minutes.");
+      return null;
     }
 
-    console.log(currentTime);
+    if (minutes >= 60) {
+      const hours = Math.floor(minutes / 60);
+      const remainingMinutes = minutes % 60;
+      durationToOffset = `+0${7 + hours}:`;
+      if (remainingMinutes < 10) {
+        durationToOffset += `0${remainingMinutes}`;
+      } else {
+        durationToOffset += remainingMinutes;
+      }
+    } else if (minutes < 10) {
+      durationToOffset = `+0${7}:0${minutes}`;
+    } else {
+      durationToOffset = `+0${7}:${minutes}`;
+    }
 
     const duration = new Date(currentTime)
       .toISOString()
@@ -107,9 +143,9 @@ const CreatePollPopup = () => {
 
     setError("");
 
-    const apiUrl = "http://18.142.146.129:8080";
+    const apiUrl = "http://52.220.220.40:8080";
     const accessToken =
-      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGFuIiwiZXhwIjoxNjg4NzU4OTM0fQ.mbBjvhOxWQ7C5Qo46zm0ACsqSgAgMYmDdUZkcsGxCSEZyJSeNwOkaznvymdcRCl3QA9yExf5fa2ilc_SV1nvDA";
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjaGFuIiwiZXhwIjoxNjg5MTc1MDI0fQ.CYrl1PTp6juSnxdCjSVerePgqqDgNvGSx09Kd7lYL3kmb8lZHi2vwYjvWyMdm6pcg02eldobOqIKRnOIGRhn_Q";
 
     //process duration here
 
@@ -119,15 +155,17 @@ const CreatePollPopup = () => {
 
 
     try {
-      const response = await fetch(`${apiUrl}/api/v1/poll/community/${communityId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify(pollData),
-      });
-
+      const response = await fetch(
+        `${apiUrl}/api/v1/poll/community/${communityId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify(pollData),
+        }
+      );
 
       if (response.ok) {
         console.log("Poll created successfully");
@@ -241,17 +279,43 @@ const CreatePollPopup = () => {
               Let user choose
             </label>
           </div>
-          <select
+          <Dropdown
+            options={[
+              { label: "1 Option", value: "1" },
+              { label: "2 Options", value: "2" },
+              { label: "3 Options", value: "3" },
+              { label: "Custom", value: "custom" },
+            ]}
+            values={
+              limitVote
+                ? [{ label: `${limitVote} Options`, value: limitVote }]
+                : []
+            }
+            onChange={handleLimitVoteChange}
+            placeholder='Let user choose'
+            className='w-full px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500'
+          />
+          {limitVote === "custom" && (
+            <input
+              type='text'
+              placeholder='Enter number of options'
+              value={limitVote}
+              onChange={handleCustomLimitVoteChange}
+              className='w-full px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500'
+            />
+          )}
+
+          {/* <select
             id='choose'
             className='w-full px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500'
             value={limitVote}
             onChange={handleVoteChange}
-          >
-            {/* <option value='free'>Freely</option> */}
-            <option value='1'>1 Option</option>
+          > */}
+          {/* <option value='free'>Freely</option> */}
+          {/* <option value='1'>1 Option</option>
             <option value='2'>2 Option</option>
             <option value='3'>3 Option</option>
-          </select>
+          </select> */}
           {/* {limitVote && (
             <input
               type='text'
@@ -265,7 +329,17 @@ const CreatePollPopup = () => {
               Time Limit
             </label>
           </div>
-          <select
+          <input
+            type='text'
+            id='duration'
+            placeholder='Add poll duration'
+            value={selectedDuration}
+            onChange={handleDurationChange}
+            className='w-full px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500'
+          />
+          {durationError && <p className='text-red-500 mb-2'>{durationError}</p>}
+
+          {/* <select
             id='limit'
             className='w-full px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500'
             value={selectedDuration}
@@ -276,14 +350,7 @@ const CreatePollPopup = () => {
                 {value}
               </option>
             ))}
-          </select>
-          {/* {(
-            <input
-              type='text'
-              placeholder='Enter custom time limit'
-              className='w-full px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500'
-            />
-          )} */}
+          </select> */}
           <br />
           {error && <p className='text-red-500 mb-2'>{error}</p>}
           <button
