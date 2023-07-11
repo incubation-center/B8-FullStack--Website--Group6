@@ -2,8 +2,13 @@ package com.polify.controller;
 
 import java.util.*;
 
+import javax.security.auth.kerberos.KerberosKey;
 import javax.validation.Valid;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.polify.entity.PollOption;
@@ -19,19 +24,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.mail.*;
-import javax.mail.internet.*;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ContentType;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.springframework.util.StreamUtils;
-
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 
 import com.polify.entity.User;
 import com.polify.entity.OTP;
@@ -44,7 +36,6 @@ import com.polify.service.UserAccountService;
 import com.polify.utils.LoginHistoryConverter;
 import com.polify.utils.ProjectUtils;
 import com.polify.utils.UserConverter;
-import com.polify.service.OtpService;
 import com.polify.utils.Utils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -73,7 +64,9 @@ public class UserLoginController {
 
     @Autowired
     private OtpService otpService;
+    public static final String SECRET = "FG^723fhhQW12~123qwert123#@$fr!67DSWa";
 
+    public static final long EXPIRATION_TIME = 100000000;
 	/**
 	 * Register user.
 	 *
@@ -81,12 +74,23 @@ public class UserLoginController {
 	 * @return the user
 	 */
     @PostMapping(ProjectUtils.REGISTER_USER_URL)
-    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO userDTO) throws MessagingException {
+    public ResponseEntity<Map> createUser(@Valid @RequestBody UserDTO userDTO) throws MessagingException {
         // Generate 4-digit OTP
         Random random = new Random();
         int code = 1000 + random.nextInt(9000);
 
         userDTO.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
+
+        User existing_username = userAccountService.getUserByUsername(userDTO.getUsername());
+        User existing_email =  userAccountService.getByEmail(userDTO.getEmail());
+
+        if (existing_username != null || existing_email !=null) {
+            Map<String, String> responseMap = new HashMap<>();
+            responseMap.put("message", "User is already exist");
+            return new ResponseEntity<>(
+                responseMap,
+                HttpStatus.BAD_REQUEST);
+        }
 
         User user = userAccountService.save(userConverter.convertFromDto(userDTO));
 
@@ -97,35 +101,13 @@ public class UserLoginController {
         Obj.setUpdatedBy(user.getUsername());
 
         otpService.addOtp(Obj);
+        Utils.SendOtp(code, user, 1);
 
-        String recipientEmail = userDTO.getEmail();
-        String senderEmail = ProjectUtils.SENDER_EMAIL;
-        String senderPassword = ProjectUtils.MAIL_PASSWORD;
-        String subject = "Your OTP for registration";
-        String body = "Hello " + userDTO.getUsername() + ",\n\nYour OTP for registration is: " + code;
-
-        // Create properties object for SMTP connection
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-
-        Session session = Session.getInstance(props, new Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(senderEmail, senderPassword);
-            }
-        });
-
-        Message message = new MimeMessage(session);
-        message.setFrom(new InternetAddress(senderEmail));
-        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipientEmail));
-        message.setSubject(subject);
-        message.setText(body);
-
-        Transport.send(message);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(userConverter.convertFromEntity(user));
+        Map<String, String> responseMap = new HashMap<>();
+        responseMap.put("message", "Register successfully");
+        return new ResponseEntity<>(
+            responseMap,
+            HttpStatus.CREATED);
     }
 	/**
 	 * Get login history by username
@@ -170,20 +152,105 @@ public class UserLoginController {
         }
     }
 
+    @PostMapping(ProjectUtils.VERIFY_FORGOT_PASSWORD)
+    public ResponseEntity<Map> verifyForgotPassword(@Valid @RequestBody VerifyUserDTO userDTO) throws MessagingException {
+        String email = userDTO.getEmail();
+        int code = userDTO.getCode();
+        Optional<OTP> obj = otpService.findCodeByCodeAndCreatedBy(code, email);
+
+        if (obj.isPresent() && obj.get().getCode() == code) {
+
+            Authentication authResult = null;
+
+
+
+            String token = JWT.create().withSubject(email)
+                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) // JWT token validity time
+                .sign(Algorithm.HMAC512(SECRET.getBytes())); // JWT Signature
+
+            Map<String, String> responseMap = new HashMap<>();
+            responseMap.put("token", token);
+            responseMap.put("message", "SUCCESS");
+            return new ResponseEntity<>(
+                responseMap,
+                HttpStatus.OK);
+
+        } else {
+            Map<String, String> responseMap = new HashMap<>();
+            responseMap.put("message", "Invalid code");
+            return new ResponseEntity<>(
+                responseMap,
+                HttpStatus.BAD_REQUEST);
+
+        }
+    }
+
+    @PostMapping(path = "reset-password")
+    public Map<String, Object> resetForgotPassword(@RequestParam String token){
+        try {
+            DecodedJWT decodedToken = JWT.decode(token);
+
+            String email = decodedToken.getSubject();
+            User user = userAccountService.getByEmail(email);
+            System.out.println(user);
+
+            return  null;
+        } catch (Exception e) {
+            System.out.println("Token is not valid");
+            return null;
+        }
+    }
+
+    @PostMapping(ProjectUtils.FORGOT_PASSWORD_URL)
+    public ResponseEntity<Map> forgotPassowrd(@Valid @RequestBody ProfileDTO profileDTO) throws MessagingException {
+        String email = profileDTO.getEmail();
+        Random random = new Random();
+        int code = 1000 + random.nextInt(9000);
+
+        User user = userAccountService.getByEmail(email);
+
+
+        if (user !=null) {
+
+            OTP Obj = new OTP();
+            Obj.setUser(user);
+            Obj.setCode(code);
+            Obj.setCreatedBy(email);
+            Obj.setUpdatedBy(user.getUsername());
+            Obj.setForgotPassword(true);
+
+            otpService.addOtp(Obj);
+
+            Utils.SendOtp(code, user, 2);
+
+            Map<String, String> responseMap = new HashMap<>();
+            responseMap.put("message", "SUCCESS");
+            return new ResponseEntity<>(
+                responseMap,
+                HttpStatus.OK);
+
+        } else {
+            Map<String, String> responseMap = new HashMap<>();
+            responseMap.put("message", "Email does not exist");
+            return new ResponseEntity<>(
+                responseMap,
+                HttpStatus.BAD_REQUEST);
+
+        }
+    }
+
     @PostMapping(value = "/update-profile", consumes = "multipart/form-data")
     public ResponseEntity<Map> updateProfile(ProfileDTO profileDTO,
-                                             @RequestPart(name = "file", required = false) MultipartFile file) throws Exception {
+                                             @RequestPart(name = "file", required = true) MultipartFile file) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user_obj = userAccountService.getUserByUsername(authentication.getName());
 
-        String uploadUrl = null;
+        String uploadUrl = ProjectUtils.FILE_URL;
         String file_name;
         if (profileDTO != null) {
 
             file_name = null;
             if (file != null) {
-                file_name = null;
-
                 byte[] fileBytes = file.getBytes();
                 String fileName = file.getOriginalFilename();
                 file_name = Utils.uploadFile(fileBytes, fileName);
@@ -202,6 +269,8 @@ public class UserLoginController {
 
         return ResponseEntity.ok(response);
     }
+
+
 
 	@Bean
 	public LoginHistoryConverter loginHistoryConverter() {

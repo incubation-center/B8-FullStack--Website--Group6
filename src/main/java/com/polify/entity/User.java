@@ -38,7 +38,7 @@ public class User {
     
 	@Getter
 	@Setter
-	@Column(name = "email_address", nullable = false)
+	@Column(name = "email_address", nullable = false,  unique = true)
 	private String email;
 
     @Getter
@@ -50,6 +50,10 @@ public class User {
 	@Setter
 	@Column(name = "image")
 	private String image;
+
+    @ManyToOne
+    @JoinColumn(name = "type_id", nullable = true)
+    private UserType type_id;
     
 	@Getter
 	@Setter
@@ -102,5 +106,6 @@ public class User {
         createdBy = this.username;
         updatedBy = this.username;
 	}
+
 
 }

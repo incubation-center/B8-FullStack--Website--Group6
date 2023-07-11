@@ -10,4 +10,6 @@ import java.util.Optional;
 @Repository
 public interface OtpRepository extends JpaRepository<OTP,Integer> {
     Optional<OTP> findCodeByCreatedBy(String created_by);
+
+    Optional<OTP> findCodeByCodeAndCreatedBy(int code, String created_by);
 }

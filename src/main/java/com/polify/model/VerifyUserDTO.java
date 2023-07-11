@@ -24,4 +24,11 @@ public class VerifyUserDTO {
 	@JsonProperty("code")
     private int code;
 
+    @JsonProperty("email")
+    private String email;
+
+    @JsonProperty("password")
+    private String password;
+
+
 }

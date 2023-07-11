@@ -17,9 +17,7 @@ public class ProfileDTO {
 	@JsonProperty("id")
     private long id;
 
-
-    @JsonProperty("image")
-    private String image;
-
+    @JsonProperty("email")
+    private String email;
 
 }

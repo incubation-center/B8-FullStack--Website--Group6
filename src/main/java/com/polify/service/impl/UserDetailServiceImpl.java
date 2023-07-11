@@ -32,13 +32,16 @@ public class UserDetailServiceImpl implements UserAccountService {
 
 	@Override
 	public User save(User user) throws IllegalArgumentException {
-		return userRepository.save(user);		
+		return userRepository.save(user);
 	}
 
 	@Override
 	public User getUserByUsername(String username) {
 		return userRepository.findUserByUsername(username);
 	}
+
+    @Override
+    public User getByEmail(String email){return userRepository.findUserByEmail(email);}
 
     @Override
     public List<User> getAllUser() {

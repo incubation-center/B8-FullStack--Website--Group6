@@ -18,4 +18,6 @@ public interface UserAccountService extends UserDetailsService {
 
     public User getUserById(Long id);
 
+    public User getByEmail(String email);
+
 }

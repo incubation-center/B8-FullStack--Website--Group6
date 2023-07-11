@@ -6,10 +6,14 @@ public class ProjectUtils {
 
     public static final String REGISTER_USER_URL = "/register-user";
     public static final String VERIFY_USER_URL = "/verify-user";
+    public static final String VERIFY_FORGOT_PASSWORD = "/verify-forgot-password";
+
+    public static final String FORGOT_PASSWORD_URL = "/forgot-password";
+
 
     public static final String VERIFY_USER_FULL_URL = ProjectUtils.API_URL+ "/verify-user";
 	public static final String REGISTER_USER_FULL_URL = ProjectUtils.API_URL + "/register-user";
-	
+    public static final String FORGOT_PASSWORD_USER_FULL_URL = ProjectUtils.API_URL + "/forgot-user";
 	public static final String LOGIN_URL = ProjectUtils.API_URL + "/auth/login";
 
 	public static final String COMMUNITY_MEMBERS_URL = ProjectUtils.API_URL + "/community_members";
