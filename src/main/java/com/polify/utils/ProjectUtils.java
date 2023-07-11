@@ -38,7 +38,7 @@ public class ProjectUtils {
     public static final String MAIL_PASSWORD = "zlnsnijqyuzlhszs";
     public static final String SENDER_EMAIL = "pollify.app@gmail.com";
 
-    public static final String FILE_URL = "http://localhost:8081";
+    public static final String FILE_URL = "http://52.220.220.40:8081";
 	
 	public static <T> T getValue(T value) {
 		return value == null ? null : value;
