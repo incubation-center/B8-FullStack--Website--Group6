@@ -94,10 +94,10 @@ function Community() {
       {isCreateCommunityOpen && <CreateCommunity />}
       {community && community.length > 0 ? (
         <div>
-          <h1 className="mt-4 px-4">Favorite</h1>
-          <AddedFavorite />
+          {/* <h1 className="mt-4 px-4">Favorite</h1>
+          <AddedFavorite /> */}
 
-          <h1 className="mt-4 px-4">Your Community</h1>
+          <h1 className="mt-6 px-4">Your Community</h1>
           <UserCommunity />
         </div>
       ) : null}

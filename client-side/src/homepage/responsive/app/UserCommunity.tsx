@@ -53,7 +53,7 @@ function UserCommunity() {
             <React.Fragment key={index}>
               <div
                 ref={index === 0 ? firstButtonRef : null}
-                className={`relative flex items-center cursor-pointer py-2 px-4 ${
+                className={`relative flex items-center cursor-pointer py-2 px-4 hover:bg-blue-100 ${
                   activeCommunity === community.id &&
                   "bg-blue-100 transform -skew-x-0"
                 }`}

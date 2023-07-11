@@ -69,7 +69,7 @@ function CreatePoll() {
         <div className="logo-profile-createPoll flex justify-between items-center">
           <div className="logo-text">
             <p className="whitespace-normal text-lg hidden text-gray-700 lg:block">
-              Welcome to the PitCool bro
+              Welcome to the Pollify bro
               <span className="text-blue-custom font-bold uppercase">
                 {" "}
                 {username}{" "}
