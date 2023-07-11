@@ -162,8 +162,6 @@ public class UserLoginController {
 
             Authentication authResult = null;
 
-
-
             String token = JWT.create().withSubject(email)
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) // JWT token validity time
                 .sign(Algorithm.HMAC512(SECRET.getBytes())); // JWT Signature
@@ -185,22 +183,29 @@ public class UserLoginController {
         }
     }
 
-    @PostMapping(path = "reset-password")
-    public Map<String, Object> resetForgotPassword(@RequestParam String token){
+    @PostMapping(path = "reset-password", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Map> resetForgotPassword(@RequestParam(required = false) String token, @RequestBody Map<String, String> body ){
         try {
             DecodedJWT decodedToken = JWT.decode(token);
 
             String email = decodedToken.getSubject();
-            User user = userAccountService.getByEmail(email);
-            System.out.println(user);
+            User user_obj = userAccountService.getByEmail(email);
 
-            return  null;
+            String password = body.get("password");
+            user_obj.setPassword(bCryptPasswordEncoder.encode(password));
+            userAccountService.save(user_obj);
+            Map<String, String> responseMap = new HashMap<>();
+            responseMap.put("message", "SUCCESS");
+            return new ResponseEntity<>(
+                responseMap,
+                HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println("Token is not valid");
-            return null;
+            Map<String, String> responseMap = new HashMap<>();
+            responseMap.put("message", "Error   ");
+            return new ResponseEntity<>(
+                HttpStatus.BAD_GATEWAY);
         }
     }
-
     @PostMapping(ProjectUtils.FORGOT_PASSWORD_URL)
     public ResponseEntity<Map> forgotPassowrd(@Valid @RequestBody ProfileDTO profileDTO) throws MessagingException {
         String email = profileDTO.getEmail();
