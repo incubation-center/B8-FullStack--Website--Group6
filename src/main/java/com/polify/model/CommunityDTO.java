@@ -13,6 +13,10 @@ public class CommunityDTO {
 
     @Getter
     @JsonProperty
+    private String image;
+
+    @Getter
+    @JsonProperty
     private String communityDescription;
 
     @Getter

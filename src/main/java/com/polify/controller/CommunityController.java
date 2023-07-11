@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -39,9 +40,10 @@ public class CommunityController {
         return communityService.getCommunity(user_id);
     }
 
-    @PostMapping(path = "")
-    public Map<String, Object> addCommunity(@RequestBody CommunityDTO communityDTO,
-                            Authentication authentication){
+    @PostMapping(path = "", consumes = "multipart/form-data")
+    public Map<String, Object> addCommunity(CommunityDTO communityDTO,
+                            Authentication authentication , @RequestPart(name = "file", required = false) MultipartFile file){
+
         String username = authentication.getName();
         User creator = userAccountService.getUserByUsername(username);
 

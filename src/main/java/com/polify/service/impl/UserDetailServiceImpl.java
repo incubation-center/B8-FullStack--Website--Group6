@@ -44,4 +44,9 @@ public class UserDetailServiceImpl implements UserAccountService {
     public List<User> getAllUser() {
         return userRepository.findAll();
     }
+
+    @Override
+    public User getUserById(Long id) {
+        return null;
+    }
 }
