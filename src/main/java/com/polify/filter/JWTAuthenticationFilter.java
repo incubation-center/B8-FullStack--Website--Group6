@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -70,32 +71,39 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
 			throws AuthenticationException {
-		try {
+        try {
 
-			UserDTO loginUser = new ObjectMapper().readValue(request.getInputStream(),
-					UserDTO.class);
-			System.out.println("-------------------------loginUser: " + loginUser);
-			this.setLoginHistory(loginHistoryService.save(loginUser.getUsername(),ProjectUtils.PENDING_STATUS));
+            UserDTO loginUser = new ObjectMapper().readValue(request.getInputStream(),
+                UserDTO.class);
+            System.out.println("-------------------------loginUser: " + loginUser);
+            this.setLoginHistory(loginHistoryService.save(loginUser.getUsername(), ProjectUtils.PENDING_STATUS));
             com.polify.entity.User user = userAccountService.getUserByUsername(loginUser.getUsername());
 
-            if(user.isVerified()) {
+            if (user.isVerified()) {
                 return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getUsername(),
                     loginUser.getPassword(), new ArrayList<>()));
-            }else {
-                throw new BadCredentialsException("User in not verified");
-            }
-		} catch (IOException e) {
-            Map<String, String> errorMap = new HashMap<>();
-            errorMap.put("message", "User is not verified");
+            } else {
+                Map<String, String> errorMap = new HashMap<>();
+                errorMap.put("message", "User is not verified");
+                response.setStatus(400);
+                response.setContentType("application/json");
 
-            StringBuilder sb = new StringBuilder();
-            for (Map.Entry<String, String> entry : errorMap.entrySet()) {
-                sb.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+                String jsonError = null;
+                try {
+                    jsonError = new ObjectMapper().writeValueAsString(errorMap);
+                } catch (JsonProcessingException ex) {
+                    throw new RuntimeException(ex);
+                }
+                try {
+                    response.getWriter().write(jsonError);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
-            String errorString = sb.toString();
-
-            throw new BadCredentialsException(errorString, e);
-		}
+        } catch (IOException e) {
+            throw new RuntimeException();
+        }
+        return null;
     }
 
 	@Override

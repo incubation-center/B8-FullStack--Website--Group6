@@ -28,6 +28,9 @@ public class OtpServiceImplement implements OtpService {
     public Optional<OTP> findCodeByCreatedBy(String created_by) {
         return otpRepository.findCodeByCreatedBy(created_by);
     }
-
+    @Override
+    public Optional<OTP> findCodeByCodeAndCreatedBy(int code, String created_by) {
+        return otpRepository.findCodeByCodeAndCreatedBy(code, created_by);
+    }
 
 }

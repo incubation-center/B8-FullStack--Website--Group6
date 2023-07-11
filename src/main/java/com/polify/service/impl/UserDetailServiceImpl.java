@@ -32,7 +32,7 @@ public class UserDetailServiceImpl implements UserAccountService {
 
 	@Override
 	public User save(User user) throws IllegalArgumentException {
-		return userRepository.save(user);		
+		return userRepository.save(user);
 	}
 
 	@Override
@@ -41,7 +41,15 @@ public class UserDetailServiceImpl implements UserAccountService {
 	}
 
     @Override
+    public User getByEmail(String email){return userRepository.findUserByEmail(email);}
+
+    @Override
     public List<User> getAllUser() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return null;
     }
 }

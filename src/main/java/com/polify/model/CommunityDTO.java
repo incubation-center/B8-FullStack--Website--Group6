@@ -1,21 +1,27 @@
 package com.polify.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
+@NoArgsConstructor()
+@AllArgsConstructor
 public class CommunityDTO {
 
     @Getter
-    @JsonProperty
+    @JsonProperty("communityName")
     private String communityName;
 
     @Getter
-    @JsonProperty
+    @JsonProperty("communityDescription")
     private String communityDescription;
 
     @Getter
-    @JsonProperty
+    @JsonProperty("userId")
     private List<Long> userId;
 }

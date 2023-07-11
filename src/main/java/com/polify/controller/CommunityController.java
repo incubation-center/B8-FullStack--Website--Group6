@@ -8,11 +8,16 @@ import com.polify.service.CommunityMembersService;
 import com.polify.service.CommunityService;
 import com.polify.service.UserAccountService;
 import com.polify.utils.ProjectUtils;
+import com.polify.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,21 +44,32 @@ public class CommunityController {
         return communityService.getCommunity(user_id);
     }
 
-    @PostMapping(path = "")
-    public Map<String, Object> addCommunity(@RequestBody CommunityDTO communityDTO,
-                            Authentication authentication){
+    @PostMapping(value = "", consumes = "multipart/form-data")
+    public Map<String, Object> addCommunity(CommunityDTO communityDTO, @RequestPart(name = "file", required = false) MultipartFile file) throws IOException {
+        String uploadUrl = null;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User creator = userAccountService.getUserByUsername(username);
+        String file_name = null;
+        String file_url = null;
+        if (file != null) {
+            uploadUrl = ProjectUtils.FILE_URL;
+            byte[] fileBytes = file.getBytes();
+            String fileName = file.getOriginalFilename();
+            file_name = Utils.uploadFile(fileBytes, fileName);
+            file_url = uploadUrl + "/files/" + file_name;
+        }
 
         Community community = new Community();
         community.setCommunityName(communityDTO.getCommunityName());
         community.setCommunityDescription(communityDTO.getCommunityDescription());
         community.setUsers(creator);
+        community.setImage(file_name);
         Community savedCommunity = communityService.addCommunity(community);
 
         List<Long> userIdList = communityDTO.getUserId();
         userIdList.add(0, creator.getId());
-        for (Long userId: userIdList) {
+        for (Long userId : userIdList) {
             CommunityMembers communityMembers = new CommunityMembers();
             communityMembers.setCommunity(savedCommunity);
             User user = communityService.getUserById(userId);
@@ -61,6 +77,13 @@ public class CommunityController {
             communityMembersService.addCommunityMembers(communityMembers);
         }
 
-        return communityMembersService.getCommunityMembersResponse(savedCommunity.getId());
+        Object resCommunity = communityMembersService.getCommunityMembersResponse(savedCommunity.getId());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("community", resCommunity);
+        response.put("file_url", file_url);
+
+        return response;
     }
 }

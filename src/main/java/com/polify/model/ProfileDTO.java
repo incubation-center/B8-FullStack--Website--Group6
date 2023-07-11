@@ -12,23 +12,12 @@ import javax.validation.constraints.NotNull;
 @Data
 @NoArgsConstructor()
 @AllArgsConstructor
-public class VerifyUserDTO {
+public class ProfileDTO {
 	
 	@JsonProperty("id")
     private long id;
-	
-	@NotNull(message = "Please provide username")
-	@JsonProperty("username")
-    private String username;
-
-	@JsonProperty("code")
-    private int code;
 
     @JsonProperty("email")
     private String email;
-
-    @JsonProperty("password")
-    private String password;
-
 
 }

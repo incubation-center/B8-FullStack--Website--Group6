@@ -1,8 +1,6 @@
 package com.polify.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -24,6 +22,11 @@ public class Community {
 
     @Column(name = "community_description")
     private String communityDescription;
+
+    @Getter
+    @Setter
+    @Column(name = "image")
+    private String image;
 
     @Column(name = "date_created", nullable = false)
     private LocalDate dateCreated;

@@ -25,6 +25,13 @@ public class OTP {
     @Column(name = "code", nullable = false)
     private int code;
 
+    @Getter
+    @Setter
+    @Column(columnDefinition = "boolean default false", name = "is_forgot_password", nullable = true)
+    private boolean isForgotPassword;
+
+
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User users;

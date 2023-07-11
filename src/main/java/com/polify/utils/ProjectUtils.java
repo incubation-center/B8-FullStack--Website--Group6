@@ -6,10 +6,14 @@ public class ProjectUtils {
 
     public static final String REGISTER_USER_URL = "/register-user";
     public static final String VERIFY_USER_URL = "/verify-user";
+    public static final String VERIFY_FORGOT_PASSWORD = "/verify-forgot-password";
+
+    public static final String FORGOT_PASSWORD_URL = "/forgot-password";
+
 
     public static final String VERIFY_USER_FULL_URL = ProjectUtils.API_URL+ "/verify-user";
 	public static final String REGISTER_USER_FULL_URL = ProjectUtils.API_URL + "/register-user";
-	
+    public static final String FORGOT_PASSWORD_USER_FULL_URL = ProjectUtils.API_URL + "/forgot-user";
 	public static final String LOGIN_URL = ProjectUtils.API_URL + "/auth/login";
 
 	public static final String COMMUNITY_MEMBERS_URL = ProjectUtils.API_URL + "/community_members";
@@ -33,6 +37,8 @@ public class ProjectUtils {
 	public static final String PENDING_STATUS = "PENDING";
     public static final String MAIL_PASSWORD = "zlnsnijqyuzlhszs";
     public static final String SENDER_EMAIL = "pollify.app@gmail.com";
+
+    public static final String FILE_URL = "http://localhost:8081";
 	
 	public static <T> T getValue(T value) {
 		return value == null ? null : value;
