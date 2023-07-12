@@ -3,7 +3,6 @@ package com.polify.controller;
 import com.polify.entity.Community;
 import com.polify.entity.CommunityMembers;
 import com.polify.entity.User;
-import com.polify.model.RoleDTO;
 import com.polify.service.CommunityMembersService;
 import com.polify.service.UserAccountService;
 import com.polify.utils.ProjectUtils;
