@@ -76,6 +76,7 @@ const OtpVerification = () => {
 
         // Clear form inputs
         dispatch(setOtpCodes(["", "", "", ""]));
+        dispatch(setErrorMessage(""));
         navigate("/user/sign_in");
       } else {
         // Verification failed, handle the error

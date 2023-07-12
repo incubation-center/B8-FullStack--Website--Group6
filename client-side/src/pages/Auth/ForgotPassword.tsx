@@ -32,6 +32,7 @@ const EmailToResetPassword = () => {
         navigate("/auth/verify_forgot_password");
       }
     } catch (error) {
+      alert("Can not Reset Password");
       console.log("An error occured: ", error);
     }
   };

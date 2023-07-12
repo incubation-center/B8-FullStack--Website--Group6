@@ -7,6 +7,7 @@ import {
   setNewPassword,
   setConfirmPassword,
 } from "../../redux/slices/Auth";
+import { setIsValid } from "../../redux/slices/Otp";
 import api from "../../utils/api";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
@@ -68,6 +69,12 @@ const EmailToResetPassword = () => {
         );
         if (response.status === 200) {
           console.log("success", response);
+
+          // clear form input
+          dispatch(setEmail(""));
+          dispatch(setNewPassword(""));
+          dispatch(setConfirmPassword(""));
+          dispatch(setIsValid(false));
 
           navigate("/user/sign_in");
         }

@@ -79,6 +79,7 @@ const ForgotPasswordOtp = () => {
 
         // clear form input
         dispatch(setOtpCodes(["", "", "", ""]));
+        dispatch(setErrorMessage(""));
 
         navigate("/user/reset_password");
       }
