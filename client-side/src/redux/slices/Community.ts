@@ -13,6 +13,8 @@ const initialState: CommunityState = {
   searchTerm: "",
   communityDescription: "Description",
   isCreateCommunityOpen: false,
+  isBackToCommunity: false,
+  isCommunityProfileOpen: false,
   userData: [],
   invitedUsers: [],
   communityMembers: [],
@@ -43,6 +45,12 @@ export const communitySlice = createSlice({
     closeCreateCommunity: (state) => {
       state.isCreateCommunityOpen = false;
     },
+    setIsBackToCommunity: (state, action: PayloadAction<boolean>) => {
+      state.isBackToCommunity = action.payload;
+    },
+    setIsCommunityProfileOpen: (state, action: PayloadAction<boolean>) => {
+      state.isCommunityProfileOpen = action.payload;
+    },
     setUserData: (state, action: PayloadAction<User[]>) => {
       state.userData = action.payload;
     },
@@ -64,6 +72,8 @@ export const {
   setSearchTerm,
   openCreateCommunity,
   closeCreateCommunity,
+  setIsBackToCommunity,
+  setIsCommunityProfileOpen,
   setUserData,
   setInvitedUsers,
   setCommunityMembers,

@@ -2,15 +2,22 @@ import React from "react";
 import PolliFy from "../../../assets/PolliFy.png";
 import Avatar from "../../../assets/Avatar.png";
 import { MdTranslate } from "react-icons/md";
-import { IoMdNotificationsOutline } from "react-icons/io";
+import { IoMdNotificationsOutline, IoIosArrowBack } from "react-icons/io";
 import Ellipse1007 from "../../../assets/community/Ellipse1007.png";
 import { BsQrCode } from "react-icons/bs";
 import Notifications from "./Notifications";
 import CommunityMembers from "./CommunityMembers";
 import PopupModal from "../../popup/PopupModal";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { setIsCommunityProfileOpen } from "../../../redux/slices/Community";
 
 function CommunityProfile() {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = React.useState(false);
+  const { isCommunityProfileOpen } = useSelector(
+    (state: RootState) => state.community
+  );
 
   const openModal = () => {
     setIsOpen(true);
@@ -19,14 +26,24 @@ function CommunityProfile() {
     setIsOpen(false);
   };
 
+  const handleBackToPoll = () => {
+    dispatch(setIsCommunityProfileOpen(false));
+  };
+
   return (
-    <div className="font-sans bg-white lg:w-2/6 h-full hidden lg:flex lg:flex-col">
+    <div
+      className={` ${
+        isCommunityProfileOpen ? "w-full" : "w-0"
+      } absolute z-10 duration-300 right-0 lg:relative font-sans bg-white lg:w-2/6 h-full lg:flex lg:flex-col overflow-hidden`}
+    >
       <div className="logo-profile-createPoll flex justify-between lg:justify-end items-center mt-5 ml-5 mr-5">
-        <img
-          src={PolliFy}
-          alt="Profile 1"
-          className="logo w-fit h-7 lg:hidden"
-        />
+        <div
+          className="flex items-center gap-x-2 lg:hidden"
+          onClick={handleBackToPoll}
+        >
+          <IoIosArrowBack className="w-6 h-6 text-blue-custom" />
+          <span className="text-lg">Polls</span>
+        </div>
         <div className="translate flex gap-x-3 lg:gap-x-5 items-center lg:justify-end">
           <MdTranslate className="w-6 h-6" />
           <IoMdNotificationsOutline className="w-6 h-6" />
@@ -41,7 +58,7 @@ function CommunityProfile() {
           </div>
         </div>
       </div>
-      <div className="border border-gray-100 ml-5 mr-5 lg:hidden"></div>
+      <div className="border border-gray-200 mt-8 lg:hidden"></div>
       <div className="Moringa flex flex-col gap-y-3 mt-5 justify-center items-center">
         <img
           src={Ellipse1007}

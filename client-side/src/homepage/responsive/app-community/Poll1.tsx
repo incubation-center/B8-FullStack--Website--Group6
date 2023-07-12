@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Avatar from "../../../assets/Avatar.png";
 import { FcPieChart } from "react-icons/fc";
-import { AiOutlineDelete } from "react-icons/ai";
+import { AiFillCheckCircle } from "react-icons/ai";
+import { BsCircle } from "react-icons/bs";
 import api from "../../../utils/api";
 
 function Poll1({
@@ -29,6 +30,7 @@ function Poll1({
       });
       if (response.status === 200) {
         setNewOption(response.data.options);
+        console.log("polling", response.data);
         alert("Voted Successfully!");
         window.location.reload();
       }
@@ -38,9 +40,9 @@ function Poll1({
   };
 
   return (
-    <div className="poll1 flex flex-col border h-fit bg-white rounded-md">
+    <div className="poll1 flex flex-col border h-fit bg-white rounded-md p-5">
       <div className=" userChart flex justify-between items-center">
-        <div className="User flex mt-5 ml-5 relative">
+        <div className="User flex relative">
           <img
             src={Avatar}
             alt="Profile 1"
@@ -52,45 +54,58 @@ function Poll1({
             <h4>{pollDate}</h4>
           </h5>
         </div>
-        <FcPieChart className="mr-5 mt-5 w-10 h-10" />
+        <FcPieChart className="w-10 h-10" />
       </div>
-      <p className="mt-5 ml-5 font-light text-[15px] md:text-[17px]">
+      <p className="mt-5 font-light text-[15px] md:text-[17px]">
         {pollQuestion}
       </p>
-      <div className="food-menu grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 mr-5 ml-5 gap-4 mt-5 text-gray-800">
+      <div className="food-menu grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 mt-5 text-gray-800">
         {newOption.map((option: any) => {
           return (
             <div
               key={option.id}
               onClick={() => handleOptionClick(option.id)}
-              className={`text-[15px] font-sans font-bold border border-neutral-300 shadow px-5 py-3 rounded-xl hover:bg-[#2D9CDB] hover:cursor-pointer ${
-                votedOn === option.id && "bg-[#2D9CDB]"
+              className={`flex items-center gap-x-2 text-[15px] font-sans font-bold border shadow px-4 py-3 rounded-xl hover:bg-blue-100 hover:cursor-pointer ${
+                votedOn === option.id && "bg-blue-100 border-blue-custom"
               }`}
             >
+              {votedOn === option.id ? (
+                <AiFillCheckCircle className="w-5 h-5 text-blue-custom" />
+              ) : (
+                <span
+                  className="w-4 h-4 flex items-center justify-center rounded-full 
+                  border border-gray-400"
+                ></span>
+              )}
               {option.optionText}
             </div>
           );
         })}
       </div>
-      <div className="progress-bar  mt-7 ml-5 mr-5">
+      <div className="progress-bar  mt-7">
         {options.map((option: any) => {
           return (
-            <>
-              <div
-                key={option.id}
-                className="mb-1 text-base font-medium dark:text-white flex justify-between items-center"
-              >
-                <h1 className="text-[12px] md:text-[15px]">
+            <div key={option.id}>
+              <div className="mb-1 text-base font-mediu flex justify-between items-center">
+                <h1 className="text-[12px] text-gray-800 md:text-[15px]">
                   {option.optionText}
                 </h1>
-                <h1 className="text-[12px] text-gray-500 md:text-[15px]">
+                <h1 className="text-[12px] font-semibold text-blue-custom md:text-[15px]">
                   {option.percentage * 100} %
                 </h1>
               </div>
-              <div className="w-full bg-gray-100 rounded-full h-2 mb-4 dark:bg-gray-100">
-                <div className="w-3 bg-sky-500 h-full rounded-full dark:bg-blue-500"></div>
+              <div className="w-full bg-blue-100 rounded-full h-3 mb-2">
+                {option.percentage === 0 ? (
+                  <div className="w-3 bg-blue-custom h-full rounded-full"></div>
+                ) : (
+                  <div
+                    className={`w-[${
+                      option.percentage * 100
+                    }%] bg-blue-custom h-full rounded-full`}
+                  ></div>
+                )}
               </div>
-            </>
+            </div>
           );
         })}
         {/* <div className="mb-1 text-base font-medium dark:text-white flex justify-between items-center">
