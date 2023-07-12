@@ -48,7 +48,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                     HttpMethod.POST,
                     ProjectUtils.REGISTER_USER_FULL_URL,
                     ProjectUtils.VERIFY_USER_FULL_URL,
-                    ProjectUtils.RESET_FORGOT_PASSWORD_FULL_URL,
+                    ProjectUtils.FORGOT_PASSWORD_USER_FULL_URL,
                     ProjectUtils.VERIFY_FORGOT_PASSWORD_FULL_URL,
                     ProjectUtils.RESET_FORGOT_PASSWORD_FULL_URL
                 )
