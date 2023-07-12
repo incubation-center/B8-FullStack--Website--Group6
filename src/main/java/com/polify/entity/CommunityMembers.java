@@ -27,6 +27,9 @@ public class CommunityMembers {
     @Column(name = "date_joined", nullable = false)
     private LocalDate dateJoined;
 
+    @Column(name = "role")
+    private String role;
+
     @PrePersist
     public void onCreate(){
         dateJoined = LocalDate.now();
@@ -67,6 +70,14 @@ public class CommunityMembers {
 
     public void setDateJoined(LocalDate dateJoined) {
         this.dateJoined = dateJoined;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override

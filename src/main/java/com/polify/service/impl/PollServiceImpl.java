@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class PollServiceImpl implements PollService {
@@ -37,7 +38,7 @@ public class PollServiceImpl implements PollService {
     }
 
     @Override
-    public List<Poll> getCommunityPoll(Long id) {
+    public List<Poll> getCommunityPoll(UUID id) {
         return pollRepository.findByCommunityId(id);
     }
 
@@ -47,7 +48,7 @@ public class PollServiceImpl implements PollService {
     }
 
     @Override
-    public Community getCommunityById(Long id) {
+    public Community getCommunityById(UUID id) {
         return communityRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Community not found!!!"));
     }

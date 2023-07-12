@@ -26,7 +26,7 @@ public class CommunityMembersServiceImpl implements CommunityMembersService {
     private UserRepository userRepository;
 
     @Override
-    public List<CommunityMembers> getCommunityMembers(Long id) {
+    public List<CommunityMembers> getCommunityMembers(UUID id) {
         return communityMembersRepository.findByCommunityId(id);
     }
 
@@ -36,9 +36,15 @@ public class CommunityMembersServiceImpl implements CommunityMembersService {
     }
 
     @Override
-    public CommunityMembers addCommunityMembers(CommunityMembers communityMembers) {
+    public CommunityMembers addCommunityMembers(Community community, User user, String role) {
+        CommunityMembers communityMembers = new CommunityMembers();
+        communityMembers.setCommunity(community);
+        communityMembers.setUsers(user);
+        communityMembers.setRole(role);
         return communityMembersRepository.save(communityMembers);
     }
+
+
 
     @Override
     public User getUserById(Long userId){
@@ -47,18 +53,18 @@ public class CommunityMembersServiceImpl implements CommunityMembersService {
     }
 
     @Override
-    public Community getCommunityById(Long communityId){
+    public Community getCommunityById(UUID communityId){
         return communityRepository.findById(communityId)
                 .orElseThrow(() -> new RuntimeException("Community not found!!!"));
     }
 
     @Override
-    public boolean isExist(Community community, User user) {
-        return communityMembersRepository.findByCommunityAndUsers(community, user).isPresent();
+    public CommunityMembers isExist(Community community, User user) {
+        return communityMembersRepository.findByCommunityAndUsers(community, user);
     }
 
     @Override
-    public Map<String, Object> getCommunityMembersResponse(Long id) {
+    public Map<String, Object> getCommunityMembersResponse(UUID id) {
         Map<String, Object> response = new HashMap<>();
 
         List<CommunityMembers> communityMembers = getCommunityMembers(id);
@@ -80,6 +86,7 @@ public class CommunityMembersServiceImpl implements CommunityMembersService {
             userMap.put("id", user.getId());
             userMap.put("username", user.getUsername());
             userMap.put("email", user.getEmail());
+            userMap.put("role", communityMember.getRole());
 
             userList.add(userMap);
         }
@@ -114,5 +121,10 @@ public class CommunityMembersServiceImpl implements CommunityMembersService {
         response.put("community", communityList);
 
         return response;
+    }
+
+    @Override
+    public CommunityMembers saveCommunityMember(CommunityMembers communityMembers) {
+        return communityMembersRepository.save(communityMembers);
     }
 }
