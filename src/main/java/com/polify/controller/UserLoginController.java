@@ -183,7 +183,7 @@ public class UserLoginController {
         }
     }
 
-    @PostMapping(path = "reset-password", consumes = "application/json", produces = "application/json")
+    @PostMapping(path = ProjectUtils.VERIFY_FORGOT_PASSWORD, consumes = "application/json", produces = "application/json")
     public ResponseEntity<Map> resetForgotPassword(@RequestParam(required = false) String token, @RequestBody Map<String, String> body ){
         try {
             DecodedJWT decodedToken = JWT.decode(token);
