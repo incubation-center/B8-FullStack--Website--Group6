@@ -162,9 +162,9 @@ function CreateCommunity() {
   };
 
   return (
-    <div className="h-screen fixed z-10 inset-0 overflow-y-auto flex items-center justify-center">
+    <div className="h-screen lg:fixed z-20 lg:inset-0 overflow-y-auto flex items-center justify-center">
       <div
-        className="fixed z-10 inset-0 bg-gray-500 opacity-60"
+        className="lg:fixed z-20 lg:inset-0 bg-gray-500 opacity-60"
         onClick={handleCloseCreateCommunity}
       ></div>
       {isLoading ? (

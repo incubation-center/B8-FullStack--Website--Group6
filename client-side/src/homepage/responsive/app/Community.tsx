@@ -98,7 +98,7 @@ function Community() {
         <div>
           {/* <h1 className="mt-4 px-4">Favorite</h1>
           <AddedFavorite /> */}
-
+          <h1 className="mt-6 px-4">Your Community</h1>
           <UserCommunity />
         </div>
       ) : null}
