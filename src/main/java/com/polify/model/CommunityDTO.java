@@ -18,10 +18,6 @@ public class CommunityDTO {
     private String communityName;
 
     @Getter
-    @JsonProperty("communityDescription")
-    private String communityDescription;
-
-    @Getter
     @JsonProperty("userId")
     private List<Long> userId;
 }

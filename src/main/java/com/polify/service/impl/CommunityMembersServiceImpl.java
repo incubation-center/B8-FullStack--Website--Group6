@@ -66,12 +66,10 @@ public class CommunityMembersServiceImpl implements CommunityMembersService {
             .orElseThrow(() -> new RuntimeException("Community not found!!!"));
 
         String name = community.getCommunityName();
-        String description = community.getCommunityDescription();
         LocalDate dateCreated = community.getDateCreated();
 
         response.put("id", id);
         response.put("name", name);
-        response.put("description", description);
         response.put("dateCreated", dateCreated);
 
         List<Map<String, Object>> userList = new ArrayList<>();
@@ -110,7 +108,6 @@ public class CommunityMembersServiceImpl implements CommunityMembersService {
             Community community = communityMember.getCommunity();
             communityMap.put("id", community.getId());
             communityMap.put("name", community.getCommunityName());
-            communityMap.put("description", community.getCommunityDescription());
 
             communityList.add(communityMap);
         }

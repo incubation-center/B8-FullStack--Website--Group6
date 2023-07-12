@@ -20,9 +20,6 @@ public class Community {
     @Column(name = "community_name", nullable = false)
     private String communityName;
 
-    @Column(name = "community_description")
-    private String communityDescription;
-
     @Getter
     @Setter
     @Column(name = "image")
@@ -39,9 +36,8 @@ public class Community {
     public void onCreate(){
         dateCreated = LocalDate.now();
     }
-    public Community(String communityName, String communityDescription) {
+    public Community(String communityName) {
         this.communityName = communityName;
-        this.communityDescription = communityDescription;
     }
 
     public Long id() {
@@ -58,14 +54,6 @@ public class Community {
 
     public void setCommunityName(String communityName) {
         this.communityName = communityName;
-    }
-
-    public String getCommunityDescription() {
-        return communityDescription;
-    }
-
-    public void setCommunityDescription(String communityDescription) {
-        this.communityDescription = communityDescription;
     }
 
     public LocalDate getDateCreated() {

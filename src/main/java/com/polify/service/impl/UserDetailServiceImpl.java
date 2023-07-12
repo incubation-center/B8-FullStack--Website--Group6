@@ -44,8 +44,15 @@ public class UserDetailServiceImpl implements UserAccountService {
     public User getByEmail(String email){return userRepository.findUserByEmail(email);}
 
     @Override
-    public List<User> getAllUser() {
-        return userRepository.findAll();
+    public List<User> getAllUser(Long id) {
+        List<User> result = new ArrayList<>();
+        List<User> allUsers = userRepository.findAll();
+        for (User user: allUsers){
+            if (user.getId() != id){
+                result.add(user);
+            }
+        }
+        return result;
     }
 
     @Override

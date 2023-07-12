@@ -62,7 +62,6 @@ public class CommunityController {
 
         Community community = new Community();
         community.setCommunityName(communityDTO.getCommunityName());
-        community.setCommunityDescription(communityDTO.getCommunityDescription());
         community.setUsers(creator);
         community.setImage(file_name);
         Community savedCommunity = communityService.addCommunity(community);
