@@ -4,6 +4,7 @@ import com.polify.entity.Community;
 import com.polify.entity.User;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface CommunityService {
 
@@ -13,6 +14,8 @@ public interface CommunityService {
 
     public User getUserById(Long id);
 
-    public List<Community> getCommunity(Long user_id);
+    public List<Community> getCommunityByUserId(Long user_id);
+
+    public Community getCommunityById(UUID id);
 
 }

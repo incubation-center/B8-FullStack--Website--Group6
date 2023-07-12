@@ -1,11 +1,13 @@
 package com.polify.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @Table(name = "community")
@@ -14,8 +16,9 @@ import java.util.Date;
 @NoArgsConstructor
 public class Community {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue
+    @Type(type = "uuid-char")
+    private UUID id;
 
     @Column(name = "community_name", nullable = false)
     private String communityName;
@@ -40,11 +43,11 @@ public class Community {
         this.communityName = communityName;
     }
 
-    public Long id() {
+    public UUID id() {
         return id;
     }
 
-    public void community_id(Long id) {
+    public void community_id(UUID id) {
         this.id = id;
     }
 
