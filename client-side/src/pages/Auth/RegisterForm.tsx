@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
-// import { BsFacebook } from "react-icons/bs";
-// import { FaGithub, FaTwitter } from "react-icons/fa";
 import pollifyLogo from "../../assets/PolliFy.png";
 import GoogleLogin, {
   GoogleLoginResponse,
@@ -89,7 +87,7 @@ const RegisterForm = () => {
     const userData = { username, email, password };
     try {
       // Perform API call to sign up with the backend
-      let response = await fetch(`${apiURL}/api/v1/register-user`, {
+      let response = await fetch(`${apiURL}/register-user`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

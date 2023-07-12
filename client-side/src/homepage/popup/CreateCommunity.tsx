@@ -16,7 +16,7 @@ import {
   setInvitedUsers,
 } from "../../redux/slices/Community";
 import { User } from "../../types/redux/community";
-import { apiURL, accessToken } from "../../config/config";
+import { apiURL } from "../../config/config";
 
 function CreateCommunity() {
   const dispatch = useDispatch();
@@ -32,6 +32,9 @@ function CreateCommunity() {
 
   // style
   const height = invitedUsers.length !== 0 ? "h-20" : "h-auto";
+
+  // token
+  const accessToken = localStorage.getItem("accessToken");
 
   const handleUplaodImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
@@ -61,7 +64,7 @@ function CreateCommunity() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${apiURL}/api/v1/user/all`, {
+        const response = await fetch(`${apiURL}/user/all`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -131,7 +134,7 @@ function CreateCommunity() {
 
     const createCommunity = async () => {
       try {
-        const response = await fetch(`${apiURL}/api/v1/community`, {
+        const response = await fetch(`${apiURL}/community`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

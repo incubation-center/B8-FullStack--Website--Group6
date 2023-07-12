@@ -12,18 +12,17 @@ import UserCommunity from "./UserCommunity";
 import { openCreateCommunity } from "../../../redux/slices/Community";
 import CreateCommunity from "../../popup/CreateCommunity";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { apiURL, accessToken } from "../../../config/config";
+import { apiURL } from "../../../config/config";
 import { setUserCommunity } from "../../../redux/slices/UserCommunity";
+import { setSearchTerm } from "../../../redux/slices/Community";
 
 function Community() {
   const dispatch = useDispatch();
-  const { isCreateCommunityOpen } = useSelector(
+  const { isCreateCommunityOpen, searchTerm } = useSelector(
     (state: RootState) => state.community
   );
   const { community } = useSelector((state: RootState) => state.userCommunity);
 
-  const queryClient: QueryClient = new QueryClient();
-  const [searchQuery, setSearchQuery] = useState<string>("");
   const handleCreateCommunity = () => {
     dispatch(openCreateCommunity());
   };
@@ -32,14 +31,12 @@ function Community() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `${apiURL}/api/v1/community_members/user`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        const accessToken = localStorage.getItem("accessToken");
+        const response = await fetch(`${apiURL}/community_members/user`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
 
         if (response.ok) {
           const userCommunity = await response.json();
@@ -74,11 +71,11 @@ function Community() {
       <div className="line border border-gray-200 ml-5 mr-5 lg:hidden"></div>
       <div className="search-community-field relative mt-5 px-4 flex justify-center">
         <div className="w-full left-7 absolute inset-y-0 flex items-center pointer-events-none">
-          <AiOutlineSearch className="text-gray-400 w-5 h-5" />
+          <AiOutlineSearch className="text-blue-custom w-5 h-5" />
         </div>
         <input
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
+          value={searchTerm}
+          onChange={(e) => dispatch(setSearchTerm(e.target.value))}
           type="text"
           placeholder="Search Community"
           className="py-2 px-4 pl-9 border-2 border-gray-300 w-full rounded-full focus:outline-none focus:border-blue-500"
@@ -101,7 +98,7 @@ function Community() {
           <AddedFavorite />
 
           <h1 className="mt-4 px-4">Your Community</h1>
-          <UserCommunity searchQuery={searchQuery} />
+          <UserCommunity />
         </div>
       ) : null}
     </div>
