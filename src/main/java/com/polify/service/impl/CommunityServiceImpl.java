@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CommunityServiceImpl implements CommunityService {
@@ -37,8 +38,14 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
-    public List<Community> getCommunity(Long user_id) {
+    public List<Community> getCommunityByUserId(Long user_id) {
         return communityRepository.findByUsersId(user_id);
+    }
+
+    @Override
+    public Community getCommunityById(UUID id) {
+        return communityRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Community not found!!!"));
     }
 
 }

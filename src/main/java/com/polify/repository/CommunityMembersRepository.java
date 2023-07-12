@@ -8,13 +8,14 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface CommunityMembersRepository extends JpaRepository<CommunityMembers, Long> {
 
     List<CommunityMembers> findByUsersId(Long user_id);
 
-    List<CommunityMembers> findByCommunityId(Long community_id);
+    List<CommunityMembers> findByCommunityId(UUID community_id);
 
-    Optional<CommunityMembers> findByCommunityAndUsers(Community community, User user);
+    CommunityMembers findByCommunityAndUsers(Community community, User user);
 }

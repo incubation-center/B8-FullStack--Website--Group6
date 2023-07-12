@@ -13,10 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping(ProjectUtils.POLL_URL)
@@ -30,7 +27,7 @@ public class PollController {
     @Autowired
     private UserAccountService userAccountService;
     @GetMapping(path = "community/{community_id}")
-    public List<Map<String, Object>> getCommunityPoll(@PathVariable Long community_id, Authentication authentication){
+    public List<Map<String, Object>> getCommunityPoll(@PathVariable UUID community_id, Authentication authentication){
         List<Map<String, Object>> pollResult = new ArrayList<>();
         List<Poll> pollList = pollService.getCommunityPoll(community_id);
 
@@ -56,7 +53,7 @@ public class PollController {
     }
 
     @PostMapping(path = "community/{community_id}")
-    public ResponseEntity<Map<String, Object>> addPoll(@RequestBody PollDTO pollDTO, @PathVariable Long community_id, Authentication authentication){
+    public ResponseEntity<Map<String, Object>> addPoll(@RequestBody PollDTO pollDTO, @PathVariable UUID community_id, Authentication authentication){
 
         Poll poll = new Poll();
 

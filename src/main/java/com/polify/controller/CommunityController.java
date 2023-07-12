@@ -16,10 +16,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.Console;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(ProjectUtils.COMMUNITY_URL)
@@ -39,9 +41,9 @@ public class CommunityController {
         return communityService.getAllCommunity();
     }
 
-    @GetMapping(path = "{user_id}")
+    @GetMapping(path = "/user/{user_id}")
     public List<Community> getCommunity(@PathVariable Long user_id){
-        return communityService.getCommunity(user_id);
+        return communityService.getCommunityByUserId(user_id);
     }
 
     @PostMapping(value = "", consumes = "multipart/form-data")
@@ -67,13 +69,10 @@ public class CommunityController {
         Community savedCommunity = communityService.addCommunity(community);
 
         List<Long> userIdList = communityDTO.getUserId();
-        userIdList.add(0, creator.getId());
+        communityMembersService.addCommunityMembers(community, creator, "owner");
         for (Long userId : userIdList) {
-            CommunityMembers communityMembers = new CommunityMembers();
-            communityMembers.setCommunity(savedCommunity);
             User user = communityService.getUserById(userId);
-            communityMembers.setUsers(user);
-            communityMembersService.addCommunityMembers(communityMembers);
+            communityMembersService.addCommunityMembers(community, user, "poller");
         }
 
         Object resCommunity = communityMembersService.getCommunityMembersResponse(savedCommunity.getId());
@@ -81,6 +80,36 @@ public class CommunityController {
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
         response.put("community", resCommunity);
+        response.put("file_url", file_url);
+
+        return response;
+    }
+
+    @PutMapping(consumes = "multipart/form-data", path = "/{id}")
+    public Map<String, Object> updateCommunity(CommunityDTO communityDTO,
+                                               @RequestPart(name = "file", required = false) MultipartFile file,
+                                               @PathVariable UUID id) throws IOException{
+        Community community = communityService.getCommunityById(id);
+
+        String uploadUrl = ProjectUtils.FILE_URL;
+        String file_name;
+        if (file != null) {
+            byte[] fileBytes = file.getBytes();
+            String fileName = file.getOriginalFilename();
+            file_name = Utils.uploadFile(fileBytes, fileName);
+        }
+        else{
+            file_name = community.getImage();
+        }
+        String file_url = uploadUrl + "/files/" + file_name;
+        community.setCommunityName(communityDTO.getCommunityName());
+        community.setImage(file_name);
+
+
+        Community updatedCommunity = communityService.addCommunity(community);
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("community", updatedCommunity);
         response.put("file_url", file_url);
 
         return response;
