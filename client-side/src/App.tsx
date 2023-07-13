@@ -17,25 +17,56 @@ import Dashboard from "./homepage/Dashboard";
 import Community from "./homepage/responsive/app/Community";
 import CommunityProfile from "./homepage/responsive/app-community-detail/CommunityProfile";
 import CreatePollPopup from "./homepage/popup/CreatePollPopup";
+import ProtectedRoute from "./ProtectedRoute";
 
 const App = () => {
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/user/sign_in" replace />} />
-      <Route path="/community" element={<Dashboard />} />
-      <Route path="/community/:id" element={<Dashboard />} />
+
       <Route path="/user/sign_up" element={<RegisterForm />} />
       <Route path="/user/sign_in" element={<LoginForm />} />
       <Route path="/user/forgot_password" element={<ForgotPassword />} />
+      <Route path="/test" element={<CreatePollPopup />} />
+      <Route path="/auth/verification" element={<OtpVerification />} />
+      <Route path="/user/reset_password" element={<ResetPassword />} />
       <Route
         path="/auth/verify_forgot_password"
         element={<ForgotPasswordOtp />}
       />
-      <Route path="/user/reset_password" element={<ResetPassword />} />
-      <Route path="/responsive" element={<Community />} />
-      <Route path="/communitydetail" element={<CommunityProfile />} />
-      <Route path="/test" element={<CreatePollPopup />} />
-      <Route path="/auth/verification" element={<OtpVerification />} />
+
+      <Route
+        path="/responsive"
+        element={
+          <ProtectedRoute>
+            <Community />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/communitydetail"
+        element={
+          <ProtectedRoute>
+            <CommunityProfile />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/community"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/community/:id"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 };
