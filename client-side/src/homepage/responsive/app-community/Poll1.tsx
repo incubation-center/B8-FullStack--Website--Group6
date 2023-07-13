@@ -20,6 +20,7 @@ function Poll1({
   // Show Alert message
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState<any>("success");
 
   // Option Click handler
   const handleOptionClick = async (optionId: number) => {
@@ -37,23 +38,27 @@ function Poll1({
       if (response.status === 200) {
         setNewOption(response.data.options);
         console.log("polling", response.data);
+        setAlertType("success");
         setShowAlert(true);
         setAlertMessage("You have voted successfully!");
-        window.location.reload();
+        setTimeout(function () {
+          window.location.reload();
+        }, 2000);
       }
     } catch (error) {
+      setAlertType("error");
       setShowAlert(true);
       setAlertMessage("You can only vote once per poll!");
       setTimeout(function () {
         setShowAlert(false);
         setAlertMessage("");
-      }, 5000);
+      }, 4000);
     }
   };
 
   return (
     <div className="poll1 flex flex-col border h-fit bg-white rounded-md p-5">
-      <Alert variant="success" message={alertMessage} showAlert={showAlert} />
+      <Alert variant={alertType} message={alertMessage} showAlert={showAlert} />
       <div className=" userChart flex justify-between items-center">
         <div className="User flex relative">
           <img
