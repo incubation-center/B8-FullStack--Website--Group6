@@ -57,10 +57,6 @@ const RegisterForm = () => {
     dispatch(setIsAgree(!isAgree));
   };
 
-  const handleSignInInstead = () => {
-    navigate("/user/sign_in");
-  };
-
   // Sign up via gmail
   useEffect(() => {
     function start() {
@@ -136,7 +132,7 @@ const RegisterForm = () => {
             src={pollifyLogo}
             alt="Pollify Logo"
           />
-          <h1 className="text-lg font-bold">Welcome to Materio!👋🏻</h1>
+          <h1 className="text-lg font-bold">Welcome to Pollify!👋🏻</h1>
           <small>Please register your account and start the adventure</small>
         </div>
         <div className="flex justify-center flex-col">
@@ -206,7 +202,6 @@ const RegisterForm = () => {
             <Link
               to="/user/sign_in"
               className="text-blue-custom font-bold hover:opacity-70"
-              onClick={handleSignInInstead}
             >
               Sign in instead
             </Link>

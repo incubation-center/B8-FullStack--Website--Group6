@@ -32,10 +32,6 @@ const LoginForm = () => {
     setPassword(event.target.value);
   };
 
-  const handleSignUpInstead = () => {
-    navigate("/user/sign_up");
-  };
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!email || !password) {
@@ -86,8 +82,8 @@ const LoginForm = () => {
           <img src={MainLogo} alt="Pollify logo" />
         </div>
         <div className="pb-5">
-          <h2 className="text-lg font-bold">Welcome To Materio!👋🏻</h2>
-          <small>Please register your account and start the adventure</small>
+          <h2 className="text-lg font-bold">Welcome To Pollify!👋🏻</h2>
+          <small>Please log in to your account and start the adventure</small>
         </div>
         <div>
           <input
@@ -129,12 +125,12 @@ const LoginForm = () => {
           <label className="text-sm" htmlFor="rememberMe">
             Remember me
           </label>
-          <a
-            className="ml-auto text-sm text-[#2D9CDB] hover:opacity-80"
-            href="#forgot"
+          <Link
+            to="/user/forgot_password"
+            className="text-blue-custom ml-auto text-sm hover:opacity-80"
           >
             Forgot password?
-          </a>
+          </Link>
         </div>
         <div className="flex items-center justify-between">
           <button
@@ -149,7 +145,6 @@ const LoginForm = () => {
           <Link
             to="/user/sign_up"
             className="inline-block align-baseline font-bold text-sm text-[#2D9CDB] hover:opacity-70"
-            onClick={handleSignUpInstead}
           >
             Create an account
           </Link>

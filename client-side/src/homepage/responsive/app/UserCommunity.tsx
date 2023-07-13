@@ -3,7 +3,10 @@ import Ellipse1008 from "../../../assets/community/Ellipse1008.png";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { useNavigate } from "react-router-dom";
-import { setInCommunityId } from "../../../redux/slices/Community";
+import {
+  setInCommunityId,
+  setIsBackToCommunity,
+} from "../../../redux/slices/Community";
 
 interface Community {
   id: number;
@@ -35,13 +38,14 @@ function UserCommunity() {
     e.preventDefault();
     setActiveCommunity(community.id);
     dispatch(setInCommunityId(community.id));
+    dispatch(setIsBackToCommunity(false));
     localStorage.setItem("communityId", `${community.id}`);
 
     navigate(`/community/${community.id}`);
   };
 
   return (
-    <div className="profile flex flex-col pt-2 gap-y-2  mt-5 mr-1 h-80 overflow-hidden hover:overflow-auto community-scrolling">
+    <div className="profile flex flex-col pt-2 gap-y-2 mt-5 mr-1 h-[32rem] overflow-hidden hover:overflow-auto community-scrolling">
       {community
         .filter((community) => {
           return searchTerm.toLocaleLowerCase() === ""
@@ -53,7 +57,7 @@ function UserCommunity() {
             <React.Fragment key={index}>
               <div
                 ref={index === 0 ? firstButtonRef : null}
-                className={`relative flex items-center cursor-pointer py-2 px-4 ${
+                className={`relative flex items-center cursor-pointer py-2 px-4 hover:bg-blue-100 ${
                   activeCommunity === community.id &&
                   "bg-blue-100 transform -skew-x-0"
                 }`}
