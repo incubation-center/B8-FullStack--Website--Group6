@@ -99,9 +99,8 @@ function Poll1({
                   <div className="w-3 bg-blue-custom h-full rounded-full"></div>
                 ) : (
                   <div
-                    className={`w-[${
-                      option.percentage * 100
-                    }%] bg-blue-custom h-full rounded-full`}
+                    style={{ width: `${option.percentage * 100}%` }}
+                    className="bg-blue-custom h-full rounded-full"
                   ></div>
                 )}
               </div>

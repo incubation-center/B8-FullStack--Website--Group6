@@ -38,7 +38,7 @@ function CommunityProfile() {
     >
       <div className="logo-profile-createPoll flex justify-between lg:justify-end items-center mt-5 ml-5 mr-5">
         <div
-          className="flex items-center gap-x-2 lg:hidden"
+          className="flex items-center gap-x-2 lg:hidden cursor-pointer"
           onClick={handleBackToPoll}
         >
           <IoIosArrowBack className="w-6 h-6 text-blue-custom" />
@@ -72,13 +72,14 @@ function CommunityProfile() {
           <button
             id="copyButton"
             type="button"
+            onClick={() => console.log("Hello")}
             className="bg-blue-custom hover:opacity-70 text-white font-bold py-2 px-5 rounded-lg"
           >
             Copy Link
           </button>
         </div>
       </div>
-      <PopupModal isOpen={isOpen} onClose={closeModal} />
+      {/* <PopupModal isOpen={isOpen} onClose={closeModal} /> */}
       <div className="px-4 mb-3">
         <Notifications />
       </div>

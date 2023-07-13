@@ -11,7 +11,7 @@ const trophy = {
 function CreatePoll() {
   return (
     <>
-      <div className="flex flex-col w-full overflow-y-auto overflow-x-hidden h-auto">
+      <div className="relative flex flex-col w-full overflow-y-auto overflow-x-hidden h-auto">
         <div className="bg-white">
           <h1 className="text-xl font-bold mt-5 mb-11 w-full ml-10">
             Welcome to the Pollify bro TED!

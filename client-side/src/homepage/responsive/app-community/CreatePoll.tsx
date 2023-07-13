@@ -35,11 +35,11 @@ function CreatePoll() {
 
   const { username } = useSelector((state: RootState) => state.userCommunity);
   const { community } = useSelector((state: RootState) => state.userCommunity);
+  const { inCommunityId } = useSelector((state: RootState) => state.community);
 
   const communityId = localStorage.getItem("communityId");
 
   const handleCommunityProfileClick = () => {
-    console.log("Profile");
     dispatch(setIsCommunityProfileOpen(true));
     // navigate("/communitydetail");
   };
@@ -50,7 +50,6 @@ function CreatePoll() {
   };
 
   const handleBackToCommunity = () => {
-    console.log("Back");
     dispatch(setIsBackToCommunity(true));
   };
 
@@ -60,21 +59,23 @@ function CreatePoll() {
       const headers = {
         Authorization: `${accessToken}`,
       };
-      try {
-        const response = await api.get(`/poll/community/${communityId}`, {
-          headers,
-        });
-        if (response.status === 200) {
-          const pollData = response.data.reverse();
-          setPolls(pollData);
+      if (inCommunityId !== 0) {
+        try {
+          const response = await api.get(`/poll/community/${inCommunityId}`, {
+            headers,
+          });
+          if (response.status === 200) {
+            const pollData = response.data.reverse();
+            setPolls(pollData);
+          }
+        } catch (e) {
+          console.log(e);
         }
-      } catch (e) {
-        console.log(e);
       }
     };
 
     fetchPolls();
-  }, [communityId]);
+  }, [inCommunityId]);
 
   return (
     <div className="relative bg-gray-100 w-full lg:w-full md:w-screen sm:w-full font-san h-screen">
@@ -82,7 +83,7 @@ function CreatePoll() {
         <div className="logo-profile-createPoll flex justify-between items-center">
           <div className="logo-text">
             <p className="whitespace-normal text-lg hidden text-gray-700 lg:block">
-              Welcome to the Pollify bro
+              Welcome to the Pollify
               <span className="text-blue-custom font-bold uppercase">
                 {" "}
                 {username}{" "}
@@ -91,7 +92,7 @@ function CreatePoll() {
             </p>
 
             <div
-              className="flex items-center gap-x-2 lg:hidden"
+              className="flex items-center gap-x-2 lg:hidden cursor-pointer"
               onClick={handleBackToCommunity}
             >
               <IoIosArrowBack className="w-6 h-6 text-blue-custom" />
@@ -137,7 +138,7 @@ function CreatePoll() {
             <img className="w-8 h-8" src={TrophyIcon} alt="Trophy" />
           </div>
         </div>
-        {isCreatePollPopupOpen && <CreatePollPopup />}
+        {/* {isCreatePollPopupOpen && <CreatePollPopup />} */}
       </div>
       <div className="flex flex-col gap-y-5 h-[87%] lg:h-[80%] overflow-auto p-6 home-scrolling">
         {polls.length > 0 ? (

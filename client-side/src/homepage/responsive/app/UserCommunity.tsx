@@ -45,8 +45,7 @@ function UserCommunity() {
   };
 
   return (
-    <div className="profile flex flex-col pt-2 gap-y-2  mt-5 mr-1 h-80 overflow-hidden hover:overflow-auto community-scrolling">
-      <h1 className="mt-2 px-4">Your Community</h1>
+    <div className="profile flex flex-col pt-2 gap-y-2 mt-5 mr-1 h-[32rem] overflow-hidden hover:overflow-auto community-scrolling">
       {community
         .filter((community) => {
           return searchTerm.toLocaleLowerCase() === ""
@@ -57,7 +56,7 @@ function UserCommunity() {
           return (
             <React.Fragment key={index}>
               <div
-                // ref={index === 0 ? firstButtonRef : null}
+                ref={index === 0 ? firstButtonRef : null}
                 className={`relative flex items-center cursor-pointer py-2 px-4 hover:bg-blue-100 ${
                   activeCommunity === community.id &&
                   "bg-blue-100 transform -skew-x-0"
