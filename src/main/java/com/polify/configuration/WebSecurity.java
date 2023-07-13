@@ -56,7 +56,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 				.authenticated().and().addFilter(this.getJWTAuthenticationFilter())
 				.addFilter(new JWTAuthorizationFilter(authenticationManager())).sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
     }
 
 	@Autowired
