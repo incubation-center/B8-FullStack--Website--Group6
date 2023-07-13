@@ -87,6 +87,8 @@ function CreateCommunity() {
             })
           );
 
+          console.log(updatedData)
+
           dispatch(setUserData(updatedData));
         }
       } catch (error) {
