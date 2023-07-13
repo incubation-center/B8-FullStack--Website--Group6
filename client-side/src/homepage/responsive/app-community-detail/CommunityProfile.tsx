@@ -34,7 +34,7 @@ function CommunityProfile() {
     <div
       className={` ${
         isCommunityProfileOpen ? "w-full" : "w-0"
-      } absolute z-0 duration-300 right-0 lg:relative font-sans bg-white lg:w-2/6 h-full lg:flex lg:flex-col overflow-hidden`}
+      } absolute z-10 duration-300 right-0 lg:relative font-sans bg-white lg:w-2/6 h-full lg:flex lg:flex-col overflow-hidden`}
     >
       <div className="logo-profile-createPoll flex justify-between lg:justify-end items-center mt-5 ml-5 mr-5">
         <div
@@ -72,13 +72,14 @@ function CommunityProfile() {
           <button
             id="copyButton"
             type="button"
+            onClick={() => console.log("Hello")}
             className="bg-blue-custom hover:opacity-70 text-white font-bold py-2 px-5 rounded-lg"
           >
             Copy Link
           </button>
         </div>
       </div>
-      <PopupModal isOpen={isOpen} onClose={closeModal} />
+      {/* <PopupModal isOpen={isOpen} onClose={closeModal} /> */}
       <div className="px-4 mb-3">
         <Notifications />
       </div>

@@ -93,7 +93,7 @@ function Community() {
         </button>
         <h1>Create Community</h1>
       </div>
-      {isCreateCommunityOpen && <CreateCommunity />}
+      {/* {isCreateCommunityOpen && <CreateCommunity />} */}
       {community && community.length > 0 ? (
         <div>
           {/* <h1 className="mt-4 px-4">Favorite</h1>

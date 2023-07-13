@@ -83,7 +83,7 @@ function CreatePoll() {
         <div className="logo-profile-createPoll flex justify-between items-center">
           <div className="logo-text">
             <p className="whitespace-normal text-lg hidden text-gray-700 lg:block">
-              Welcome to the Pollify bro
+              Welcome to the Pollify
               <span className="text-blue-custom font-bold uppercase">
                 {" "}
                 {username}{" "}
@@ -138,7 +138,7 @@ function CreatePoll() {
             <img className="w-8 h-8" src={TrophyIcon} alt="Trophy" />
           </div>
         </div>
-        {isCreatePollPopupOpen && <CreatePollPopup />}
+        {/* {isCreatePollPopupOpen && <CreatePollPopup />} */}
       </div>
       <div className="flex flex-col gap-y-5 h-[87%] lg:h-[80%] overflow-auto p-6 home-scrolling">
         {polls.length > 0 ? (
