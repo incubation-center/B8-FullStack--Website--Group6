@@ -4,6 +4,7 @@ import { FcPieChart } from "react-icons/fc";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { BsCircle } from "react-icons/bs";
 import api from "../../../utils/api";
+import Alert from "../../../components/Popup/Alert";
 
 function Poll1({
   createdBy,
@@ -15,6 +16,11 @@ function Poll1({
 }: any) {
   // Handle options update
   const [newOption, setNewOption] = useState(options);
+
+  // Show Alert message
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+
   // Option Click handler
   const handleOptionClick = async (optionId: number) => {
     const accessToken = localStorage.getItem("accessToken");
@@ -31,16 +37,23 @@ function Poll1({
       if (response.status === 200) {
         setNewOption(response.data.options);
         console.log("polling", response.data);
-        alert("Voted Successfully!");
+        setShowAlert(true);
+        setAlertMessage("You have voted successfully!");
         window.location.reload();
       }
     } catch (error) {
-      alert("You can only vote once per poll!");
+      setShowAlert(true);
+      setAlertMessage("You can only vote once per poll!");
+      setTimeout(function () {
+        setShowAlert(false);
+        setAlertMessage("");
+      }, 5000);
     }
   };
 
   return (
     <div className="poll1 flex flex-col border h-fit bg-white rounded-md p-5">
+      <Alert variant="success" message={alertMessage} showAlert={showAlert} />
       <div className=" userChart flex justify-between items-center">
         <div className="User flex relative">
           <img
