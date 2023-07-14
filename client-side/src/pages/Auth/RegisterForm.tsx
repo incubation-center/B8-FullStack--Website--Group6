@@ -105,10 +105,6 @@ const RegisterForm = () => {
         localStorage.setItem("user-info", JSON.stringify(response));
 
         // Clear form inputs
-        dispatch(setUsername(""));
-        dispatch(setEmail(""));
-        dispatch(setPassword(""));
-        dispatch(setIsAgree(false));
         setShowPassword(false);
         navigate("/auth/verification");
       } else {
