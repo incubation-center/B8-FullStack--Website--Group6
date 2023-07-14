@@ -38,6 +38,12 @@ public class OTP {
 
     @Getter
     @Setter
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "expired_at", nullable = true)
+    private Date expiredAt;
+
+    @Getter
+    @Setter
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at", nullable = false)
