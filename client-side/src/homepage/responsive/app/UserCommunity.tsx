@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import {
   setInCommunityId,
   setIsBackToCommunity,
+  setSearchTerm,
 } from "../../../redux/slices/Community";
 
 interface Community {
@@ -39,6 +40,7 @@ function UserCommunity() {
     setActiveCommunity(community.id);
     dispatch(setInCommunityId(community.id));
     dispatch(setIsBackToCommunity(false));
+    dispatch(setSearchTerm(""));
     localStorage.setItem("communityId", `${community.id}`);
 
     navigate(`/community/${community.id}`);
@@ -48,9 +50,9 @@ function UserCommunity() {
     <div className="profile flex flex-col pt-2 gap-y-2 mt-5 mr-1 h-[32rem] overflow-hidden hover:overflow-auto community-scrolling">
       {community
         .filter((community) => {
-          return searchTerm.toLocaleLowerCase() === ""
+          return searchTerm.toLowerCase() === ""
             ? community
-            : community.name.toLocaleLowerCase().includes(searchTerm);
+            : community.name.toLowerCase().includes(searchTerm.toLowerCase());
         })
         .map((community: any, index: any) => {
           return (

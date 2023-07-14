@@ -1,4 +1,8 @@
 import React from "react";
+import SettingIcon from "../../../assets/icons/setting.svg";
+import NotificationIcon from "../../../assets/icons/notification.svg";
+import UsersIcon from "../../../assets/icons/users.svg";
+import DeleteIcon from "../../../assets/icons/trash.svg";
 import { FiSettings } from "react-icons/fi";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { MdOutlineGroups } from "react-icons/md";
@@ -10,7 +14,7 @@ const notificationICons = {
   color: "gray",
 };
 
-function Notifications() {
+function CommunitySetting() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isOpenRole, setIsOpenRole] = React.useState(false);
   const openModal = () => {
@@ -38,13 +42,25 @@ function Notifications() {
         className="flex justify-start items-center gap-x-5"
         onClick={openRoleModal}
       >
-        <FiSettings className="w-6 h-6 text-gray-500" />
+        <div>
+          <img
+            className="w-6 h-6 text-red-400"
+            src={SettingIcon}
+            alt="Setting Icon"
+          />
+        </div>
         <h1>Edit</h1>
       </div>
       <PopupModal isOpen={isOpenRole} onClose={closeRoleModal} />
       <div className="notifications flex justify-between items-center">
         <div className="toggle-btn flex gap-x-4">
-          <IoIosNotificationsOutline className="w-7 h-7 text-gray-500" />
+          <div>
+            <img
+              className="w-6 h-6 text-gray-500"
+              src={NotificationIcon}
+              alt="Notification Icon"
+            />
+          </div>
           <h1>Notification</h1>
         </div>
         <div
@@ -60,10 +76,17 @@ function Notifications() {
         </div>
       </div>
       <div
-        className="flex justify-start items-center gap-x-5 cursor-pointer"
+        className="flex justify-start items-center gap-x-4 cursor-pointer"
         onClick={openModal}
       >
-        <MdOutlineGroups className="w-6 h-6 text-gray-500" />
+        <div>
+          <img
+            className="w-6 h-6 text-gray-500"
+            src={UsersIcon}
+            alt="Users Icon"
+          />
+        </div>
+
         <h1>Add Permission</h1>
       </div>
       <AddPermission isOpen={isOpen} onClose={closeModal} />
@@ -71,4 +94,4 @@ function Notifications() {
   );
 }
 
-export default Notifications;
+export default CommunitySetting;

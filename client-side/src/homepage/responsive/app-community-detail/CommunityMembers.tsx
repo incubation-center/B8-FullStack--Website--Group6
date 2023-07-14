@@ -53,7 +53,7 @@ function CommunityMembers() {
   // console.log("communityMembersData", communityMembers);
 
   return (
-    <div className="profile flex flex-col h-80 px-4">
+    <div className="profile flex flex-col h-72 px-4">
       {communityMembers.map((user: any, index: any) => {
         return (
           <React.Fragment key={index}>

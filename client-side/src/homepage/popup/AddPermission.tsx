@@ -39,7 +39,7 @@ const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
       <div className="fixed z-20 inset-0 bg-gray-500 opacity-60"></div>
       <form
         onSubmit={handleSubmit}
-        className="fixed z-20 flex flex-col justify-between lg:justify-center items-start bg-white lg:px-3 px-6  py-6 w-full h-full lg:h-auto lg:w-2/5 rounded-lg"
+        className="fixed z-20 flex flex-col justify-between lg:justify-center items-start bg-white px-6  py-6 w-full h-full lg:h-auto lg:w-2/5 rounded-lg"
       >
         {/* <div className="flex flex-col w-full justify-center items-center">
           <h1 className=" text-blue-custom text-lg mb-4">Add Permission</h1>
