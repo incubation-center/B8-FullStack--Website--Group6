@@ -12,7 +12,7 @@ export interface User {
 }
 
 interface CommunitySate {
-  userProfile: File | null;
+  communityProfileData: string | ArrayBuffer | null;
   userCommunity: number;
   communityName: string;
   inCommunityId: number;

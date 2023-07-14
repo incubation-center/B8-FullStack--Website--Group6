@@ -3,9 +3,11 @@ import PolliFy from "../../../assets/PolliFy.png";
 import Avatar from "../../../assets/Avatar.png";
 import { MdTranslate } from "react-icons/md";
 import { IoMdNotificationsOutline, IoIosArrowBack } from "react-icons/io";
+import QrCode from "../../../assets/icons/qr-code.svg";
+import NotificationIcon from "../../../assets/icons/notification.svg";
 import Ellipse1007 from "../../../assets/community/Ellipse1007.png";
 import { BsQrCode } from "react-icons/bs";
-import Notifications from "./Notifications";
+import CommunitySetting from "./CommunitySetting";
 import CommunityMembers from "./CommunityMembers";
 import PopupModal from "../../popup/PopupModal";
 import { useSelector, useDispatch } from "react-redux";
@@ -44,9 +46,15 @@ function CommunityProfile() {
           <IoIosArrowBack className="w-6 h-6 text-blue-custom" />
           <span className="text-lg">Polls</span>
         </div>
-        <div className="translate flex gap-x-3 lg:gap-x-5 items-center lg:justify-end">
+        <div className="translate flex gap-x-3 items-center lg:justify-end">
           <MdTranslate className="w-6 h-6" />
-          <IoMdNotificationsOutline className="w-6 h-6" />
+          <div className="pr-2">
+            <img
+              className="w-6 h-6 text-gray-500"
+              src={NotificationIcon}
+              alt="Notification Icon"
+            />
+          </div>
           <h1 className="lg:text-[17px] lg:font-sans lg:font-bold">TED</h1>
           <div className="relative">
             <img
@@ -59,7 +67,7 @@ function CommunityProfile() {
         </div>
       </div>
       <div className="border border-gray-200 mt-8 lg:hidden"></div>
-      <div className="Moringa flex flex-col gap-y-3 mt-5 justify-center items-center">
+      <div className="Moringa flex flex-col gap-y-3 mt-12 justify-center items-center">
         <img
           src={Ellipse1007}
           alt="moringa"
@@ -67,8 +75,10 @@ function CommunityProfile() {
           onClick={openModal}
         />
         <h1 className="text-[15px]">Moringa</h1>
-        <div className="flex justify-center items-center gap-x-5">
-          <BsQrCode className="w-8 h-8 text-blue-custom" />
+        <div className="flex justify-center items-center gap-x-4">
+          <div className="flex justify-center items-center w-10 h-10 p-1 bg-blue-100 rounded-lg">
+            <img className="w-full h-full" src={QrCode} alt="QR Code Icon" />
+          </div>
           <button
             id="copyButton"
             type="button"
@@ -81,7 +91,7 @@ function CommunityProfile() {
       </div>
       {/* <PopupModal isOpen={isOpen} onClose={closeModal} /> */}
       <div className="px-4 mb-3">
-        <Notifications />
+        <CommunitySetting />
       </div>
       <div className="mr-1 overflow-hidden hover:overflow-auto community-scrolling">
         <CommunityMembers />
