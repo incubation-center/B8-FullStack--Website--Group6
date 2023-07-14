@@ -23,7 +23,6 @@ function CommunityMembers() {
   );
 
   useEffect(() => {
-    const communityId = localStorage.getItem("communityId");
     const fetchCommunityMembers = async () => {
       const accessToken = localStorage.getItem("accessToken");
       const headers = {

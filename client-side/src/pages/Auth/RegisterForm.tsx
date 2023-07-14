@@ -18,6 +18,7 @@ import {
   setPasswordErrorMessage,
 } from "../../redux/slices/RegisterForm";
 import { apiURL, clientId } from "../../config/config";
+import Alert from "../../components/Popup/Alert";
 
 const RegisterForm = () => {
   const dispatch = useDispatch();
@@ -26,6 +27,13 @@ const RegisterForm = () => {
   );
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
+  // Handling error with alert box
+  const [message, setMessage] = useState<string>("");
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [alertType, setAlertType] = useState<"error" | "success" | "info">(
+    "success"
+  );
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setUsername(e.target.value));
@@ -107,9 +115,17 @@ const RegisterForm = () => {
         // Registration failed, handle the error
         const errorData = await response.json();
         console.log("Registration failed:", errorData);
+        setAlertType("error");
+        setShowAlert(true);
+        setMessage(`${errorData.message}`);
+        setTimeout(function () {
+          setShowAlert(false);
+          setMessage("");
+        }, 4000);
       }
     } catch (error) {
       // Handle error response from the backend
+
       console.log("An error occurred:", error);
     }
   };
@@ -121,6 +137,7 @@ const RegisterForm = () => {
 
   return (
     <div className="flex justify-center items-center h-screen">
+      <Alert variant={alertType} message={message} showAlert={showAlert} />
       <form
         action=""
         onSubmit={handleSubmit}

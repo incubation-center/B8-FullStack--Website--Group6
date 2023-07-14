@@ -19,8 +19,9 @@ import api from "../../utils/api";
 function CreateCommunity() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const { communityName, userData, invitedUsers } =
-    useSelector((state: RootState) => state.community);
+  const { communityName, userData, invitedUsers } = useSelector(
+    (state: RootState) => state.community
+  );
 
   const [communityProfile, setCommunityProfile] = useState<File | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -232,7 +233,7 @@ function CreateCommunity() {
                 {invitedUsers.map((user, index) => {
                   return (
                     <React.Fragment key={index}>
-                      <div className="flex flex-row items-center pl-1 h-8 space-x-2 w-auto border border-blue-custom rounded-full">
+                      <div className="flex flex-row items-center pl-1 h-8 space-x-2 w-auto border border-blue-custom rounded-full ">
                         <img className="w-6 h-6" src={avatar2} alt="" />
                         <p className="text-sm text-blue-custom">
                           {user.username}
@@ -262,7 +263,7 @@ function CreateCommunity() {
                   <React.Fragment key={index}>
                     <button
                       type="button"
-                      className="flex flex-row items-center space-x-3 w-full px-1 py-3 border-b border-gray-300"
+                      className="flex flex-row items-center space-x-3 w-full px-1 py-3 border-b border-gray-300 hover:bg-gray-100"
                       onClick={(e) => handleAddUser(e, user)}
                     >
                       <img className="w-8 h-8" src={avatar3} alt="" />

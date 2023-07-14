@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PolliFy from "../../../assets/PolliFy.png";
 import Avatar from "../../../assets/Avatar.png";
 import { MdTranslate } from "react-icons/md";
@@ -17,9 +17,23 @@ import { setIsCommunityProfileOpen } from "../../../redux/slices/Community";
 function CommunityProfile() {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = React.useState(false);
+  const [hasAccess, setHasAccess] = useState(false);
   const { isCommunityProfileOpen } = useSelector(
     (state: RootState) => state.community
   );
+  const { id } = useSelector((state: RootState) => state.userCommunity);
+  const { communityMembers } = useSelector(
+    (state: RootState) => state.community
+  );
+  const currentProfile = communityMembers.find((member) => member.id === id);
+
+  useEffect(() => {
+    if (currentProfile?.role === "admin" || currentProfile?.role === "owner") {
+      setHasAccess(true);
+    } else {
+      setHasAccess(false);
+    }
+  }, [hasAccess, communityMembers]);
 
   const openModal = () => {
     setIsOpen(true);
@@ -90,10 +104,9 @@ function CommunityProfile() {
         </div>
       </div>
       {/* <PopupModal isOpen={isOpen} onClose={closeModal} /> */}
-      <div className="px-4 mb-3">
-        <CommunitySetting />
-      </div>
-      <div className="mr-1 overflow-hidden hover:overflow-auto community-scrolling">
+      <div className="px-4 mb-3">{hasAccess && <CommunitySetting />}</div>
+      <span className="text-black pl-2 pt-4">Current Members</span>
+      <div className="mr-1  overflow-hidden hover:overflow-auto community-scrolling">
         <CommunityMembers />
       </div>
     </div>
