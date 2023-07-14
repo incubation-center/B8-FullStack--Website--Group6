@@ -10,6 +10,8 @@ import { TiDelete } from "react-icons/ti";
 import { HiOutlineCamera } from "react-icons/hi";
 import { RxCrossCircled } from "react-icons/rx";
 import { setSearchTerm } from "../../redux/slices/Community";
+import { User } from "../../types/redux/community";
+import api from "../../utils/api";
 
 interface PopupModalProps {
   isOpen: boolean;
@@ -25,22 +27,70 @@ const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
   const dispatch = useDispatch();
 
-  const { communityMembers, searchTerm } = useSelector(
+  const { communityMembers, searchTerm, inCommunityId } = useSelector(
     (state: RootState) => state.community
   );
+  // Grabbing the access token
+  const accessToken = localStorage.getItem("accessToken");
 
-  console.log(communityMembers);
-  const handleSubmit = () => {
-    console.log("Submit");
+  let currentCommunityMembers = communityMembers.filter(
+    (obj) => obj.role === "poller"
+  );
+
+  const [currentMembers, setCurrentMembers] = React.useState<User[]>(
+    currentCommunityMembers
+  );
+  const [currentInvitedMembers, setCurrentInvitedMembers] = React.useState<
+    User[]
+  >([]);
+
+  function PromoteMember(user: User, id: number) {
+    setCurrentInvitedMembers([...currentInvitedMembers, user]);
+    currentCommunityMembers = currentMembers.filter((obj) => obj.id !== id);
+    setCurrentMembers(currentCommunityMembers);
+  }
+
+  function DemoteMember(user: User, id: number) {
+    setCurrentMembers([...currentMembers, user]);
+    currentCommunityMembers = currentInvitedMembers.filter(
+      (obj) => obj.id !== id
+    );
+    setCurrentInvitedMembers(currentCommunityMembers);
+  }
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    try {
+      const headers = {
+        Authorization: `${accessToken}`,
+      };
+      const roleList: any = [];
+      currentInvitedMembers.map((user) => {
+        roleList.push({ id: user.id, role: "admin" });
+      });
+      const body = { roleList };
+
+      const response = await api.put(
+        `/community_members/community/${inCommunityId}`,
+        body,
+        { headers }
+      );
+
+      console.log(response);
+      if (response.status === 200) {
+        alert("success");
+        console.log("Add member successfully");
+      }
+    } catch (error) {
+      alert("failed");
+      console.error("Error occurred:", error);
+    }
   };
 
   return (
     <div className="h-screen fixed z-20 inset-0 overflow-y-auto flex items-center justify-center">
       <div className="fixed z-20 inset-0 bg-gray-500 opacity-60"></div>
-      <form
-        onSubmit={handleSubmit}
-        className="fixed z-20 flex flex-col justify-between lg:justify-center items-start bg-white px-6  py-6 w-full h-full lg:h-auto lg:w-2/5 rounded-lg"
-      >
+      <form className="fixed z-20 flex flex-col justify-between lg:justify-center items-start bg-white px-6  py-6 w-full h-full lg:h-auto lg:w-2/5 rounded-lg">
         {/* <div className="flex flex-col w-full justify-center items-center">
           <h1 className=" text-blue-custom text-lg mb-4">Add Permission</h1>
           <button className="absolute top-6 right-7">
@@ -49,8 +99,13 @@ const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
         </div> */}
         <div className="w-full">
           <div className="flex flex-col w-full justify-center items-center">
-            <h1 className=" text-blue-custom text-lg mb-4">Add Permission</h1>
-            <button className="absolute top-6 right-4 lg:right-7">
+            <h1 className=" text-blue-custom text-lg mb-4">
+              Add Administration Permission
+            </h1>
+            <button
+              className="absolute top-6 right-4 lg:right-7"
+              onClick={onClose}
+            >
               <RxCrossCircled className="w-7 h-7 text-gray-400 hover:text-blue-custom" />
             </button>
           </div>
@@ -72,20 +127,34 @@ const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
               {/* {invitedUsers.map((user, index) => { */}
               {/* return (
                 <React.Fragment key={index}> */}
-              <div className="flex flex-row items-center pl-1 h-8 space-x-2 w-auto border border-blue-custom rounded-full">
-                <img className="w-6 h-6" src={Avatar2} alt="" />
-                <p className="text-sm text-blue-custom">POV</p>
-                <button type="button">
-                  <TiDelete className="text-blue-custom w-6 h-6" />
-                </button>
-              </div>
+
+              {currentInvitedMembers.length > 0 &&
+                currentInvitedMembers.map((user, index) => {
+                  return (
+                    <div
+                      key={user.id}
+                      className="flex flex-row items-center pl-1 h-8 space-x-2 w-auto border border-blue-custom rounded-full"
+                    >
+                      <img className="w-6 h-6" src={Avatar2} alt="" />
+                      <p className="text-sm text-blue-custom">
+                        {user.username.split(" ")[0]}
+                      </p>
+                      <button
+                        type="button"
+                        onClick={(e) => DemoteMember(user, user.id)}
+                      >
+                        <TiDelete className="text-blue-custom w-6 h-6" />
+                      </button>
+                    </div>
+                  );
+                })}
               {/* </React.Fragment>
               ); */}
               {/* })} */}
             </div>
           </div>
           <div className="w-full mt-4 lg:h-44 overflow-auto">
-            {communityMembers
+            {currentMembers
               .filter((user) => {
                 return searchTerm.toLocaleLowerCase() === ""
                   ? user
@@ -96,7 +165,8 @@ const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
                   <React.Fragment key={index}>
                     <button
                       type="button"
-                      className="flex flex-row items-center space-x-3 w-full px-1 py-3 border-b border-gray-300"
+                      onClick={(e) => PromoteMember(user, user.id)}
+                      className="flex flex-row items-center space-x-3 w-full px-1 py-3 border-b border-gray-300 hover:bg-gray-100"
                     >
                       <img className="w-8 h-8" src={Avatar3} alt="" />
                       <p className="text-sm text-black-secondary font-medium">
@@ -110,6 +180,7 @@ const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
         </div>
 
         <button
+          onClick={(e) => handleSubmit(e)}
           type="submit"
           className="w-full text-white font-bold bg-blue-custom rounded mt-4 py-3 hover:opacity-70"
         >

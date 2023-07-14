@@ -39,7 +39,7 @@ function CommunitySetting() {
   return (
     <div className="flex flex-col gap-y-5 mt-4 border-y py-5 border-gray-300">
       <div
-        className="flex justify-start items-center gap-x-5"
+        className="flex justify-start items-center gap-x-5 hover:cursor-pointer "
         onClick={openRoleModal}
       >
         <div>
@@ -52,7 +52,7 @@ function CommunitySetting() {
         <h1>Edit</h1>
       </div>
       <PopupModal isOpen={isOpenRole} onClose={closeRoleModal} />
-      <div className="notifications flex justify-between items-center">
+      {/* <div className="notifications flex justify-between items-center">
         <div className="toggle-btn flex gap-x-4">
           <div>
             <img
@@ -74,7 +74,7 @@ function CommunitySetting() {
             <CgToggleOff className="w-6 h-fit text-gray-500" />
           )}
         </div>
-      </div>
+      </div> */}
       <div
         className="flex justify-start items-center gap-x-4 cursor-pointer"
         onClick={openModal}
@@ -87,7 +87,7 @@ function CommunitySetting() {
           />
         </div>
 
-        <h1>Add Permission</h1>
+        <h1>Add Administration Permission</h1>
       </div>
       <AddPermission isOpen={isOpen} onClose={closeModal} />
     </div>

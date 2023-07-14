@@ -149,7 +149,6 @@ const CreatePollPopup = () => {
     };
 
     try {
-      const communityId = localStorage.getItem("communityId");
       const response = await api.post(
         `/poll/community/${communityId}`,
         pollData,
