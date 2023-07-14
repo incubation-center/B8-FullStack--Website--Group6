@@ -47,7 +47,7 @@ function UserCommunity() {
   };
 
   return (
-    <div className="profile flex flex-col pt-2 gap-y-2 mt-5 mr-1 h-[32rem] overflow-hidden hover:overflow-auto community-scrolling">
+    <div className="profile flex flex-col pt-2 gap-y-2 mt-5 mr-1 h-[30rem] overflow-hidden hover:overflow-auto community-scrolling">
       {community
         .filter((community) => {
           return searchTerm.toLowerCase() === ""
