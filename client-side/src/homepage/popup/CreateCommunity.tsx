@@ -7,7 +7,6 @@ import { RxCrossCircled } from "react-icons/rx";
 import avatar2 from "../../assets/userProfile/Avatar-2.png";
 import avatar3 from "../../assets/userProfile/Avatar-3.png";
 import {
-  setCommunityProfileData,
   setCommunityName,
   closeCreateCommunity,
   setUserData,
@@ -20,7 +19,7 @@ import api from "../../utils/api";
 function CreateCommunity() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const { communityProfileData, communityName, userData, invitedUsers } =
+  const { communityName, userData, invitedUsers } =
     useSelector((state: RootState) => state.community);
 
   const [communityProfile, setCommunityProfile] = useState<File | null>(null);

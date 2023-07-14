@@ -6,7 +6,6 @@ import CommunityState, {
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const initialState: CommunityState = {
-  communityProfileData: null,
   userCommunity: 0,
   communityName: "",
   inCommunityId: 0,
@@ -24,12 +23,6 @@ export const communitySlice = createSlice({
   name: UpdateCommunityAction,
   initialState: initialState,
   reducers: {
-    setCommunityProfileData: (
-      state,
-      action: PayloadAction<string | ArrayBuffer | null>
-    ) => {
-      state.communityProfileData = action.payload;
-    },
     setUserCommunity: (state, action: PayloadAction<number>) => {
       state.userCommunity = action.payload;
     },
@@ -68,7 +61,6 @@ export const communitySlice = createSlice({
 
 // Action creators are generated for each case reducer function
 export const {
-  setCommunityProfileData,
   setUserCommunity,
   setCommunityName,
   setInCommunityId,

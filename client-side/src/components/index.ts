@@ -1,2 +1,1 @@
-import ImageComponent from "./ImageComponent";
-export { ImageComponent };
+export { };
