@@ -1,5 +1,6 @@
 package com.polify.controller;
 
+import java.time.ZoneId;
 import java.util.*;
 
 import javax.security.auth.kerberos.KerberosKey;
@@ -9,6 +10,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.polify.entity.PollOption;
@@ -22,6 +24,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import java.time.LocalDateTime;
 
 import javax.mail.*;
 
@@ -74,7 +77,7 @@ public class UserLoginController {
 	 * @return the user
 	 */
     @PostMapping(ProjectUtils.REGISTER_USER_URL)
-    public ResponseEntity<Map> createUser(@Valid @RequestBody UserDTO userDTO) throws MessagingException {
+    public ResponseEntity<Map> createUser(@Valid @RequestBody UserDTO userDTO) throws MessagingException, JsonProcessingException {
         // Generate 4-digit OTP
         Random random = new Random();
         int code = 1000 + random.nextInt(9000);
@@ -85,8 +88,13 @@ public class UserLoginController {
         User existing_email =  userAccountService.getByEmail(userDTO.getEmail());
 
         if (existing_username != null || existing_email !=null) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String userJson = objectMapper.writeValueAsString(existing_username);
+
             Map<String, String> responseMap = new HashMap<>();
             responseMap.put("message", "User is already exist");
+            responseMap.put("user", userJson);
+
             return new ResponseEntity<>(
                 responseMap,
                 HttpStatus.BAD_REQUEST);
@@ -100,11 +108,22 @@ public class UserLoginController {
         Obj.setCreatedBy(user.getUsername());
         Obj.setUpdatedBy(user.getUsername());
 
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime expiredAt = now.plusMinutes(2);
+
+        Date date = Date.from(expiredAt.atZone(ZoneId.systemDefault()).toInstant());
+        Obj.setExpiredAt(date);
+
         otpService.addOtp(Obj);
+
         Utils.SendOtp(code, user, 1);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String userJson = objectMapper.writeValueAsString(user);
 
         Map<String, String> responseMap = new HashMap<>();
         responseMap.put("message", "Register successfully");
+        responseMap.put("user", userJson);
         return new ResponseEntity<>(
             responseMap,
             HttpStatus.CREATED);
@@ -131,16 +150,25 @@ public class UserLoginController {
 
         if (obj.isPresent() && obj.get().getCode() == code) {
 
-            User user_obj = userAccountService.getUserByUsername(username);
+            Date expiredAt = obj.get().getExpiredAt();
+            Date now = new Date();
 
-            user_obj.setVerified(true);
-            userAccountService.save(user_obj);
-
-            Map<String, String> responseMap = new HashMap<>();
-            responseMap.put("message", "SUCCESS");
-            return new ResponseEntity<>(
-                responseMap,
-                HttpStatus.OK);
+            if (expiredAt !=null && expiredAt.after(now)){
+                User user_obj = userAccountService.getUserByUsername(username);
+                user_obj.setVerified(true);
+                userAccountService.save(user_obj);
+                Map<String, String> responseMap = new HashMap<>();
+                responseMap.put("message", "SUCCESS");
+                return new ResponseEntity<>(
+                    responseMap,
+                    HttpStatus.OK);
+            } else {
+                Map<String, String> responseMap = new HashMap<>();
+                responseMap.put("message", "Code is expired");
+                return new ResponseEntity<>(
+                    responseMap,
+                    HttpStatus.BAD_REQUEST);
+            }
 
         } else {
             Map<String, String> responseMap = new HashMap<>();
@@ -148,7 +176,6 @@ public class UserLoginController {
             return new ResponseEntity<>(
                 responseMap,
                 HttpStatus.BAD_REQUEST);
-
         }
     }
 
@@ -163,8 +190,8 @@ public class UserLoginController {
             Authentication authResult = null;
 
             String token = JWT.create().withSubject(email)
-                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) // JWT token validity time
-                .sign(Algorithm.HMAC512(SECRET.getBytes())); // JWT Signature
+                .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                .sign(Algorithm.HMAC512(SECRET.getBytes()));
 
             Map<String, String> responseMap = new HashMap<>();
             responseMap.put("token", token);
