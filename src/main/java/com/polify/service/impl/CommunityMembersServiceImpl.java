@@ -7,6 +7,7 @@ import com.polify.repository.CommunityMembersRepository;
 import com.polify.repository.CommunityRepository;
 import com.polify.repository.UserRepository;
 import com.polify.service.CommunityMembersService;
+import com.polify.utils.ProjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -100,6 +101,7 @@ public class CommunityMembersServiceImpl implements CommunityMembersService {
     @Override
     public Map<String, Object> getUserCommunityResponse(Long id) {
         Map<String, Object> response = new HashMap<>();
+        String file_url = ProjectUtils.FILE_URL;
 
         List<CommunityMembers> communityMembers = getUserCommunity(id);
         User user = userRepository.findById(id)
@@ -115,6 +117,7 @@ public class CommunityMembersServiceImpl implements CommunityMembersService {
             Community community = communityMember.getCommunity();
             communityMap.put("id", community.getId());
             communityMap.put("name", community.getCommunityName());
+            communityMap.put("image", file_url + community.getImage());
 
             communityList.add(communityMap);
         }
