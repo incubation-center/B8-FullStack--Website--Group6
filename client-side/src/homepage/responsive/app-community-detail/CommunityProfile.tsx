@@ -123,9 +123,10 @@ function CommunityProfile() {
         </div>
       </div>
       {/* <PopupModal isOpen={isOpen} onClose={closeModal} /> */}
-      <div className="px-4 mb-3">{hasAccess && <CommunitySetting />}</div>
-      <span className="text-black pl-2 pt-4">Current Members</span>
-      <div className="mr-1  overflow-hidden hover:overflow-auto community-scrolling">
+      {/* <div className="px-4 mb-3">
+        <Notifications />
+      </div> */}
+      <div className="mr-1 overflow-hidden hover:overflow-auto community-scrolling">
         <CommunityMembers />
       </div>
     </div>

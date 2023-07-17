@@ -36,11 +36,11 @@ const RegisterForm = () => {
   );
 
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setUsername(e.target.value));
+    dispatch(setUsername((e.target.value).toLowerCase()));
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setEmail(e.target.value));
+    dispatch(setEmail((e.target.value).toLowerCase()));
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,7 +99,7 @@ const RegisterForm = () => {
         },
         body: JSON.stringify(userData),
       });
-
+    
       if (response.ok) {
         response = await response.json();
         localStorage.setItem("user-info", JSON.stringify(response));

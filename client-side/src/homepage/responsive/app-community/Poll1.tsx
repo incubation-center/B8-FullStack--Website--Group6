@@ -109,7 +109,7 @@ function Poll1({
                   {option.optionText}
                 </h1>
                 <h1 className="text-[12px] font-semibold text-blue-custom md:text-[15px]">
-                  {option.percentage * 100} %
+                  {(option.percentage * 100).toFixed(2)} %
                 </h1>
               </div>
               <div className="w-full bg-blue-100 rounded-full h-3 mb-2">
@@ -117,7 +117,7 @@ function Poll1({
                   <div className="w-3 bg-blue-custom h-full rounded-full"></div>
                 ) : (
                   <div
-                    style={{ width: `${option.percentage * 100}%` }}
+                    style={{ width: `${(option.percentage * 100).toFixed(2)}%` }}
                     className="bg-blue-custom h-full rounded-full"
                   ></div>
                 )}
