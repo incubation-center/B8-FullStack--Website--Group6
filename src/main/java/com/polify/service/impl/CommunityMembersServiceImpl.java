@@ -117,7 +117,12 @@ public class CommunityMembersServiceImpl implements CommunityMembersService {
             Community community = communityMember.getCommunity();
             communityMap.put("id", community.getId());
             communityMap.put("name", community.getCommunityName());
-            communityMap.put("image", file_url + community.getImage());
+            if (community.getImage() != null){
+                communityMap.put("image", file_url + "/" + community.getImage());
+            }
+            else {
+                communityMap.put("image", null);
+            }
 
             communityList.add(communityMap);
         }
