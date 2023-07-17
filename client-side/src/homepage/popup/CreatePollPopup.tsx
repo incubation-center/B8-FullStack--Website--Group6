@@ -126,6 +126,8 @@ const CreatePollPopup = () => {
       options,
     };
 
+    console.log("POLL DATA: ", pollData)
+
     return pollData;
   };
 
