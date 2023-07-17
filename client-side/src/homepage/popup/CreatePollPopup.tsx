@@ -175,8 +175,8 @@ const CreatePollPopup = () => {
   };
 
   return (
-    <div className='cotainer flex flex-col gap-y-5 font-sans bg-white w-full h-full mr-5 lg:justify-end'>
-      <div className='logo-profile-createPoll flex justify-between items-center mt-5 ml-5 mr-5 md:hidden lg:hidden lg:justify-end'>
+    <div className="h-screen relative lg:fixed z-20 lg:inset-0 overflow-y-auto flex lg:items-center lg:justify-center">
+      {/* <div className="logo-profile-createPoll flex justify-between items-center mt-5 ml-5 mr-5 md:hidden lg:hidden lg:justify-end">
         <div>
           <img src={PolliFy} alt='Profile 1' className='logo w-fit h-7' />
         </div>
@@ -194,7 +194,7 @@ const CreatePollPopup = () => {
           </div>
         </div>
       </div>
-      <div className='border border-gray-100 ml-5 mr-5 hd:hidden'></div>
+      <div className="border border-gray-100 ml-5 mr-5 hd:hidden"></div> */}
 
       {/* The form */}
       <div className='h-screen fixed z-10 inset-0 overflow-y-auto flex items-center justify-center'>
@@ -204,10 +204,13 @@ const CreatePollPopup = () => {
         ></div>
         <form
           onSubmit={handleCreatePoll}
-          className='w-full h-auto flex flex-col fixed z-20 bg-white p-4 md:w-3/6 md:px-8 md:pt-6 md:pb-8 md:mb-4 md:rounded-md md:shadow-md lg:w-2/6 lg:shadow-md'
+          className="w-full h-full lg:h-auto flex flex-col justify-center items-center fixed z-20 bg-white p-4 md:w-3/6 md:px-8 md:pt-6 md:pb-8 md:mb-4 md:rounded-md md:shadow-md lg:w-2/6 lg:shadow-md"
         >
-          <button className='absolute top-6 right-7' onClick={handleClosePoll}>
-            <RxCrossCircled className='w-7 h-7 text-gray-400 hover:text-blue-custom' />
+          <button
+            className="absolute top-6 right-3 lg:right-7"
+            onClick={handleClosePoll}
+          >
+            <RxCrossCircled className="w-7 h-7 text-gray-400 hover:text-blue-custom" />
           </button>
           <div className='w-full flex justify-center items-center'>
             <h1 className='text-blue-custom text-lg'>Create Poll</h1>

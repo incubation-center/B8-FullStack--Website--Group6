@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import PolliFy from "../../../assets/PolliFy.png";
 import Avatar from "../../../assets/Avatar.png";
 import { MdTranslate } from "react-icons/md";
-import { IoMdNotificationsOutline } from "react-icons/io";
+import { IoMdNotificationsOutline, IoIosArrowBack } from "react-icons/io";
 import Ellipse1007 from "../../../assets/community/Ellipse1007.png";
 import { BsQrCode } from "react-icons/bs";
 import Notifications from "./Notifications";
@@ -12,10 +12,17 @@ import QRCode from "qrcode.react";
 import api from "../../../utils/api";
 import { apiURL } from "../../../config/config";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { setIsCommunityProfileOpen } from "../../../redux/slices/Community";
 
 function CommunityProfile() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = React.useState(false);
+  const { isCommunityProfileOpen } = useSelector(
+    (state: RootState) => state.community
+  );
   const [inviteUrl, setInviteUrl] = useState("");
   const qrCodeRef = useRef(null);
 
@@ -35,19 +42,29 @@ function CommunityProfile() {
     console.log("Link copied to clipboard:", invitationLink);
   };
 
+  const handleBackToPoll = () => {
+    dispatch(setIsCommunityProfileOpen(false));
+  };
+
   return (
-    <div className='font-sans bg-white lg:w-2/6 h-full hidden lg:flex lg:flex-col'>
-      <div className='logo-profile-createPoll flex justify-between lg:justify-end items-center mt-5 ml-5 mr-5'>
-        <img
-          src={PolliFy}
-          alt='Profile 1'
-          className='logo w-fit h-7 lg:hidden'
-        />
-        <div className='translate flex gap-x-3 lg:gap-x-5 items-center lg:justify-end'>
-          <MdTranslate className='w-6 h-6' />
-          <IoMdNotificationsOutline className='w-6 h-6' />
-          <h1 className='lg:text-[17px] lg:font-sans lg:font-bold'>TED</h1>
-          <div className='relative'>
+    <div
+      className={` ${
+        isCommunityProfileOpen ? "w-full" : "w-0"
+      } absolute z-10 duration-300 right-0 lg:relative font-sans bg-white lg:w-2/6 h-full lg:flex lg:flex-col overflow-hidden`}
+    >
+      <div className="logo-profile-createPoll flex justify-between lg:justify-end items-center mt-5 ml-5 mr-5">
+        <div
+          className="flex items-center gap-x-2 lg:hidden cursor-pointer"
+          onClick={handleBackToPoll}
+        >
+          <IoIosArrowBack className="w-6 h-6 text-blue-custom" />
+          <span className="text-lg">Polls</span>
+        </div>
+        <div className="translate flex gap-x-3 lg:gap-x-5 items-center lg:justify-end">
+          <MdTranslate className="w-6 h-6" />
+          <IoMdNotificationsOutline className="w-6 h-6" />
+          <h1 className="lg:text-[17px] lg:font-sans lg:font-bold">TED</h1>
+          <div className="relative">
             <img
               src={Avatar}
               alt='Profile 1'
@@ -57,8 +74,8 @@ function CommunityProfile() {
           </div>
         </div>
       </div>
-      <div className='border border-gray-100 ml-5 mr-5 lg:hidden'></div>
-      <div className='Moringa flex flex-col gap-y-3 mt-5 justify-center items-center'>
+      <div className="border border-gray-200 mt-8 lg:hidden"></div>
+      <div className="Moringa flex flex-col gap-y-3 mt-5 justify-center items-center">
         <img
           src={Ellipse1007}
           alt='moringa'
@@ -74,17 +91,17 @@ function CommunityProfile() {
             ref={qrCodeRef}
           />
           <button
-            id='copyButton'
-            type='button'
-            onClick={handleGenerateLink}
-            className='bg-blue-custom hover:opacity-70 text-white font-bold py-2 px-5 rounded-lg'
+            id="copyButton"
+            type="button"
+            onClick={() => console.log("Hello")}
+            className="bg-blue-custom hover:opacity-70 text-white font-bold py-2 px-5 rounded-lg"
           >
             Copy Link
           </button>
         </div>
       </div>
-      <PopupModal isOpen={isOpen} onClose={closeModal} />
-      <div className='px-4 mb-3'>
+      {/* <PopupModal isOpen={isOpen} onClose={closeModal} /> */}
+      <div className="px-4 mb-3">
         <Notifications />
       </div>
       <div className='mr-1 overflow-hidden hover:overflow-auto community-scrolling'>

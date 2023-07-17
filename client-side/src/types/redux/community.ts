@@ -19,6 +19,8 @@ interface CommunitySate {
   searchTerm: string;
   communityDescription: string;
   isCreateCommunityOpen: boolean;
+  isBackToCommunity: boolean;
+  isCommunityProfileOpen: boolean;
   userData: User[];
   invitedUsers: User[];
   communityMembers: User[];
