@@ -85,6 +85,7 @@ public class CommunityController {
         return response;
     }
 
+    @CrossOrigin(origins = "https://newbootcamp.vercel.app")
     @PutMapping(consumes = "multipart/form-data", path = "/{id}")
     public Map<String, Object> updateCommunity(CommunityDTO communityDTO,
                                                @RequestPart(name = "file", required = false) MultipartFile file,
