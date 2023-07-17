@@ -78,8 +78,7 @@ public class CommunityMembersController {
         return ResponseEntity.ok(savedCommunityMembers);
     }
 
-    @CrossOrigin(origins = "https://newbootcamp.vercel.app")
-    @PutMapping(path = "/community/{id}")
+    @PostMapping(path = "/role/community/{id}")
     public ResponseEntity<Map<String, Object>> updateMemberRole(@RequestBody Map<String, List<Map<String, Object>>> body, @PathVariable UUID id){
         List<Map<String, Object>> roleList = body.get("roleList");
         System.out.println("Role List " + roleList);
