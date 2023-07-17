@@ -1,11 +1,8 @@
 import React from "react";
-import Avatar from "../../assets/Avatar.png";
-import { MdClear } from "react-icons/md";
-import Avatar1 from "../../assets/userProfile/Avatar-1.png";
-import Avatar2 from "../../assets/userProfile/Avatar-2.png";
-import Avatar3 from "../../assets/userProfile/Avatar-3.png";
-import Avatar4 from "../../assets/userProfile/Avatar-4.png";
 import { RxCrossCircled } from "react-icons/rx";
+import RoleSection from "../../components/RoleSection";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
 
 interface PopupModalProps {
   isOpen: boolean;
@@ -20,79 +17,56 @@ const clearIcons = {
 const PopupModal: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
+  // Get datas from current active community to display on UI
+  const currentCommunity = useSelector((state: RootState) => state.community);
+
+  const pollers = currentCommunity.communityMembers.filter(
+    (obj) => obj.role === "poller"
+  );
+
+  const admins = currentCommunity.communityMembers.filter(
+    (obj) => obj.role === "admin"
+  );
+
+  function onButtonClick() {
+    //
+  }
+
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto flex items-center justify-center">
       <div className="fixed inset-0 transition-opacity">
         <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
       </div>
       <div
-        className="flex flex-col justify-start bg-white rounded-lg text-center overflow-hidden shadow-xl lg:px-3 px-6 transform transition-all w-full lg:w-2/5  h-full lg:h-auto"
+        className="flex flex-col justify-start bg-white rounded-lg text-center overflow-hidden shadow-xl px-6 transform transition-all w-full lg:w-2/5  h-full lg:h-auto"
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-headline"
       >
-        <div className="bg-white pt-8">
+        <div className="bg-white pt-6">
           <div className="role flex flex-col gap-y-5">
             <div className="text-xl text-sky-500">
               <h1>Role</h1>
-              <button className="absolute top-8 right-4" onClick={onClose}>
+              <button className="absolute top-6 right-5" onClick={onClose}>
                 <RxCrossCircled className="w-7 h-7 text-gray-400 hover:text-blue-custom" />
               </button>
             </div>
             <div className="line border border-gray-200"></div>
-            <div className="admins flex flex-row items-center justify-between">
-              <span className="mr-2 font-bold">Admins</span>
-              <button className="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2 px-5 rounded-full">
-                Add
-              </button>
-            </div>
-            <div className="admin-profile flex gap-x-3">
-              <div className="admin-1 flex items-center border border-sky-500 rounded-full px-1 py-0">
-                <img src={Avatar} alt="Profile 1" className="w-10 h-10" />
-                <span className="text-sky-500">TED</span>
-              </div>
-              <div className="admin-2 flex justify-center items-center border border-sky-500 rounded-full px-1 py-0 gap-x-1">
-                <img src={Avatar1} alt="Profile 1" className="w-10 h-10" />
-                <span className="text-sky-500">Neath</span>
-                <MdClear
-                  style={clearIcons}
-                  className="bg-sky-500 rounded-full"
-                />
-              </div>
-            </div>
+            <RoleSection
+              role="Admin"
+              members={admins}
+              clearIconsStyle={clearIcons}
+              onClearClick={onButtonClick}
+              onAddClick={onButtonClick}
+            />
             <div className="line border border-gray-200"></div>
-            <div className="pollers flex flex-row items-center justify-between">
-              <span className="mr-2 font-bold">Pollers</span>
-              <button className="bg-sky-500 hover:bg-sky-600 text-white font-semibold py-2 px-5 rounded-full">
-                Add
-              </button>
-            </div>
-            <div className="poller-profile flex gap-x-3">
-              <div className="poller-1 flex justify-center items-center border border-sky-500 rounded-full px-1 py-0 gap-x-1">
-                <img src={Avatar2} alt="Profile 1" className="w-10 h-10" />
-                <span className="text-sky-500">Hakley</span>
-                <MdClear
-                  style={clearIcons}
-                  className="bg-sky-500 rounded-full"
-                />
-              </div>
-              <div className="poller-2 flex justify-center items-center border border-sky-500 rounded-full px-1 py-0 gap-x-1">
-                <img src={Avatar3} alt="Profile 1" className="w-10 h-10" />
-                <span className="text-sky-500">Leak</span>
-                <MdClear
-                  style={clearIcons}
-                  className="bg-sky-500 rounded-full"
-                />
-              </div>
-              <div className="poller-3 flex justify-center items-center border border-sky-500 rounded-full px-1 py-0 gap-x-1">
-                <img src={Avatar4} alt="Profile 1" className="w-10 h-10" />
-                <span className="text-sky-500">Bunchhean</span>
-                <MdClear
-                  style={clearIcons}
-                  className="bg-sky-500 rounded-full"
-                />
-              </div>
-            </div>
+            <RoleSection
+              role="Pollers"
+              members={pollers}
+              clearIconsStyle={clearIcons}
+              onClearClick={onButtonClick}
+              onAddClick={onButtonClick}
+            />
           </div>
         </div>
         {/* <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">

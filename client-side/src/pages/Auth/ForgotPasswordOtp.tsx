@@ -25,7 +25,6 @@ const ForgotPasswordOtp = () => {
   );
 
   const { email } = useSelector((state: RootState) => state.auth);
-  console.log("email", email);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -72,7 +71,6 @@ const ForgotPasswordOtp = () => {
       });
 
       if (response.status === 200) {
-        console.log("Success", response);
         const { token } = response.data;
         localStorage.setItem("forgotpassword-accesstoken", token);
         dispatch(setIsValid(true));

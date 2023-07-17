@@ -1,4 +1,8 @@
 import React from "react";
+import SettingIcon from "../../../assets/icons/setting.svg";
+import NotificationIcon from "../../../assets/icons/notification.svg";
+import UsersIcon from "../../../assets/icons/users.svg";
+import DeleteIcon from "../../../assets/icons/trash.svg";
 import { FiSettings } from "react-icons/fi";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { MdOutlineGroups } from "react-icons/md";
@@ -10,7 +14,7 @@ const notificationICons = {
   color: "gray",
 };
 
-function Notifications() {
+function CommunitySetting() {
   const [isOpen, setIsOpen] = React.useState(false);
   const [isOpenRole, setIsOpenRole] = React.useState(false);
   const openModal = () => {
@@ -35,16 +39,28 @@ function Notifications() {
   return (
     <div className="flex flex-col gap-y-5 mt-4 border-y py-5 border-gray-300">
       <div
-        className="flex justify-start items-center gap-x-5"
+        className="flex justify-start items-center gap-x-5 hover:cursor-pointer "
         onClick={openRoleModal}
       >
-        <FiSettings className="w-6 h-6 text-gray-500" />
+        <div>
+          <img
+            className="w-6 h-6 text-red-400"
+            src={SettingIcon}
+            alt="Setting Icon"
+          />
+        </div>
         <h1>Edit</h1>
       </div>
       <PopupModal isOpen={isOpenRole} onClose={closeRoleModal} />
-      <div className="notifications flex justify-between items-center">
+      {/* <div className="notifications flex justify-between items-center">
         <div className="toggle-btn flex gap-x-4">
-          <IoIosNotificationsOutline className="w-7 h-7 text-gray-500" />
+          <div>
+            <img
+              className="w-6 h-6 text-gray-500"
+              src={NotificationIcon}
+              alt="Notification Icon"
+            />
+          </div>
           <h1>Notification</h1>
         </div>
         <div
@@ -58,17 +74,24 @@ function Notifications() {
             <CgToggleOff className="w-6 h-fit text-gray-500" />
           )}
         </div>
-      </div>
+      </div> */}
       <div
-        className="flex justify-start items-center gap-x-5 cursor-pointer"
+        className="flex justify-start items-center gap-x-4 cursor-pointer"
         onClick={openModal}
       >
-        <MdOutlineGroups className="w-6 h-6 text-gray-500" />
-        <h1>Add Permission</h1>
+        <div>
+          <img
+            className="w-6 h-6 text-gray-500"
+            src={UsersIcon}
+            alt="Users Icon"
+          />
+        </div>
+
+        <h1>Add Administration Permission</h1>
       </div>
       <AddPermission isOpen={isOpen} onClose={closeModal} />
     </div>
   );
 }
 
-export default Notifications;
+export default CommunitySetting;

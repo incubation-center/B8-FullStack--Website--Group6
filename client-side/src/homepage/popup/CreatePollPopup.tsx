@@ -151,7 +151,6 @@ const CreatePollPopup = () => {
     };
 
     try {
-      const communityId = localStorage.getItem("communityId");
       const response = await api.post(
         `/poll/community/${communityId}`,
         pollData,
@@ -168,7 +167,6 @@ const CreatePollPopup = () => {
         // Clear form inputs
         dispatch(closeCreatePollPopup());
       }
-      
     } catch (error) {
       console.error("Error occurred:", error);
     }
@@ -197,73 +195,73 @@ const CreatePollPopup = () => {
       <div className="border border-gray-100 ml-5 mr-5 hd:hidden"></div> */}
 
       {/* The form */}
-      <div className='h-screen fixed z-10 inset-0 overflow-y-auto flex items-center justify-center'>
+      <div className="h-screen fixed z-10 inset-0 overflow-y-auto flex items-center justify-center">
         <div
-          className='fixed z-10 inset-0 bg-gray-500 opacity-60'
+          className="fixed z-10 inset-0 bg-gray-500 opacity-60"
           onClick={handleClosePoll}
         ></div>
         <form
           onSubmit={handleCreatePoll}
-          className="w-full h-full lg:h-auto flex flex-col justify-center items-center fixed z-20 bg-white p-4 md:w-3/6 md:px-8 md:pt-6 md:pb-8 md:mb-4 md:rounded-md md:shadow-md lg:w-2/6 lg:shadow-md"
+          className="w-full h-full lg:h-auto flex flex-col justify-center items-center fixed z-20 bg-white p-6 md:rounded-md md:shadow-md lg:w-2/5 lg:shadow-md"
         >
           <button
-            className="absolute top-6 right-3 lg:right-7"
+            className="absolute top-6 right-4 lg:right-7"
             onClick={handleClosePoll}
           >
             <RxCrossCircled className="w-7 h-7 text-gray-400 hover:text-blue-custom" />
           </button>
-          <div className='w-full flex justify-center items-center'>
-            <h1 className='text-blue-custom text-lg'>Create Poll</h1>
+          <div className="w-full flex justify-center items-center">
+            <h1 className="text-blue-custom text-lg">Create Poll</h1>
           </div>
-          <div className='w-full flex items-start pb-1'>
-            <label className='text-gray-300 text-sm' htmlFor='question'>
+          <div className="w-full flex items-start pb-1">
+            <label className="text-gray-300 text-sm" htmlFor="question">
               Question
             </label>
           </div>
           <input
-            type='text'
-            id='question'
-            placeholder='Add question'
+            type="text"
+            id="question"
+            placeholder="Add question"
             value={pollQuestion}
             onChange={handlePollQuestionChange}
-            className='w-full px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500'
+            className="w-full px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
           />
           <br />
 
-          <div className='w-full flex items-start pb-1'>
-            <label className='text-gray-300 text-sm' htmlFor='question'>
+          <div className="w-full flex items-start pb-1">
+            <label className="text-gray-300 text-sm" htmlFor="question">
               Poll Options
             </label>
           </div>
-          <div className='w-full border rounded-md border-gray-300'>
+          <div className="w-full border rounded-md border-gray-300">
             {options.map((option, index) => (
               <div
                 key={index}
-                className='w-full flex items-start border border-gray-100 relative'
+                className="w-full flex items-start border border-gray-100 relative"
               >
-                <div className='w-full px-3 py-2 '>{option}</div>
+                <div className="w-full px-3 py-2 ">{option}</div>
 
                 {options.map((option, index) => (
                   <div key={index}>
                     <LuWrapText
                       onClick={() => handleOptionDelete(index)}
-                      className='absolute right-0 top-1 mr-3 mt-2'
+                      className="absolute right-0 top-1 mr-3 mt-2"
                     />
                   </div>
                 ))}
               </div>
             ))}
-            <div className='w-full flex relative'>
+            <div className="w-full flex relative">
               <input
-                type='text'
-                id='question'
+                type="text"
+                id="question"
                 value={newOption}
                 onChange={handleOptionChange}
-                placeholder='Add Option'
-                className='w-full px-2 py-2 border border-gray-100 focus:outline-none focus:border-blue-500'
+                placeholder="Add Option"
+                className="w-full px-2 py-2 border border-gray-100 focus:outline-none focus:border-blue-500"
               />
               <button
-                className='w-30 text-center absolute right-0 top-1 p-1 mr-3'
+                className="w-30 text-center absolute right-0 top-1 p-1 mr-3"
                 onClick={handleOptionAdd}
               >
                 +
@@ -272,44 +270,44 @@ const CreatePollPopup = () => {
           </div>
 
           <br />
-          <div className='w-full flex items-start pb-1'>
-            <label className='text-gray-300 text-sm' htmlFor='choose'>
+          <div className="w-full flex items-start pb-1">
+            <label className="text-gray-300 text-sm" htmlFor="choose">
               Let user choose
             </label>
           </div>
           <select
-            id='choose'
-            className='w-full px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500'
+            id="choose"
+            className="w-full px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
             value={limitVote}
             onChange={handleVoteChange}
           >
-            <option value='1'>1 Option</option>
-            <option value='2'>2 Option</option>
-            <option value='3'>3 Option</option>
+            <option value="1">1 Option</option>
+            <option value="2">2 Option</option>
+            <option value="3">3 Option</option>
           </select>
           <br />
-          <div className='w-full flex items-start pb-1'>
-            <label className='text-gray-300 text-sm' htmlFor='limit'>
+          <div className="w-full flex items-start pb-1">
+            <label className="text-gray-300 text-sm" htmlFor="limit">
               Time Limit
             </label>
           </div>
           <input
-            type='text'
-            id='duration'
-            placeholder='Add poll duration'
+            type="text"
+            id="duration"
+            placeholder="Add poll duration"
             value={selectedDuration}
             onChange={handleDurationChange}
-            className='w-full px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500'
+            className="w-full px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
           />
           {durationError && (
-            <p className='text-red-500 mb-2'>{durationError}</p>
+            <p className="text-red-500 mb-2">{durationError}</p>
           )}
 
           <br />
-          {error && <p className='text-red-500 mb-2'>{error}</p>}
+          {error && <p className="text-red-500 mb-2">{error}</p>}
           <button
-            type='submit'
-            className='w-full bg-blue-custom hover:opacity-70 text-white px-6 py-3 rounded-lg text-lg font-semibold'
+            type="submit"
+            className="w-full bg-blue-custom hover:opacity-70 text-white px-6 py-3 rounded-lg text-lg font-semibold"
           >
             Create
           </button>

@@ -30,14 +30,21 @@ function CreatePoll() {
     (state: RootState) => state.createPoll.isCreatePollPopupOpen
   );
 
+  // Check Access Right
+  const [hasAccess, setHasAccess] = useState(false);
+
   // fetched poll state
   const [polls, setPolls] = useState<Poll[]>([]);
 
-  const { username } = useSelector((state: RootState) => state.userCommunity);
-  const { community } = useSelector((state: RootState) => state.userCommunity);
-  const { inCommunityId } = useSelector((state: RootState) => state.community);
+  const { username, community, id } = useSelector(
+    (state: RootState) => state.userCommunity
+  );
 
-  const communityId = localStorage.getItem("communityId");
+  const { inCommunityId, communityMembers } = useSelector(
+    (state: RootState) => state.community
+  );
+
+  const currentProfile = communityMembers.find((member) => member.id === id);
 
   const handleCommunityProfileClick = () => {
     dispatch(setIsCommunityProfileOpen(true));
@@ -77,13 +84,22 @@ function CreatePoll() {
     fetchPolls();
   }, [inCommunityId]);
 
+  // Checking Access Right
+  useEffect(() => {
+    if (currentProfile?.role === "admin" || currentProfile?.role === "owner") {
+      setHasAccess(true);
+    } else {
+      setHasAccess(false);
+    }
+  }, [hasAccess, communityMembers]);
+
   return (
     <div className="relative bg-gray-100 w-full lg:w-full md:w-screen sm:w-full font-san h-screen">
       <div className="bg-white flex flex-col pl-6 pr-7 py-6 gap-y-7">
         <div className="logo-profile-createPoll flex justify-between items-center">
           <div className="logo-text">
             <p className="whitespace-normal text-lg hidden text-gray-700 lg:block">
-              Welcome to the Pollify
+              Welcome to Pollify
               <span className="text-blue-custom font-bold uppercase">
                 {" "}
                 {username}{" "}
@@ -127,16 +143,18 @@ function CreatePoll() {
             />
           </div>
 
-          <button
-            onClick={handleCreatePoll}
-            className="bg-blue-custom hover:opacity-70 text-white whitespace-nowrap rounded-full px-4 py-2.5"
-            disabled={community.length === 0}
-          >
-            Create Poll
-          </button>
-          <div className="flex justify-center items-center border border-blue-custom rounded-full w-14 h-12">
+          {hasAccess && (
+            <button
+              onClick={handleCreatePoll}
+              className="bg-blue-custom hover:opacity-70 text-white whitespace-nowrap rounded-full px-4 py-2.5"
+              disabled={community.length === 0}
+            >
+              Create Poll
+            </button>
+          )}
+          {/* <div className="flex justify-center items-center border border-blue-custom rounded-full w-14 h-12">
             <img className="w-8 h-8" src={TrophyIcon} alt="Trophy" />
-          </div>
+          </div> */}
         </div>
         {/* {isCreatePollPopupOpen && <CreatePollPopup />} */}
       </div>

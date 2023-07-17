@@ -10,6 +10,12 @@ import {
   setIsValid,
   setErrorMessage,
 } from "../../redux/slices/Otp";
+import {
+  setUsername,
+  setEmail,
+  setPassword,
+  setIsAgree,
+} from "../../redux/slices/RegisterForm";
 import { apiURL } from "../../config/config";
 
 let currentOtpIndex = 0;
@@ -21,6 +27,8 @@ const OtpVerification = () => {
   const { otpCodes, activeOtpIndex, isValid, errorMessage } = useSelector(
     (state: RootState) => state.otp
   );
+
+  const { username } = useSelector((state: RootState) => state.register);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -53,12 +61,9 @@ const OtpVerification = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const dataString = localStorage.getItem("user-info");
-    const data = dataString ? JSON.parse(dataString) : {};
-
-    const code = otpCodes.join("");
-    const username = data.username;
+    const code = parseInt(otpCodes.join(""));
     const verifyData = { username, code };
+    console.log(verifyData);
 
     try {
       // Perform API call to sign up with the backend
@@ -77,6 +82,11 @@ const OtpVerification = () => {
         // Clear form inputs
         dispatch(setOtpCodes(["", "", "", ""]));
         dispatch(setErrorMessage(""));
+        // Register Form
+        dispatch(setUsername(""));
+        dispatch(setEmail(""));
+        dispatch(setPassword(""));
+        dispatch(setIsAgree(false));
         navigate("/user/sign_in");
       } else {
         // Verification failed, handle the error

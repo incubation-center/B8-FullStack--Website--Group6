@@ -4,16 +4,7 @@ import { User } from "../../../types/redux/community";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { setCommunityMembers } from "../../../redux/slices/Community";
-import Avatar from "../../../assets/userProfile/Avatar.png";
 import Avatar1 from "../../../assets/userProfile/Avatar-1.png";
-import Avatar2 from "../../../assets/userProfile/Avatar-2.png";
-import Avatar3 from "../../../assets/userProfile/Avatar-3.png";
-import Avatar4 from "../../../assets/userProfile/Avatar-4.png";
-import Avatar5 from "../../../assets/userProfile/Avatar-5.png";
-import Avatar6 from "../../../assets/userProfile/Avatar-6.png";
-import Avatar7 from "../../../assets/userProfile/Avatar-7.png";
-import Avatar8 from "../../../assets/userProfile/Avatar-8.png";
-import Avatar9 from "../../../assets/userProfile/Avatar-9.png";
 
 function CommunityMembers() {
   const dispatch = useDispatch();
@@ -23,7 +14,6 @@ function CommunityMembers() {
   );
 
   useEffect(() => {
-    const communityId = localStorage.getItem("communityId");
     const fetchCommunityMembers = async () => {
       const accessToken = localStorage.getItem("accessToken");
       const headers = {
@@ -53,7 +43,7 @@ function CommunityMembers() {
   // console.log("communityMembersData", communityMembers);
 
   return (
-    <div className="profile flex flex-col h-80 px-4">
+    <div className="profile flex flex-col h-72 px-4">
       {communityMembers.map((user: any, index: any) => {
         return (
           <React.Fragment key={index}>

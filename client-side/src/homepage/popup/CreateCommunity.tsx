@@ -7,27 +7,24 @@ import { RxCrossCircled } from "react-icons/rx";
 import avatar2 from "../../assets/userProfile/Avatar-2.png";
 import avatar3 from "../../assets/userProfile/Avatar-3.png";
 import {
-  setUserProfile,
   setCommunityName,
-  setSearchTerm,
   closeCreateCommunity,
   setUserData,
   setInvitedUsers,
 } from "../../redux/slices/Community";
 import { User } from "../../types/redux/community";
 import { apiURL } from "../../config/config";
+import api from "../../utils/api";
 
 function CreateCommunity() {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
-  const {
-    userProfile,
-    communityName,
-    communityDescription,
-    searchTerm,
-    userData,
-    invitedUsers,
-  } = useSelector((state: RootState) => state.community);
+  const { communityName, userData, invitedUsers } = useSelector(
+    (state: RootState) => state.community
+  );
+
+  const [communityProfile, setCommunityProfile] = useState<File | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // style
   const height = invitedUsers.length !== 0 ? "h-20" : "h-auto";
@@ -37,10 +34,11 @@ function CreateCommunity() {
 
   const handleUplaodImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
-    console.log("Upload", file);
-    // error
+    const reader = new FileReader();
+    // console.log("Upload", file);
+
     if (file) {
-      dispatch(setUserProfile(file));
+      setCommunityProfile(file);
     }
   };
 
@@ -87,8 +85,6 @@ function CreateCommunity() {
             })
           );
 
-          console.log(updatedData)
-
           dispatch(setUserData(updatedData));
         }
       } catch (error) {
@@ -107,7 +103,7 @@ function CreateCommunity() {
       dispatch(setInvitedUsers(updatedInvitedUsers));
 
       // clear user input
-      dispatch(setSearchTerm(""));
+      setSearchTerm("");
     }
   };
 
@@ -125,42 +121,41 @@ function CreateCommunity() {
     e.preventDefault();
     setIsLoading(true);
     const userId = invitedUsers.map((user) => user.id);
-    const communityData = {
-      communityName,
-      communityDescription,
-      userId,
+
+    const formData = new FormData();
+    formData.append("communityName", communityName);
+    formData.append("userId", userId.join(","));
+    if (communityProfile) {
+      formData.append("file", communityProfile);
+    }
+    for (const pair of formData.entries()) {
+      console.log(pair[0], pair[1]);
+    }
+
+    const accessToken = localStorage.getItem("accessToken");
+    const headers = {
+      Authorization: `${accessToken}`,
+      "Content-Type": "multipart/form-data",
     };
 
-    const createCommunity = async () => {
-      try {
-        const response = await fetch(`${apiURL}/community`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-            Authorization: `${accessToken}`,
-          },
-          body: JSON.stringify(communityData),
-        });
+    try {
+      const response = await api.post("/community", formData, { headers });
+      console.log("responst", response);
 
-        if (response.ok) {
-          console.log("Create Community Success");
-          // Refresh the page after successfully creating the community
-          window.location.reload();
+      if (response.status === 200) {
+        console.log("Create Community Success");
+        // Refresh the page after successfully creating the community
+        window.location.reload();
 
-          // Clear form inputs
-          dispatch(setCommunityName(""));
-          dispatch(setInvitedUsers([]));
-          dispatch(closeCreateCommunity());
-        }
-      } catch (error) {
-        console.log("An error occurred:", error);
-      } finally {
-        setIsLoading(false);
+        // Clear form inputs
+        dispatch(setCommunityName(""));
+        dispatch(setInvitedUsers([]));
+        dispatch(closeCreateCommunity());
       }
-    };
-
-    createCommunity();
+    } catch (error) {
+      alert("Cannot create community");
+      console.log("Cannot create community", error);
+    }
   };
 
   return (
@@ -174,14 +169,14 @@ function CreateCommunity() {
       ) : (
         <form
           onSubmit={handleSubmit}
-          className="fixed z-20 flex flex-col justify-between lg:justify-center items-start bg-white lg:px-3 px-6 py-6 w-full h-full lg:h-auto lg:w-2/5 rounded-lg"
+          className="fixed z-20 flex flex-col justify-between lg:justify-center items-start bg-white px-6 py-6 w-full h-full lg:h-auto lg:w-2/5 rounded-lg"
         >
           <div className="flex flex-col w-full justify-center items-center">
             <h1 className=" text-blue-custom text-lg mb-4">
               Create New Community
             </h1>
             <button
-              className="absolute top-6 right-3 lg:right-5"
+              className="absolute top-6 right-4 lg:right-5"
               onClick={handleCloseCreateCommunity}
             >
               <RxCrossCircled className="w-7 h-7 text-gray-400 hover:text-blue-custom" />
@@ -191,9 +186,9 @@ function CreateCommunity() {
                 className="flex justify-center items-center bg-blue-custom bg-opacity-10 rounded-full border border-blue-custom cursor-pointer w-20 h-20"
                 htmlFor="uploadProfile"
               >
-                {userProfile ? (
+                {communityProfile ? (
                   <img
-                    src={URL.createObjectURL(userProfile)}
+                    src={URL.createObjectURL(communityProfile)}
                     alt="Selected Profile"
                     className="w-full h-full object-cover rounded-full border border-blue-custom"
                   />
@@ -209,12 +204,14 @@ function CreateCommunity() {
                 onChange={handleUplaodImage}
               />
             </div>
+
             <input
               className="text-gray-700 text-center w-full py-3 px-4 focus:outline-none"
               type="text"
               value={communityName}
               placeholder="Community Name..."
               onChange={handleCommunityNameChange}
+              required
             />
           </div>
           <div className="w-full">
@@ -225,7 +222,7 @@ function CreateCommunity() {
               type="email"
               placeholder="Type email..."
               value={searchTerm}
-              onChange={(e) => dispatch(setSearchTerm(e.target.value))}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
             <div className="flex flex-col justify-start mt-3">
               <span className="text-gray-400">Invite to Community</span>
@@ -236,7 +233,7 @@ function CreateCommunity() {
                 {invitedUsers.map((user, index) => {
                   return (
                     <React.Fragment key={index}>
-                      <div className="flex flex-row items-center pl-1 h-8 space-x-2 w-auto border border-blue-custom rounded-full">
+                      <div className="flex flex-row items-center pl-1 h-8 space-x-2 w-auto border border-blue-custom rounded-full ">
                         <img className="w-6 h-6" src={avatar2} alt="" />
                         <p className="text-sm text-blue-custom">
                           {user.username}
@@ -257,16 +254,16 @@ function CreateCommunity() {
           <div className="w-full mt-2 lg:h-44 overflow-auto">
             {userData
               .filter((user) => {
-                return searchTerm.toLocaleLowerCase() === ""
+                return searchTerm.toLowerCase() === ""
                   ? user
-                  : user.email.includes(searchTerm);
+                  : user.email.toLowerCase().includes(searchTerm.toLowerCase());
               })
               .map((user, index) => {
                 return (
                   <React.Fragment key={index}>
                     <button
                       type="button"
-                      className="flex flex-row items-center space-x-3 w-full px-1 py-3 border-b border-gray-300"
+                      className="flex flex-row items-center space-x-3 w-full px-1 py-3 border-b border-gray-300 hover:bg-gray-100"
                       onClick={(e) => handleAddUser(e, user)}
                     >
                       <img className="w-8 h-8" src={avatar3} alt="" />

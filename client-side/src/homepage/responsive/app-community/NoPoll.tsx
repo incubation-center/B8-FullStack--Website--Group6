@@ -8,9 +8,10 @@ const NoPoll = () => {
   const { community } = useSelector((state: RootState) => state.userCommunity);
 
   const communityId = localStorage.getItem("communityId");
+
   const inCommunity =
     communityId !== null
-      ? community.find((obj) => obj.id === parseInt(communityId))
+      ? community.find((obj) => obj.id.toString() === communityId.toString())
       : null;
 
   return (
