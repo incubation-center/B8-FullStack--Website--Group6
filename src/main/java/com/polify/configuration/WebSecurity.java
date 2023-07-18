@@ -53,11 +53,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                     ProjectUtils.RESET_FORGOT_PASSWORD_FULL_URL
                 )
                 // -----------------------------------------
-//                .permitAll()
-//                .antMatchers(
-//                    HttpMethod.GET,
-//                    ProjectUtils.TEST_URL
-//                )
+                .permitAll()
+                .antMatchers(
+                    HttpMethod.GET,
+                    ProjectUtils.TEST_URL
+                )
                 // -----------------------------------------
                 .permitAll()
                 .anyRequest()
