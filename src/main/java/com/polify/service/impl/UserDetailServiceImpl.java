@@ -57,6 +57,6 @@ public class UserDetailServiceImpl implements UserAccountService {
 
     @Override
     public User getUserById(Long id) {
-        return null;
+        return userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found!!!"));
     }
 }

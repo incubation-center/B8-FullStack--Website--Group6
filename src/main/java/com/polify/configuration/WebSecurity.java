@@ -52,7 +52,15 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                     ProjectUtils.VERIFY_FORGOT_PASSWORD_FULL_URL,
                     ProjectUtils.RESET_FORGOT_PASSWORD_FULL_URL
                 )
-                .permitAll().anyRequest()
+                // -----------------------------------------
+//                .permitAll()
+//                .antMatchers(
+//                    HttpMethod.GET,
+//                    ProjectUtils.TEST_URL
+//                )
+                // -----------------------------------------
+                .permitAll()
+                .anyRequest()
 				.authenticated().and().addFilter(this.getJWTAuthenticationFilter())
 				.addFilter(new JWTAuthorizationFilter(authenticationManager())).sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);

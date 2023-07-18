@@ -7,13 +7,23 @@ import com.polify.model.PollDTO;
 import com.polify.service.PollOptionService;
 import com.polify.service.PollService;
 import com.polify.service.UserAccountService;
+import com.polify.service.UserService;
 import com.polify.utils.ProjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping(ProjectUtils.POLL_URL)
@@ -26,6 +36,7 @@ public class PollController {
     private PollOptionService pollOptionService;
     @Autowired
     private UserAccountService userAccountService;
+
     @GetMapping(path = "community/{community_id}")
     public List<Map<String, Object>> getCommunityPoll(@PathVariable UUID community_id, Authentication authentication){
         List<Map<String, Object>> pollResult = new ArrayList<>();
@@ -85,8 +96,9 @@ public class PollController {
         return ResponseEntity.ok(pollMap);
     }
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<Map<String, Object>> getPoll(@PathVariable Long id, Authentication authentication) {
+    @GetMapping(path = "/{id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<Map<String, Object>> getPoll(@PathVariable Long id, Authentication authentication) throws IOException {
+
         String username = authentication.getName();
         User user = userAccountService.getUserByUsername(username);
 
@@ -99,6 +111,12 @@ public class PollController {
             options.add(pollOptionMap);
         }
         pollMap.put("options", options);
-        return ResponseEntity.ok(pollMap);
+
+        System.out.println(pollMap);
+
+        //TODO: Replace this with your file path
+        Stream<Map<String, Object>> stream = Stream.of(pollMap);
+        return Flux.fromStream(stream)
+            .delayElements(Duration.ofMillis(300));
     }
 }

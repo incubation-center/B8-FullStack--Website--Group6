@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.estabild.demo'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = "11"
 
 repositories {
 	mavenCentral()
@@ -29,8 +29,10 @@ dependencies {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
 	testImplementation 'org.springframework.security:spring-security-test'
+    implementation group: 'io.projectreactor', name: 'reactor-core', version: '3.2.8.RELEASE'
 }
 
 test {
 	useJUnitPlatform()
 }
+targetCompatibility = JavaVersion.VERSION_11
