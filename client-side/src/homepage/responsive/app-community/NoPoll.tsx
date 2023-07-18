@@ -6,6 +6,7 @@ import { RootState } from "../../../redux/store";
 const NoPoll = () => {
   const dispatch = useDispatch();
   const { community } = useSelector((state: RootState) => state.userCommunity);
+  const { inCommunityId } = useSelector((state: RootState) => state.community);
 
   const communityId = localStorage.getItem("communityId");
 

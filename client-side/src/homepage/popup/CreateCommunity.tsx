@@ -26,6 +26,11 @@ function CreateCommunity() {
   const [communityProfile, setCommunityProfile] = useState<File | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
 
+  // remove user that has been invited from the list
+  const remainingUsers = userData.filter((user) => {
+    return !invitedUsers.some((invitedUser) => invitedUser.id === user.id);
+  });
+
   // style
   const height = invitedUsers.length !== 0 ? "h-20" : "h-auto";
 
@@ -34,8 +39,6 @@ function CreateCommunity() {
 
   const handleUplaodImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
-    const reader = new FileReader();
-    // console.log("Upload", file);
 
     if (file) {
       setCommunityProfile(file);
@@ -198,10 +201,12 @@ function CreateCommunity() {
               </label>
               <input
                 id="uploadProfile"
+                name="uploadProfile"
                 type="file"
                 accept="image/*"
                 className="hidden"
                 onChange={handleUplaodImage}
+                required
               />
             </div>
 
@@ -252,7 +257,7 @@ function CreateCommunity() {
             </div>
           </div>
           <div className="w-full mt-2 lg:h-44 overflow-auto">
-            {userData
+            {remainingUsers
               .filter((user) => {
                 return searchTerm.toLowerCase() === ""
                   ? user
