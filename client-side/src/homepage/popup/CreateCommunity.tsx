@@ -201,10 +201,12 @@ function CreateCommunity() {
               </label>
               <input
                 id="uploadProfile"
+                name="uploadProfile"
                 type="file"
                 accept="image/*"
                 className="hidden"
                 onChange={handleUplaodImage}
+                required
               />
             </div>
 

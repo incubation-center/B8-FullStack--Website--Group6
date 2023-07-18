@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from "react";
-import Ellipse1008 from "../../../assets/community/Ellipse1008.png";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { useNavigate } from "react-router-dom";
@@ -50,7 +49,7 @@ function UserCommunity() {
           return (
             <React.Fragment key={index}>
               <div
-                className={`relative flex items-center cursor-pointer py-2 px-4 hover:bg-blue-100 ${
+                className={`relative flex items-center cursor-pointer py-2 px-4 gap-x-3 hover:bg-blue-100 ${
                   activeCommunityId === community.id &&
                   "bg-blue-100 transform -skew-x-0"
                 }`}
@@ -61,7 +60,7 @@ function UserCommunity() {
                   <div className="absolute w-2 h-full left-0 rounded-tr-lg rounded-br-lg bg-gradient-to-b from-cyan-400 to-blue-500 opacity-70"></div>
                 )}
                 {community.image === null ? (
-                  <div className="flex justify-center items-center w-9 h-9 rounded-full mr-2 border border-blue-500">
+                  <div className="flex justify-center items-center w-9 h-9 rounded-full border border-blue-500">
                     <span className="font-bold text-xl uppercase">
                       {community.name[0]}
                     </span>
@@ -70,7 +69,7 @@ function UserCommunity() {
                   <img
                     src={community.image}
                     alt={`Community ${community.id}`}
-                    className="w-8 h-8 rounded-full mr-2 border-2 border-blue-500 object-cover"
+                    className="w-8 h-8 rounded-full border-2 border-blue-500 object-cover"
                   />
                 )}
                 <h1>{community.name}</h1>

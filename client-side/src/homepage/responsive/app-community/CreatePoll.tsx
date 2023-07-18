@@ -1,23 +1,16 @@
 import React, { useState, useEffect } from "react";
-import Avatar from "../../../assets/Avatar.png";
 import { MdTranslate } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { AiOutlineSearch } from "react-icons/ai";
 import { IoIosArrowBack } from "react-icons/io";
 import Poll1 from "./Poll1";
-import Poll2 from "./Poll2";
-import SelectFood from "./SelectFood";
-import Rating from "./Rating";
 import { RootState } from "../../../redux/store";
-import { useNavigate } from "react-router-dom";
-import CreatePollPopup from "../../popup/CreatePollPopup";
 import { useDispatch, useSelector } from "react-redux";
 import { openCreatePollPopup } from "../../../redux/slices/CreatePoll";
 import {
   setIsBackToCommunity,
   setIsCommunityProfileOpen,
 } from "../../../redux/slices/Community";
-import PolliFy from "../../../assets/PolliFy.png";
 import { NoPoll } from "../../../homepage";
 import TrophyIcon from "../../../assets/icons/trophy.svg";
 import { Poll } from "../../../types/redux/create_poll";
@@ -26,9 +19,6 @@ import Ellipse1007 from "../../../assets/community/Ellipse1007.png";
 
 function CreatePoll() {
   const dispatch = useDispatch();
-  const isCreatePollPopupOpen = useSelector(
-    (state: RootState) => state.createPoll.isCreatePollPopupOpen
-  );
 
   // search poll
   const [searchTerm, setSearchTerm] = useState("");

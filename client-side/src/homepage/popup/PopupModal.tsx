@@ -46,7 +46,7 @@ const PopupModal: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
         aria-modal="true"
         aria-labelledby="modal-headline"
       >
-        <div className="bg-white pt-6">
+        <div className="bg-white py-6">
           <div className="role flex flex-col gap-y-5">
             <div className="text-xl text-sky-500">
               <h1>Role</h1>
