@@ -30,6 +30,9 @@ function CreatePoll() {
     (state: RootState) => state.createPoll.isCreatePollPopupOpen
   );
 
+  // search poll
+  const [searchTerm, setSearchTerm] = useState("");
+
   // Check Access Right
   const [hasAccess, setHasAccess] = useState(false);
 
@@ -141,6 +144,9 @@ function CreatePoll() {
               type="text"
               placeholder="Search Poll"
               className="py-2 px-4 pl-9 border-2 border-gray-300 w-full rounded-full focus:outline-none focus:border-blue-500"
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+              }}
             />
           </div>
 
@@ -162,17 +168,25 @@ function CreatePoll() {
       <div className="flex flex-col h-[75vh] overflow-auto p-6 home-scrolling">
         {polls?.length > 0 ? (
           <div className="flex flex-col gap-y-5">
-            {polls.map((poll: any) => (
-              <Poll1
-                key={poll.id}
-                votedOn={poll.votedOn}
-                pollId={poll.id}
-                createdBy={poll.user.createdBy}
-                pollDate={poll.user.createdAt}
-                options={poll.options}
-                pollQuestion={poll.pollQuestion}
-              />
-            ))}
+            {polls
+              .filter((poll) => {
+                return searchTerm.toLowerCase() === ""
+                  ? poll
+                  : poll.pollQuestion
+                      .toLowerCase()
+                      .includes(searchTerm.toLowerCase());
+              })
+              .map((poll: any) => (
+                <Poll1
+                  key={poll.id}
+                  votedOn={poll.votedOn}
+                  pollId={poll.id}
+                  createdBy={poll.user.createdBy}
+                  pollDate={poll.user.createdAt}
+                  options={poll.options}
+                  pollQuestion={poll.pollQuestion}
+                />
+              ))}
           </div>
         ) : (
           <NoPoll />
