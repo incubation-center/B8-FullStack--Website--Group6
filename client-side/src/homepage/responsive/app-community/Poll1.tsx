@@ -13,6 +13,7 @@ import { RootState } from "../../../redux/store";
 function Poll1({ pollId }: any) {
   // poll state
   const [pollData, setPollData] = useState<Poll | null>(null);
+  console.log("pollData", pollData);
 
   const { email } = useSelector((state: RootState) => state.userCommunity);
 
