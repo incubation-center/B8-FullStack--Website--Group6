@@ -13,6 +13,7 @@ interface Community {
   id: number;
   name: string;
   description: string;
+  image?:HTMLElement;
 }
 
 function UserCommunity() {
@@ -43,7 +44,7 @@ function UserCommunity() {
     dispatch(setSearchTerm(""));
     localStorage.setItem("communityId", `${community.id}`);
 
-    navigate(`/community/${community.id}`);
+    navigate(`/community/${community.id}`, { state: { communityName: community.name, communityImage: community.image } });
   };
 
   return (
@@ -69,16 +70,16 @@ function UserCommunity() {
                 {activeCommunity === community.id && (
                   <div className="absolute w-2 h-full left-0 rounded-tr-lg rounded-br-lg bg-gradient-to-b from-cyan-400 to-blue-500 opacity-70"></div>
                 )}
-                {/* <img
-                src={Ellipse1008}
+                <img
+                src={community.image}
                 alt={`Community ${community.id}`}
                 className="w-8 h-8 rounded-full mr-2 border-2 border-blue-500"
-              /> */}
-                <div className="flex justify-center items-center w-9 h-9 rounded-full mr-2 border border-blue-500">
+              />
+                {/* <div className="flex justify-center items-center w-9 h-9 rounded-full mr-2 border border-blue-500">
                   <span className="font-bold text-xl uppercase">
                     {community.name[0]}
                   </span>
-                </div>
+                </div> */}
                 <h1>{community.name}</h1>
               </div>
             </React.Fragment>

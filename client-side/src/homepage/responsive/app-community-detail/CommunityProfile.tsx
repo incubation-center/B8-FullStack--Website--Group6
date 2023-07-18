@@ -13,6 +13,7 @@ import PopupModal from "../../popup/PopupModal";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { setIsCommunityProfileOpen } from "../../../redux/slices/Community";
+import { useLocation } from "react-router-dom";
 
 function CommunityProfile() {
   const dispatch = useDispatch();
@@ -25,6 +26,10 @@ function CommunityProfile() {
   const { communityMembers } = useSelector(
     (state: RootState) => state.community
   );
+  const { username } = useSelector((state: RootState) => state.userCommunity);
+  const location = useLocation();
+  const communityName = location.state?.communityName || "";
+  const communityImage = location.state?.communityImage || "";
   const currentProfile = communityMembers.find((member) => member.id === id);
 
   useEffect(() => {
@@ -41,7 +46,6 @@ function CommunityProfile() {
   const closeModal = () => {
     setIsOpen(false);
   };
-
   const handleBackToPoll = () => {
     dispatch(setIsCommunityProfileOpen(false));
   };
@@ -69,26 +73,29 @@ function CommunityProfile() {
               alt="Notification Icon"
             />
           </div>
-          <h1 className="lg:text-[17px] lg:font-sans lg:font-bold">TED</h1>
+          <p className="lg:text-[17px] lg:font-sans lg:font-bold">{username}</p>
           <div className="relative">
-            <img
+            {/* <img
               src={Avatar}
               alt="Profile 1"
               className="w-10 h-10 rounded-full mr-2 border-2 border-blue-500"
-            />
-            <span className="bottom-1 left-8 absolute w-3 h-3 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
+            /> */}
+            <div className="flex justify-center items-center w-9 h-9 rounded-full mr-2 border border-blue-500">
+              <span className="font-bold text-xl uppercase">{username.slice(0,2)}</span>
+            </div>
+            <span className="bottom-1 left-7 absolute w-3 h-3 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
           </div>
         </div>
       </div>
       <div className="border border-gray-200 mt-8 lg:hidden"></div>
       <div className="Moringa flex flex-col gap-y-3 mt-12 justify-center items-center">
         <img
-          src={Ellipse1007}
+          src={communityImage}
           alt="moringa"
           className="w-16 h-16 rounded-full mr-2 border border-blue-custom cursor-pointer"
           onClick={openModal}
         />
-        <h1 className="text-[15px]">Moringa</h1>
+        <h1 className="text-[15px]">{communityName}</h1>
         <div className="flex justify-center items-center gap-x-4">
           <div className="flex justify-center items-center w-10 h-10 p-1 bg-blue-100 rounded-lg">
             <img className="w-full h-full" src={QrCode} alt="QR Code Icon" />

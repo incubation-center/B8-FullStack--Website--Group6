@@ -12,7 +12,6 @@ function CommunityMembers() {
   const { inCommunityId, communityMembers } = useSelector(
     (state: RootState) => state.community
   );
-
   useEffect(() => {
     const fetchCommunityMembers = async () => {
       const accessToken = localStorage.getItem("accessToken");
@@ -40,20 +39,27 @@ function CommunityMembers() {
     fetchCommunityMembers();
   }, [inCommunityId]);
 
-  // console.log("communityMembersData", communityMembers);
+  console.log("communityMembersData", communityMembers);
 
   return (
     <div className="profile flex flex-col h-72 px-4">
       {communityMembers.map((user: any, index: any) => {
+        console.log("user", user);
+        
         return (
           <React.Fragment key={index}>
             <div className="profile-line flex flex-col justify-center border-b border-gray-300 py-4">
               <div className="flex items-center">
-                <img
-                  src={Avatar1}
+                {/* <img
+                  src={user.avatar}
                   alt="Profile 1"
                   className="w-8 h-8 rounded-full mr-2 border-2 border-blue-500"
-                />
+                /> */}
+                <div className="flex justify-center items-center w-9 h-9 rounded-full mr-2 border border-blue-500">
+                  <span className="font-bold text-xl uppercase">
+                    {user.username.slice(0, 2)}
+                  </span>
+                </div>
                 <h1>{user.username}</h1>
               </div>
             </div>
