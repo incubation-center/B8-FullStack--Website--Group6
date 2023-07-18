@@ -97,12 +97,33 @@ public class PollController {
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<Map<String, Object>> getPoll(@PathVariable Long id, Authentication authentication) throws IOException {
+//    public Flux<Map<String, Object>> getPoll(@PathVariable Long id, Authentication authentication) throws IOException {
+//
+//        String username = authentication.getName();
+//        User user = userAccountService.getUserByUsername(username);
+//
+//        Poll poll = pollService.getPoll(id);
+//        Map<String, Object> pollMap = pollService.getPollResponse(poll, user);
+//        List<Map<String, Object>> options = new ArrayList<>();
+//        for (PollOption pollOption: pollOptionService.getPollOptionByPollId(poll.getId())) {
+//            Map<String, Object> pollOptionMap = pollOptionService.getPollOptionResponse(pollOption);
+//
+//            options.add(pollOptionMap);
+//        }
+//        pollMap.put("options", options);
+//
+//        System.out.println(pollMap);
+//
+//        //TODO: Replace this with your file path
+//        Stream<Map<String, Object>> stream = Stream.of(pollMap);
+//        return Flux.fromStream(stream)
+//            .delayElements(Duration.ofMillis(300));
+//    }
+    public Flux<Map<String, Object>> getPoll() throws IOException {
 
-        String username = authentication.getName();
-        User user = userAccountService.getUserByUsername(username);
+        User user = userAccountService.getUserById(12L);
 
-        Poll poll = pollService.getPoll(id);
+        Poll poll = pollService.getPoll(84L);
         Map<String, Object> pollMap = pollService.getPollResponse(poll, user);
         List<Map<String, Object>> options = new ArrayList<>();
         for (PollOption pollOption: pollOptionService.getPollOptionByPollId(poll.getId())) {
