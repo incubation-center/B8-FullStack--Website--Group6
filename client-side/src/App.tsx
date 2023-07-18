@@ -18,6 +18,7 @@ import Community from "./homepage/responsive/app/Community";
 import CommunityProfile from "./homepage/responsive/app-community-detail/CommunityProfile";
 import CreatePollPopup from "./homepage/popup/CreatePollPopup";
 import ProtectedRoute from "./ProtectedRoute";
+import UserProfilePage from "./pages/UserProfile/UserProfilePage";
 
 const App = () => {
   return (
@@ -64,6 +65,14 @@ const App = () => {
         element={
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/user/profile/:id"
+        element={
+          <ProtectedRoute>
+            <UserProfilePage />
           </ProtectedRoute>
         }
       />
