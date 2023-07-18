@@ -49,14 +49,6 @@ function CommunityProfile() {
     }
   }, [hasAccess, communityMembers]);
 
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-  const closeModal = () => {
-    setIsOpen(false);
-  };
-
   const handleBackToPoll = () => {
     dispatch(setIsCommunityProfileOpen(false));
   };
@@ -92,19 +84,20 @@ function CommunityProfile() {
               className="w-10 h-10 rounded-full mr-2 border-2 border-blue-500"
             /> */}
             <div className="flex justify-center items-center w-9 h-9 rounded-full mr-2 border border-blue-500">
-              <span className="font-bold text-xl uppercase">{username.slice(0,2)}</span>
+              <span className="font-bold text-xl uppercase">
+                {username.slice(0, 2)}
+              </span>
             </div>
             <span className="bottom-1 left-7 absolute w-3 h-3 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
           </div>
         </div>
       </div>
       <div className="border border-gray-200 mt-8 lg:hidden"></div>
-      <div className="Moringa flex flex-col gap-y-3 mt-12 justify-center items-center">
+      {/* <div className="Moringa flex flex-col gap-y-3 mt-12 justify-center items-center">
         <img
           src={communityImage}
           alt="moringa"
           className="w-16 h-16 rounded-full mr-2 border border-blue-custom cursor-pointer"
-          onClick={openModal}
         />
         <h1 className="text-[15px]">{communityName}</h1>
         <div className="flex justify-center items-center gap-x-4">
@@ -112,9 +105,9 @@ function CommunityProfile() {
             <img className="w-full h-full" src={QrCode} alt="QR Code Icon" />
           </div>
         </div>
-      </div>
+      </div> */}
 
-<!--       {communityId && (
+      {communityId && (
         <div className="">
           <div className="Moringa flex flex-col gap-y-3 mt-12 justify-center items-center">
             <div className="flex flex-col items-center gap-y-2">
@@ -157,7 +150,7 @@ function CommunityProfile() {
             <CommunityMembers />
           </div>
         </div>
-      )} -->
+      )}
     </div>
   );
 }
