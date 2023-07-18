@@ -81,7 +81,6 @@ public class CommunityMembersController {
     @PostMapping(path = "/role/community/{id}")
     public ResponseEntity<Map<String, Object>> updateMemberRole(@RequestBody Map<String, List<Map<String, Object>>> body, @PathVariable UUID id){
         List<Map<String, Object>> roleList = body.get("roleList");
-        System.out.println("Role List " + roleList);
 
         Community community = communityMembersService.getCommunityById(id);
 
@@ -98,6 +97,24 @@ public class CommunityMembersController {
             communityMembersService.saveCommunityMember(communityMembers);
         }
 
+        return ResponseEntity.ok(communityMembersService.getCommunityMembersResponse(id));
+    }
+
+    @PostMapping(path = "/demote/community/{id}")
+    public ResponseEntity<Map<String, Object>> demoteMemberRole(@RequestBody Map<String, Long> body, @PathVariable UUID id){
+        Long userId = body.get("id");
+
+        Community community = communityMembersService.getCommunityById(id);
+        User user = communityMembersService.getUserById(userId);
+
+        CommunityMembers communityMembers = communityMembersService.isExist(community, user);
+        if (communityMembers == null){
+            Map<String, Object> errorMessage = new HashMap<>();
+            errorMessage.put("Message", "User Id " + " is not in this community!!!");
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorMessage);
+        }
+        communityMembers.setRole("poller");
+        communityMembersService.saveCommunityMember(communityMembers);
         return ResponseEntity.ok(communityMembersService.getCommunityMembersResponse(id));
     }
 }
