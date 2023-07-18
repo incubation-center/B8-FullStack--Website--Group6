@@ -182,7 +182,7 @@ const LoginForm = () => {
                 disabled={renderProps.disabled}
               >
                 <FcGoogle className="w-5 h-5" />
-                <span className="text-sm">Sign up with Google</span>
+                <span className="text-sm">Sign in with Google</span>
               </button>
             )}
           />

@@ -55,6 +55,7 @@ function Poll1({
       }, 4000);
     }
   };
+  
 
   return (
     <div className="poll1 flex flex-col border h-fit bg-white rounded-md p-5">

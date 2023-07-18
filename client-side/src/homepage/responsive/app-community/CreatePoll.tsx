@@ -44,11 +44,12 @@ function CreatePoll() {
     (state: RootState) => state.community
   );
 
+  const communityId = localStorage.getItem("communityId");
+
   const currentProfile = communityMembers.find((member) => member.id === id);
 
   const handleCommunityProfileClick = () => {
     dispatch(setIsCommunityProfileOpen(true));
-    // navigate("/communitydetail");
   };
 
   const handleCreatePoll = () => {
@@ -66,23 +67,23 @@ function CreatePoll() {
       const headers = {
         Authorization: `${accessToken}`,
       };
-      if (inCommunityId !== 0) {
-        try {
-          const response = await api.get(`/poll/community/${inCommunityId}`, {
-            headers,
-          });
-          if (response.status === 200) {
-            const pollData = response.data.reverse();
-            setPolls(pollData);
-          }
-        } catch (e) {
-          console.log(e);
+      try {
+        const response = await api.get(`/poll/community/${communityId}`, {
+          headers,
+        });
+        if (response.status === 200) {
+          const pollData = response.data.reverse();
+          setPolls(pollData);
+
+          sessionStorage.setItem("pollData", JSON.stringify(pollData));
         }
+      } catch (e) {
+        console.log(e);
       }
     };
 
     fetchPolls();
-  }, [inCommunityId]);
+  }, [communityId]);
 
   // Checking Access Right
   useEffect(() => {
@@ -94,7 +95,7 @@ function CreatePoll() {
   }, [hasAccess, communityMembers]);
 
   return (
-    <div className="relative bg-gray-100 w-full lg:w-full md:w-screen sm:w-full font-san h-screen">
+    <div className="relative bg-gray-100 w-full lg:w-full md:w-screen sm:w-full font-san min-h-screen">
       <div className="bg-white flex flex-col pl-6 pr-7 py-6 gap-y-7">
         <div className="logo-profile-createPoll flex justify-between items-center">
           <div className="logo-text">
@@ -158,8 +159,8 @@ function CreatePoll() {
         </div>
         {/* {isCreatePollPopupOpen && <CreatePollPopup />} */}
       </div>
-      <div className="flex flex-col gap-y-5 h-[87%] lg:h-[80%] overflow-auto p-6 home-scrolling">
-        {polls.length > 0 ? (
+      <div className="flex flex-col h-[75vh] overflow-auto p-6 home-scrolling">
+        {polls?.length > 0 ? (
           <div className="flex flex-col gap-y-5">
             {polls.map((poll: any) => (
               <Poll1

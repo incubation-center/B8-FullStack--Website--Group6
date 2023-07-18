@@ -18,16 +18,11 @@ interface PopupModalProps {
   onClose: () => void;
 }
 
-const clearIcons = {
-  color: "white",
-  fontSize: "20px",
-};
-
 const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
   const dispatch = useDispatch();
 
-  const { communityMembers, searchTerm, inCommunityId } = useSelector(
+  const { communityMembers, inCommunityId } = useSelector(
     (state: RootState) => state.community
   );
   // Grabbing the access token
@@ -43,6 +38,8 @@ const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
   const [currentInvitedMembers, setCurrentInvitedMembers] = React.useState<
     User[]
   >([]);
+
+  const [searchTerm, setSearchTerm] = React.useState("");
 
   function PromoteMember(user: User, id: number) {
     setCurrentInvitedMembers([...currentInvitedMembers, user]);
@@ -89,7 +86,10 @@ const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <div className="h-screen fixed z-20 inset-0 overflow-y-auto flex items-center justify-center">
-      <div className="fixed z-20 inset-0 bg-gray-500 opacity-60"></div>
+      <div
+        className="fixed z-20 inset-0 bg-gray-500 opacity-60"
+        onClick={onClose}
+      ></div>
       <form className="fixed z-20 flex flex-col justify-between lg:justify-center items-start bg-white px-6  py-6 w-full h-full lg:h-auto lg:w-2/5 rounded-lg">
         {/* <div className="flex flex-col w-full justify-center items-center">
           <h1 className=" text-blue-custom text-lg mb-4">Add Permission</h1>
@@ -116,7 +116,7 @@ const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
             type="email"
             placeholder="Type email..."
             value={searchTerm}
-            onChange={(e) => dispatch(setSearchTerm(e.target.value))}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           <div className="flex flex-col justify-start mt-4">
             <span className="text-gray-400">Pollers</span>
@@ -156,9 +156,9 @@ const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
           <div className="w-full mt-4 lg:h-44 overflow-auto">
             {currentMembers
               .filter((user) => {
-                return searchTerm.toLocaleLowerCase() === ""
+                return searchTerm.toLowerCase() === ""
                   ? user
-                  : user.email.includes(searchTerm);
+                  : user.email.includes(searchTerm.toLowerCase());
               })
               .map((user, index) => {
                 return (

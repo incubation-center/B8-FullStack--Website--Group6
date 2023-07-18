@@ -16,16 +16,24 @@ import { setIsCommunityProfileOpen } from "../../../redux/slices/Community";
 
 function CommunityProfile() {
   const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = React.useState(false);
   const [hasAccess, setHasAccess] = useState(false);
   const { isCommunityProfileOpen } = useSelector(
     (state: RootState) => state.community
   );
-  const { id } = useSelector((state: RootState) => state.userCommunity);
+  const { id, community } = useSelector(
+    (state: RootState) => state.userCommunity
+  );
   const { communityMembers } = useSelector(
     (state: RootState) => state.community
   );
+
   const currentProfile = communityMembers.find((member) => member.id === id);
+  const communityId = localStorage.getItem("communityId");
+
+  const inActiveCommunity =
+    communityId !== null
+      ? community.find((obj) => obj.id.toString() === communityId.toString())
+      : null;
 
   useEffect(() => {
     if (currentProfile?.role === "admin" || currentProfile?.role === "owner") {
@@ -34,13 +42,6 @@ function CommunityProfile() {
       setHasAccess(false);
     }
   }, [hasAccess, communityMembers]);
-
-  const openModal = () => {
-    setIsOpen(true);
-  };
-  const closeModal = () => {
-    setIsOpen(false);
-  };
 
   const handleBackToPoll = () => {
     dispatch(setIsCommunityProfileOpen(false));
@@ -81,34 +82,50 @@ function CommunityProfile() {
         </div>
       </div>
       <div className="border border-gray-200 mt-8 lg:hidden"></div>
-      <div className="Moringa flex flex-col gap-y-3 mt-12 justify-center items-center">
-        <img
-          src={Ellipse1007}
-          alt="moringa"
-          className="w-16 h-16 rounded-full mr-2 border border-blue-custom cursor-pointer"
-          onClick={openModal}
-        />
-        <h1 className="text-[15px]">Moringa</h1>
-        <div className="flex justify-center items-center gap-x-4">
-          <div className="flex justify-center items-center w-10 h-10 p-1 bg-blue-100 rounded-lg">
-            <img className="w-full h-full" src={QrCode} alt="QR Code Icon" />
+      {communityId && (
+        <div className="">
+          <div className="Moringa flex flex-col gap-y-3 mt-12 justify-center items-center">
+            <div className="flex flex-col items-center gap-y-2">
+              {inActiveCommunity?.image === null ? (
+                <div className="flex justify-center items-center w-16 h-16 rounded-full border border-blue-500 cursor-pointer">
+                  <span className="font-bold text-4xl uppercase">
+                    {inActiveCommunity?.name[0]}
+                  </span>
+                </div>
+              ) : (
+                <img
+                  src={inActiveCommunity?.image}
+                  alt="moringa"
+                  className="w-16 h-16 rounded-full object-cover border border-blue-custom cursor-pointer"
+                />
+              )}
+              <h1 className="text-lg text-center">{inActiveCommunity?.name}</h1>
+            </div>
+            <div className="flex justify-center items-center gap-x-4">
+              <div className="flex justify-center items-center w-10 h-10 p-1 bg-blue-100 rounded-lg">
+                <img
+                  className="w-full h-full"
+                  src={QrCode}
+                  alt="QR Code Icon"
+                />
+              </div>
+              <button
+                id="copyButton"
+                type="button"
+                className="bg-blue-custom hover:opacity-70 text-white font-bold py-2 px-5 rounded-lg"
+              >
+                Copy Link
+              </button>
+            </div>
           </div>
-          <button
-            id="copyButton"
-            type="button"
-            onClick={() => console.log("Hello")}
-            className="bg-blue-custom hover:opacity-70 text-white font-bold py-2 px-5 rounded-lg"
-          >
-            Copy Link
-          </button>
+          {/* <PopupModal isOpen={isOpen} onClose={closeModal} /> */}
+          <div className="px-4 mb-3">{hasAccess && <CommunitySetting />}</div>
+          <span className="pl-4 pt-4">Current Members</span>
+          <div className="mr-1  overflow-hidden hover:overflow-auto community-scrolling">
+            <CommunityMembers />
+          </div>
         </div>
-      </div>
-      {/* <PopupModal isOpen={isOpen} onClose={closeModal} /> */}
-      <div className="px-4 mb-3">{hasAccess && <CommunitySetting />}</div>
-      <span className="text-black pl-2 pt-4">Current Members</span>
-      <div className="mr-1  overflow-hidden hover:overflow-auto community-scrolling">
-        <CommunityMembers />
-      </div>
+      )}
     </div>
   );
 }

@@ -35,7 +35,10 @@ const PopupModal: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto flex items-center justify-center">
       <div className="fixed inset-0 transition-opacity">
-        <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+        <div
+          className="absolute inset-0 bg-gray-500 opacity-60"
+          onClick={onClose}
+        ></div>
       </div>
       <div
         className="flex flex-col justify-start bg-white rounded-lg text-center overflow-hidden shadow-xl px-6 transform transition-all w-full lg:w-2/5  h-full lg:h-auto"

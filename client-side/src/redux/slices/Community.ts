@@ -10,7 +10,6 @@ const initialState: CommunityState = {
   communityName: "",
   inCommunityId: 0,
   searchTerm: "",
-  communityDescription: "Description",
   isCreateCommunityOpen: false,
   isBackToCommunity: false,
   isCommunityProfileOpen: false,

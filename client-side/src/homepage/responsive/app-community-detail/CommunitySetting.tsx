@@ -37,7 +37,7 @@ function CommunitySetting() {
   };
 
   return (
-    <div className="flex flex-col gap-y-5 mt-4 border-y py-5 border-gray-300">
+    <div className="flex flex-col gap-y-5 mt-4 border-y py-5">
       <div
         className="flex justify-start items-center gap-x-5 hover:cursor-pointer "
         onClick={openRoleModal}
