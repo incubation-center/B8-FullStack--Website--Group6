@@ -9,40 +9,42 @@ import Avatar1 from "../../../assets/userProfile/Avatar-1.png";
 function CommunityMembers() {
   const dispatch = useDispatch();
 
-  const { inCommunityId, communityMembers } = useSelector(
+  const { communityMembers } = useSelector(
     (state: RootState) => state.community
   );
+
+  const communityId = localStorage.getItem("communityId");
+
   useEffect(() => {
     const fetchCommunityMembers = async () => {
       const accessToken = localStorage.getItem("accessToken");
       const headers = {
         Authorization: `${accessToken}`,
       };
-      if (inCommunityId !== 0) {
-        try {
-          const response = await api.get(
-            `/community_members/community/${inCommunityId}`,
-            {
-              headers,
-            }
-          );
-          if (response.status === 200) {
-            const communityMembersData = response.data.user;
-            dispatch(setCommunityMembers(communityMembersData));
+      // if (inCommunityId !== 0) {
+      try {
+        const response = await api.get(
+          `/community_members/community/${communityId}`,
+          {
+            headers,
           }
-        } catch (error) {
-          console.log("An error occured: ", error);
+        );
+        if (response.status === 200) {
+          const communityMembersData = response.data.user;
+          dispatch(setCommunityMembers(communityMembersData));
         }
+      } catch (error) {
+        console.log("An error occured: ", error);
       }
+      // }
     };
 
     fetchCommunityMembers();
-  }, [inCommunityId]);
+  }, [communityId]);
 
-  console.log("communityMembersData", communityMembers);
 
   return (
-    <div className="profile flex flex-col h-72 px-4">
+    <div className="profile flex flex-col h-[45vh] px-4 overflow-y-auto community-scrolling">
       {communityMembers.map((user: any, index: any) => {
         console.log("user", user);
         

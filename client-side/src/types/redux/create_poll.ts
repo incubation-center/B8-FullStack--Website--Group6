@@ -24,6 +24,7 @@ export interface Poll {
   pollQuestion: string;
   limitVote: number;
   user: User;
+  votedOn: number;
 }
 
 interface CreatePollState {

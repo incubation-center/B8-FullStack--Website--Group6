@@ -9,17 +9,16 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { BsPlus } from "react-icons/bs";
 import UserCommunity from "./UserCommunity";
 import { openCreateCommunity } from "../../../redux/slices/Community";
-import CreateCommunity from "../../popup/CreateCommunity";
-import { apiURL } from "../../../config/config";
 import { setUserCommunity } from "../../../redux/slices/UserCommunity";
 import { setSearchTerm } from "../../../redux/slices/Community";
+import api from "../../../utils/api";
 
 function Community() {
   const dispatch = useDispatch();
-  const { isCreateCommunityOpen, searchTerm, isBackToCommunity } = useSelector(
+  const { searchTerm, isBackToCommunity } = useSelector(
     (state: RootState) => state.community
   );
-  const { community } = useSelector((state: RootState) => state.userCommunity);
+  // const { community } = useSelector((state: RootState) => state.userCommunity);
 
   const handleCreateCommunity = () => {
     dispatch(openCreateCommunity());
@@ -27,24 +26,23 @@ function Community() {
 
   // get data all users data
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUserCommunity = async () => {
+      const accessToken = localStorage.getItem("accessToken");
+      const headers = {
+        Authorization: `${accessToken}`,
+      };
       try {
-        const accessToken = localStorage.getItem("accessToken");
-        const response = await fetch(`${apiURL}/community_members/user`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        if (response.ok) {
-          const userCommunity = await response.json();
+        const response = await api.get("/community_members/user", { headers });
+        if (response.status === 200) {
+          const userCommunity = response.data;
           dispatch(setUserCommunity(userCommunity));
         }
       } catch (error) {
         console.error("An error occurred: ", error);
       }
     };
-    fetchData();
+
+    fetchUserCommunity();
   }, []);
 
   return (
@@ -94,14 +92,14 @@ function Community() {
         <h1>Create Community</h1>
       </div>
       {/* {isCreateCommunityOpen && <CreateCommunity />} */}
-      {community && community.length > 0 ? (
-        <div>
-          {/* <h1 className="mt-4 px-4">Favorite</h1>
+      {/* {community && community.length > 0 ? (
+        <div> */}
+      {/* <h1 className="mt-4 px-4">Favorite</h1>
           <AddedFavorite /> */}
-          <h1 className="mt-6 px-4">Your Community</h1>
-          <UserCommunity />
-        </div>
-      ) : null}
+      <h1 className="mt-6 px-4">Your Community</h1>
+      <UserCommunity />
+      {/* </div>
+      ) : null} */}
     </div>
   );
 }
