@@ -5,6 +5,7 @@ import { AiFillCheckCircle } from "react-icons/ai";
 import { BsCircle } from "react-icons/bs";
 import api from "../../../utils/api";
 import Alert from "../../../components/Popup/Alert";
+import  Moment  from "react-moment";
 import { apiURL } from "../../../config/config";
 import { Poll } from "../../../types/redux/create_poll";
 import { useSelector } from "react-redux";
@@ -86,15 +87,20 @@ function Poll1({ pollId }: any) {
       <Alert variant={alertType} message={alertMessage} showAlert={showAlert} />
       <div className=" userChart flex justify-between items-center">
         <div className="User flex relative">
-          <img
+          {/* <img
             src={Avatar}
             alt="Profile 1"
             className="w-10 h-10 rounded-full mr-2 border-2 border-blue-500"
-          />
+          /> */}
+          <div className="flex justify-center items-center w-9 h-9 rounded-full mr-2 border border-blue-500">
+                  <span className="font-bold text-xl uppercase">
+                    {createdBy.slice(0, 2)}
+                  </span>
+                </div>
           <h5 className="text-sm">
             <span className="bottom-1 left-8 absolute w-3 h-3 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
             {pollData?.user.createdBy} <br />
-            <h4>{pollData?.pollDate}</h4>
+            <Moment format='MMMM Do YYYY'>{pollData?.pollDate}</Moment>
           </h5>
         </div>
         <FcPieChart className="w-10 h-10" />
