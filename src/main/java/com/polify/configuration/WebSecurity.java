@@ -56,7 +56,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .antMatchers(
                     HttpMethod.GET,
-                    ProjectUtils.TEST_URL
+                    ProjectUtils.STREAM_URL
                 )
                 // -----------------------------------------
                 .permitAll()
