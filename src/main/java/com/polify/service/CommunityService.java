@@ -18,4 +18,6 @@ public interface CommunityService {
 
     public Community getCommunityById(UUID id);
 
+    public void deleteCommunityById(UUID id);
+
 }

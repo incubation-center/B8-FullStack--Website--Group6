@@ -117,4 +117,18 @@ public class CommunityMembersController {
         communityMembersService.saveCommunityMember(communityMembers);
         return ResponseEntity.ok(communityMembersService.getCommunityMembersResponse(id));
     }
+
+    @DeleteMapping(path = "community/{id}")
+    public ResponseEntity<String> leaveCommunity(@PathVariable UUID id, Authentication authentication) {
+        Community community = communityMembersService.getCommunityById(id);
+        String username = authentication.getName();
+        User user = userAccountService.getUserByUsername(username);
+        CommunityMembers communityMembers = communityMembersService.isExist(community, user);
+
+        if (communityMembers != null) {
+            communityMembersService.leaveCommunity(communityMembers.getId());
+            return ResponseEntity.ok("User has leaved community");
+        }
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("User is not in the Community");
+    }
 }

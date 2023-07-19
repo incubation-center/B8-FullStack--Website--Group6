@@ -18,7 +18,7 @@ public class PollDTO {
 
     @Getter
     @JsonProperty
-    private Date duration;
+    private String duration;
 
     @Getter
     @JsonProperty

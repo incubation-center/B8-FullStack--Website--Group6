@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "poll")
@@ -26,7 +27,7 @@ public class Poll {
     private int limitVote;
 
     @Column(name = "duration", nullable = false)
-    private Date duration;
+    private String duration;
 
     @ManyToOne
     @JoinColumn(name = "community_id", nullable = false)
@@ -39,12 +40,18 @@ public class Poll {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @OneToMany(mappedBy = "poll", cascade = CascadeType.ALL)
+    private List<PollOption> pollOptions;
+
+    @OneToMany(mappedBy = "poll", cascade = CascadeType.ALL)
+    private List<HasVoted> hasVoteds;
+
     @PrePersist
     public void onCreate(){
         pollDate = new Date();
     }
 
-    public Poll(String pollQuestion, int limitVote, Date duration, Community community) {
+    public Poll(String pollQuestion, int limitVote, String duration, Community community) {
         this.pollQuestion = pollQuestion;
         this.limitVote = limitVote;
         this.duration = duration;
@@ -75,11 +82,11 @@ public class Poll {
         this.limitVote = limitVote;
     }
 
-    public Date getDuration() {
+    public String getDuration() {
         return duration;
     }
 
-    public void setDuration(Date duration) {
+    public void setDuration(String duration) {
         this.duration = duration;
     }
 

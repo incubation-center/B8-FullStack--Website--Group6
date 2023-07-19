@@ -10,6 +10,7 @@ import com.polify.service.UserAccountService;
 import com.polify.utils.ProjectUtils;
 import com.polify.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,10 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Console;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping(ProjectUtils.COMMUNITY_URL)
@@ -85,8 +83,7 @@ public class CommunityController {
         return response;
     }
 
-    @CrossOrigin(origins = "https://newbootcamp.vercel.app")
-    @PutMapping(consumes = "multipart/form-data", path = "/{id}")
+    @PostMapping(consumes = "multipart/form-data", path = "/{id}")
     public Map<String, Object> updateCommunity(CommunityDTO communityDTO,
                                                @RequestPart(name = "file", required = false) MultipartFile file,
                                                @PathVariable UUID id) throws IOException{
@@ -114,5 +111,26 @@ public class CommunityController {
         response.put("file_url", file_url);
 
         return response;
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<String> deleteCommunity(@PathVariable UUID id, Authentication authentication){
+
+        String username = authentication.getName();
+        User user = userAccountService.getUserByUsername(username);
+
+        Community community = communityService.getCommunityById(id);
+
+        CommunityMembers communityMembers = communityMembersService.isExist(community, user);
+
+        if (communityMembers != null) {
+            if (!Objects.equals(communityMembers.getRole(), "owner")){
+                return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("User is not the Owner!!!");
+            }
+            communityService.deleteCommunityById(id);
+            return ResponseEntity.ok("Community has been deleted!!!");
+        }
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("User is not in the Community!!!");
+
     }
 }

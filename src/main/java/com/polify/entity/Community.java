@@ -7,6 +7,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -34,6 +35,12 @@ public class Community {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User users;
+
+    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
+    private List<Poll> polls;
+
+    @OneToMany(mappedBy = "community", cascade = CascadeType.ALL)
+    private List<CommunityMembers> communityMembers;
 
     @PrePersist
     public void onCreate(){

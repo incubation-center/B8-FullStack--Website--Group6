@@ -27,4 +27,6 @@ public interface CommunityMembersService {
     public Map<String, Object> getUserCommunityResponse(Long id);
 
     public CommunityMembers saveCommunityMember(CommunityMembers communityMembers);
+
+    public void leaveCommunity(Long id);
 }

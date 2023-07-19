@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 @Entity
 @Table(name = "poll_option")
 @Data
@@ -30,6 +32,12 @@ public class PollOption {
 
     @Column(name = "option_voted")
     private Long optionVoted;
+
+    @OneToMany(mappedBy = "pollOption", cascade = CascadeType.ALL)
+    private List<HasVoted> hasVoteds;
+
+    @OneToMany(mappedBy = "option", cascade = CascadeType.ALL)
+    private List<Vote> votes;
 
     @PrePersist
     public void onCreate(){

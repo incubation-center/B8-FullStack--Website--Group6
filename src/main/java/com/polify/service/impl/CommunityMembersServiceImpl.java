@@ -135,4 +135,9 @@ public class CommunityMembersServiceImpl implements CommunityMembersService {
     public CommunityMembers saveCommunityMember(CommunityMembers communityMembers) {
         return communityMembersRepository.save(communityMembers);
     }
+
+    @Override
+    public void leaveCommunity(Long id) {
+        communityMembersRepository.deleteById(id);
+    }
 }

@@ -48,4 +48,9 @@ public class CommunityServiceImpl implements CommunityService {
             .orElseThrow(() -> new RuntimeException("Community not found!!!"));
     }
 
+    @Override
+    public void deleteCommunityById(UUID id) {
+        communityRepository.deleteById(id);
+    }
+
 }
