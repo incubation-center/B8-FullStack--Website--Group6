@@ -42,10 +42,9 @@ public class ProjectUtils {
 	public static final String PENDING_STATUS = "PENDING";
     public static final String MAIL_PASSWORD = "zlnsnijqyuzlhszs";
     public static final String SENDER_EMAIL = "pollify.app@gmail.com";
-
     public static final String FILE_URL = "http://52.220.220.40:8081";
-
     public static final String STREAM_URL = ProjectUtils.POLL_URL + "/stream/**";
+    public static final String CLIENT_INVITE_URL = "https://newbootcamp.vercel.app/join/community/";
 
 	public static <T> T getValue(T value) {
 		return value == null ? null : value;

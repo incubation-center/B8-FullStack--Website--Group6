@@ -1,8 +1,13 @@
 package com.polify.controller;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.SignatureVerificationException;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.polify.entity.Community;
 import com.polify.entity.CommunityMembers;
 import com.polify.entity.User;
+import com.polify.filter.JWTAuthenticationFilter;
 import com.polify.model.CommunityDTO;
 import com.polify.service.CommunityMembersService;
 import com.polify.service.CommunityService;
@@ -12,11 +17,13 @@ import com.polify.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.Console;
 import java.io.IOException;
 import java.util.*;
@@ -24,6 +31,9 @@ import java.util.*;
 @RestController
 @RequestMapping(ProjectUtils.COMMUNITY_URL)
 public class CommunityController {
+
+    public static final String SECRET = "FG^723fhhQW12~123qwert123#@$fr!67DSWa";
+    public static final long EXPIRATION_TIME = 86400000;
 
     @Autowired
     private CommunityService communityService;
@@ -132,5 +142,52 @@ public class CommunityController {
         }
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("User is not in the Community!!!");
 
+    }
+
+    @PostMapping(path = "/generate")
+    public ResponseEntity<Map<String, String>> generateInviteLink(@RequestParam("id") UUID id) {
+        String token = JWT.create().withSubject(id.toString())
+            .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME)) // JWT token validity time
+            .sign(Algorithm.HMAC512(SECRET.getBytes())); // JWT Signature
+
+        Map<String, String> response = new HashMap<>();
+        response.put("inviteLink", ProjectUtils.CLIENT_INVITE_URL + token);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping(path = "/validate")
+    public ResponseEntity<Map<String, Object>> validateInviteLink(@RequestParam("token") String token, Authentication authentication) {
+        Map<String, Object> response = new HashMap<>();
+        if (token != null) {
+            try {
+                String community_id = JWT.require(Algorithm.HMAC512(JWTAuthenticationFilter.SECRET.getBytes())).build()
+                    .verify(token).getSubject();
+
+                Community community = communityService.getCommunityById(UUID.fromString(community_id));
+
+                String username = authentication.getName();
+                User user = userAccountService.getUserByUsername(username);
+
+                CommunityMembers communityMembers = communityMembersService.isExist(community, user);
+                Boolean isMember;
+                if (communityMembers != null){
+                    isMember = Boolean.TRUE;
+                }
+                else{
+                    isMember = Boolean.FALSE;
+                }
+
+                response.put("isMember", isMember);
+                return ResponseEntity.ok(response);
+            } catch (SignatureVerificationException e) {
+                response.put("Error", "Authentication error, SignatureVerification fail.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            } catch (TokenExpiredException e) {
+                response.put("Error", "Authentication error, The Invitation Link's Expired.");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            }
+        }
+        response.put("Error", "Authentication error, No Token provided.");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 }
