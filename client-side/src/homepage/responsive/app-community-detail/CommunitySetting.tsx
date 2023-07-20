@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SettingIcon from "../../../assets/icons/setting.svg";
 import NotificationIcon from "../../../assets/icons/notification.svg";
 import UsersIcon from "../../../assets/icons/users.svg";
@@ -9,10 +9,6 @@ import { MdOutlineGroups } from "react-icons/md";
 import { CgToggleOff, CgToggleOn } from "react-icons/cg";
 import AddPermission from "../../popup/AddPermission";
 import PopupModal from "../../popup/PopupModal";
-
-const notificationICons = {
-  color: "gray",
-};
 
 function CommunitySetting() {
   const [isOpen, setIsOpen] = React.useState(false);

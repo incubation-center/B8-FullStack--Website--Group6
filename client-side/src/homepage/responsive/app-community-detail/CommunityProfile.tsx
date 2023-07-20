@@ -10,10 +10,20 @@ import { BsQrCode } from "react-icons/bs";
 import CommunitySetting from "./CommunitySetting";
 import CommunityMembers from "./CommunityMembers";
 import PopupModal from "../../popup/PopupModal";
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../../redux/store";
 import { setIsCommunityProfileOpen } from "../../../redux/slices/Community";
 import { useLocation } from "react-router-dom";
+import Setting from "../../../assets/icons/icons8-delete.svg";
+import api from "../../../utils/api";
+import { setUserData } from "../../../redux/slices/Community";
+import { Dispatch } from "redux";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../../../redux/store";
+import { setCommunityMembers } from "../../../redux/slices/Community";
+import axios from "axios";
+interface RoleData {
+  email: string;
+  role: string;
+}
 
 function CommunityProfile() {
   const dispatch = useDispatch();
@@ -27,6 +37,44 @@ function CommunityProfile() {
   const { communityMembers } = useSelector(
     (state: RootState) => state.community
   );
+  const [role, setRole] = useState<RoleData[]>([]);
+  const communityId = localStorage.getItem("communityId");
+  const user = localStorage.getItem("user-info");
+
+  const userObject = JSON.parse(user !== null ? user : "");
+  const userEmail = userObject.email;
+  console.log(userEmail);
+
+  useEffect(() => {
+    const fetchCommunityMembers = async () => {
+      const accessToken = localStorage.getItem("accessToken");
+      const headers = {
+        Authorization: `${accessToken}`,
+      };
+      // if (inCommunityId !== 0) {
+      try {
+        const response = await api.get(
+          `/community_members/community/${communityId}`,
+          {
+            headers,
+          }
+        );
+        if (response.status === 200) {
+          const communityMembersData = response.data.user;
+
+          // console.log("me", communityMembersData);
+
+          console.log("role", role);
+          setRole(communityMembersData);
+        }
+      } catch (error) {
+        console.log("An error occured: ", error);
+      }
+      // }
+    };
+
+    fetchCommunityMembers();
+  }, [communityId]);
 
   const { username } = useSelector((state: RootState) => state.userCommunity);
   const location = useLocation();
@@ -34,7 +82,6 @@ function CommunityProfile() {
   const communityImage = location.state?.communityImage || "";
 
   const currentProfile = communityMembers.find((member) => member.id === id);
-  const communityId = localStorage.getItem("communityId");
 
   const inActiveCommunity =
     communityId !== null
@@ -52,7 +99,72 @@ function CommunityProfile() {
   const handleBackToPoll = () => {
     dispatch(setIsCommunityProfileOpen(false));
   };
+  const owner = role.filter((role: any) => role === "owner");
+  console.log("owner", owner);
+  const handleLeaveAndDelete = async () => {
+    // Implement the logic for deleting the specific community here
+    const accessToken = localStorage.getItem("accessToken");
 
+    const UserData: any = role.find((item: any) => item.email === userEmail);
+    console.log("role", UserData);
+
+    const userRole = UserData?.role;
+    console.log("Role:", userRole);
+
+    const headers = {
+      Authorization: `${accessToken}`,
+      "Content-Type": "application/json", // Add this header to indicate JSON data
+    };
+
+    if (userRole === "owner") {
+      try {
+        const response = await fetch(
+          `https://pollify.appifier.online/api/v1/community/delete/${communityId}`,
+          {
+            method: "POST",
+            headers,
+          }
+        );
+
+        if (response.status === 200) {
+          // Handle successful deletion
+          console.log("Community deleted successfully!");
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
+        } else {
+          // Handle errors, if any
+          console.log("Failed to delete the community.");
+        }
+      } catch (error) {
+        console.log("An error occurred while deleting the community: ", error);
+      }
+    } else {
+      // Implement the logic for leaving the community as a poller here
+      try {
+        const response = await fetch(
+          `https://pollify.appifier.online/api/v1/community_members/leave/community/${communityId}`,
+          {
+            method: "POST",
+            headers,
+          }
+        );
+
+        if (response.status === 200) {
+          // Handle successful deletion
+          console.log("Community deleted successfully!");
+          setTimeout(() => {
+            window.location.reload();
+          }, 500);
+        } else {
+          // Handle errors, if any
+          console.log("Failed to delete the community.");
+        }
+      } catch (error) {
+        console.log("An error occurred while deleting the community: ", error);
+      }
+    }
+  };
   return (
     <div
       className={` ${
@@ -145,6 +257,21 @@ function CommunityProfile() {
           </div>
           {/* <PopupModal isOpen={isOpen} onClose={closeModal} /> */}
           <div className="px-4 mb-3">{hasAccess && <CommunitySetting />}</div>
+          <div
+            className="flex justify-start items-center gap-x-4 cursor-pointer text-red-500"
+            onClick={() => handleLeaveAndDelete()}
+          >
+            <img
+              className="w-6 h-6 text-gray-500"
+              src={Setting}
+              alt="Setting Icon"
+            />
+            <h1>
+              {role.find((item) => item.email === userEmail)?.role === "owner"
+                ? "Leave and Delete"
+                : "Leave"}
+            </h1>
+          </div>
           <span className="pl-4 pt-4">Current Members</span>
           <div className="mr-1  overflow-hidden hover:overflow-auto community-scrolling">
             <CommunityMembers />

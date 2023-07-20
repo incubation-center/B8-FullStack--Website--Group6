@@ -11,7 +11,7 @@ function CommunityMembers() {
 
   const { communityMembers } = useSelector(
     (state: RootState) => state.community
-  );
+  ); 
 
   const communityId = localStorage.getItem("communityId");
 
@@ -46,7 +46,7 @@ function CommunityMembers() {
   return (
     <div className="profile flex flex-col h-[45vh] px-4 overflow-y-auto community-scrolling">
       {communityMembers.map((user: any, index: any) => {
-        console.log("user", user);
+        // console.log("user", user);
         
         return (
           <React.Fragment key={index}>
