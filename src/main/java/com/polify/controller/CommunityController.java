@@ -45,7 +45,7 @@ public class CommunityController {
     private UserAccountService userAccountService;
 
     @GetMapping(path = "/all")
-    public List<Map<String, UUID>> getAllCommunity(){
+    public List<Map<String, Object>> getAllCommunity(){
         return communityService.getAllCommunity();
     }
 

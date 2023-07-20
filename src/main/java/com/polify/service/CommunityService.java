@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public interface CommunityService {
 
-    public List<Map<String, UUID>> getAllCommunity();
+    public List<Map<String, Object>> getAllCommunity();
 
     public Community addCommunity(Community community);
 

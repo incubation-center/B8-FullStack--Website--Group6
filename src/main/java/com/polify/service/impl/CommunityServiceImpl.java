@@ -22,14 +22,15 @@ public class CommunityServiceImpl implements CommunityService {
     private UserRepository userRepository;
 
     @Override
-    public List<Map<String, UUID>> getAllCommunity() {
+    public List<Map<String, Object>> getAllCommunity() {
         List<Community> allCommunity = communityRepository.findAll();
-        List<Map<String, UUID>> response = new ArrayList<>();
+        List<Map<String, Object>> response = new ArrayList<>();
 
         for (Community community: allCommunity){
-            Map<String, UUID> communityIdMap = new HashMap<>();
-            communityIdMap.put("id", community.getId());
-            response.add(communityIdMap);
+            Map<String, Object> communityMap = new HashMap<>();
+            communityMap.put("id", community.getId());
+            communityMap.put("name", community.getCommunityName());
+            response.add(communityMap);
         }
         return response;
     }
