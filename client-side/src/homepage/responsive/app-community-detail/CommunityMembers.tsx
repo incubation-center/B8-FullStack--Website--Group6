@@ -43,7 +43,7 @@ function CommunityMembers() {
   }, [communityId]);
 
   return (
-    <div className="profile flex flex-col h-[45vh] px-4 overflow-y-auto community-scrolling">
+    <div className="profile flex flex-col h-[25vh] md:h-[40vh] px-4 overflow-y-auto community-scrolling">
       {communityMembers.map((user: any, index: any) => {
         return (
           <React.Fragment key={index}>
@@ -54,7 +54,7 @@ function CommunityMembers() {
                   alt="Profile 1"
                   className="w-8 h-8 rounded-full mr-2 border-2 border-blue-500"
                 /> */}
-                <div className="flex justify-center items-center w-9 h-9 rounded-full mr-2 border border-blue-500">
+                <div className="flex justify-center items-center w-10 h-10 rounded-full mr-2 border border-blue-500">
                   <span className="font-bold text-xl uppercase">
                     {user.username.slice(0, 2)}
                   </span>

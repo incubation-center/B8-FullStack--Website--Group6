@@ -90,14 +90,14 @@ function Poll1({ pollId }: any) {
             alt="Profile 1"
             className="w-10 h-10 rounded-full mr-2 border-2 border-blue-500"
           /> */}
-          <div className="relative flex justify-center items-center w-9 h-9 rounded-full mr-3 border border-blue-500">
-            <span className="font-bold text-xl uppercase">
+          <div className="relative flex justify-center items-center w-12 h-12 rounded-full mr-3 border border-blue-500">
+            <span className="font-bold text-2xl uppercase">
               {pollData?.user.createdBy.slice(0, 2)}
             </span>
-            <span className="absolute bottom-0 left-6 w-3 h-3 bg-green-400 border-2 border-white rounded-full"></span>
+            <span className="absolute bottom-0 left-8 w-3 h-3 bg-green-400 border-2 border-white rounded-full"></span>
           </div>
-          <div className="">
-            <h5 className="text-lg leading-none font-semibold">
+          <div className="mt-1">
+            <h5 className="text-md leading-none font-semibold">
               {pollData?.user.createdBy}
             </h5>
             <small>
