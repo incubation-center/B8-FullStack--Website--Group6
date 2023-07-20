@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from "react";
-import PolliFy from "../../../assets/PolliFy.png";
-import Avatar from "../../../assets/Avatar.png";
-import { MdTranslate } from "react-icons/md";
-import { IoMdNotificationsOutline, IoIosArrowBack } from "react-icons/io";
+import { IoIosArrowBack } from "react-icons/io";
 import QrCode from "../../../assets/icons/qr-code.svg";
-import NotificationIcon from "../../../assets/icons/notification.svg";
-import Ellipse1007 from "../../../assets/community/Ellipse1007.png";
-import { BsQrCode } from "react-icons/bs";
 import CommunitySetting from "./CommunitySetting";
 import CommunityMembers from "./CommunityMembers";
-import PopupModal from "../../popup/PopupModal";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { setIsCommunityProfileOpen } from "../../../redux/slices/Community";
 import { useLocation } from "react-router-dom";
+import { Logout } from "../../../components";
 
 function CommunityProfile() {
   const dispatch = useDispatch();
@@ -27,6 +21,8 @@ function CommunityProfile() {
   const { communityMembers } = useSelector(
     (state: RootState) => state.community
   );
+
+  const [isOpenLogout, setIsOpenLogout] = React.useState(false);
 
   const { username } = useSelector((state: RootState) => state.userCommunity);
   const location = useLocation();
@@ -49,6 +45,10 @@ function CommunityProfile() {
     }
   }, [hasAccess, communityMembers]);
 
+  const handleOpenLogout = () => {
+    setIsOpenLogout(!isOpenLogout);
+  };
+
   const handleBackToPoll = () => {
     dispatch(setIsCommunityProfileOpen(false));
   };
@@ -59,7 +59,7 @@ function CommunityProfile() {
         isCommunityProfileOpen ? "w-full" : "w-0"
       } absolute z-10 duration-300 right-0 lg:relative font-sans bg-white lg:w-2/6 h-full lg:flex lg:flex-col overflow-hidden`}
     >
-      <div className="logo-profile-createPoll flex justify-between lg:justify-end items-center mt-5 ml-5 mr-5">
+      <div className="logo-profile-createPoll flex justify-between lg:justify-end items-center pt-5 px-5">
         <div
           className="flex items-center gap-x-2 lg:hidden cursor-pointer"
           onClick={handleBackToPoll}
@@ -67,29 +67,36 @@ function CommunityProfile() {
           <IoIosArrowBack className="w-6 h-6 text-blue-custom" />
           <span className="text-lg">Polls</span>
         </div>
-        <div className="translate flex gap-x-3 items-center lg:justify-end">
-          <MdTranslate className="w-6 h-6" />
+        <div className="relative translate flex gap-x-3 items-center lg:justify-end cursor-pointer">
           <div className="pr-2">
-            <img
+            {/* <img
               className="w-6 h-6 text-gray-500"
               src={NotificationIcon}
               alt="Notification Icon"
-            />
+            /> */}
           </div>
-          <p className="lg:text-[17px] lg:font-sans lg:font-bold">{username}</p>
-          <div className="relative">
-            {/* <img
+          <div
+            className="flex gap-x-3 items-center hover:text-blue-custom"
+            onClick={handleOpenLogout}
+          >
+            <p className="lg:text-lg lg:font-sans lg:font-bold uppercase">
+              {username}
+            </p>
+            <div className="relative">
+              {/* <img
               src={Avatar}
               alt="Profile 1"
               className="w-10 h-10 rounded-full mr-2 border-2 border-blue-500"
             /> */}
-            <div className="flex justify-center items-center w-9 h-9 rounded-full mr-2 border border-blue-500">
-              <span className="font-bold text-xl uppercase">
-                {username.slice(0, 2)}
-              </span>
+              <div className="flex justify-center items-center w-9 h-9 rounded-full mr-2 border border-blue-500">
+                <span className="font-bold text-xl uppercase">
+                  {username.slice(0, 2)}
+                </span>
+              </div>
+              <span className="bottom-1 left-7 absolute w-3 h-3 bg-green-400 border-2 border-white rounded-full"></span>
             </div>
-            <span className="bottom-1 left-7 absolute w-3 h-3 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
           </div>
+          {isOpenLogout && <Logout />}
         </div>
       </div>
       <div className="border border-gray-200 mt-8 lg:hidden"></div>
@@ -126,7 +133,7 @@ function CommunityProfile() {
               )}
               <h1 className="text-lg text-center">{inActiveCommunity?.name}</h1>
             </div>
-            <div className="flex justify-center items-center gap-x-4">
+            <div className="flex justify-center items-center gap-x-4 mb-3">
               <div className="flex justify-center items-center w-10 h-10 p-1 bg-blue-100 rounded-lg">
                 <img
                   className="w-full h-full"
@@ -144,9 +151,13 @@ function CommunityProfile() {
             </div>
           </div>
           {/* <PopupModal isOpen={isOpen} onClose={closeModal} /> */}
-          <div className="px-4 mb-3">{hasAccess && <CommunitySetting />}</div>
-          <span className="pl-4 pt-4">Current Members</span>
-          <div className="mr-1  overflow-hidden hover:overflow-auto community-scrolling">
+          <div className="mb-2">{hasAccess && <CommunitySetting />}</div>
+          <div className="border-t"></div>
+          <div className="pl-4 pt-4">
+            <span className="mt-4">Current Members</span>
+          </div>
+
+          <div className="mr-1 overflow-y-auto community-scrolling">
             <CommunityMembers />
           </div>
         </div>
