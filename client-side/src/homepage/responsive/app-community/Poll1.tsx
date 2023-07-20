@@ -13,7 +13,42 @@ function Poll1({
   pollQuestion,
   pollId,
   votedOn,
+  duration,
 }: any) {
+  const timeNow = new Date().toISOString();
+  const splittedTime = timeNow.split("+")[0];
+  const creationTime = splittedTime.replace("Z", "+00:00") ;
+  const reverseCustomFormat = (customFormat: any) => {
+    const timezoneOffset = customFormat.split("+")[1];
+    const splittedTime = customFormat.split("+")[0];
+    const dateTime = splittedTime + "Z";
+    const hours = parseInt(timezoneOffset.slice(0, 2));
+    const minutes = parseInt(timezoneOffset.slice(3));
+
+    const currentTime = new Date(dateTime);
+    currentTime.setHours(currentTime.getHours() + hours);
+    currentTime.setMinutes(currentTime.getMinutes() + minutes);
+
+    return currentTime.toLocaleString(); // Returns a string like "7/20/2023, 8:40:32 AM" based on the user's local timezone
+  };
+
+
+  const calculateTimeDifference = () => {
+    const pollDateInMillis = new Date(reverseCustomFormat(creationTime)).getTime();
+    const durationInMillis = new Date(reverseCustomFormat(duration)).getTime();
+
+    // Calculate the time difference between pollDate and duration
+    // console.log("duration: ", duration);
+    // console.log("duration: ", reverseCustomFormat(duration));
+    // console.log("duration mil: ", durationInMillis);
+    // console.log("polldate: ", creationTime);
+    // console.log("polldate: ", reverseCustomFormat(creationTime));
+    // console.log("polldate mil: ", pollDateInMillis);
+    const timeDifferenceInMillis = durationInMillis - pollDateInMillis;
+    // console.log("timediff: ", timeDifferenceInMillis);
+    return timeDifferenceInMillis;
+  };
+
   // Handle options update
   const [newOption, setNewOption] = useState(options);
 
@@ -21,6 +56,53 @@ function Poll1({
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState<any>("success");
+  const [timeRemaining, setTimeRemaining] = useState<number>(0);
+  // Store countdown intervals for each poll separately
+  const [pollCountdownIntervals, setPollCountdownIntervals] = useState<
+    Record<number, number | NodeJS.Timeout | null> // Update the type here
+  >({});
+
+  useEffect(() => {
+    // Calculate time difference and convert to minutes
+    const timeDifferenceInMillis = calculateTimeDifference();
+    const timeRemaining = timeDifferenceInMillis / (60 * 1000);
+
+    setTimeRemaining(timeRemaining);
+    setPollCountdownIntervals((prevIntervals) => ({
+      ...prevIntervals,
+      [pollId]: null, // Initialize the interval ID as null for this poll
+    }));
+
+    // Add the dependency array here to ensure the effect runs only once
+  }, [pollDate, duration, pollId, setPollCountdownIntervals]);
+
+  useEffect(() => {
+    if (timeRemaining > 0) {
+      const interval = setInterval(() => {
+        setTimeRemaining((prevTime) => prevTime - 1);
+      }, 60000); // Update the countdown every 1 minute (60,000 milliseconds)
+
+      // Store the interval ID in the pollCountdownIntervals state object
+      setPollCountdownIntervals((prevIntervals) => ({
+        ...prevIntervals,
+        [pollId]: interval,
+      }));
+    } else {
+      // Clear the interval if the countdown has reached 0
+      const intervalId = pollCountdownIntervals[pollId];
+      if (typeof intervalId === "number") {
+        clearInterval(intervalId);
+      }
+    }
+
+    // return () => {
+    //   // Clear the interval for this poll when the component unmounts
+    //   const intervalId = pollCountdownIntervals[pollId];
+    //   if (typeof intervalId === "number") {
+    //     clearInterval(intervalId);
+    //   }
+    // };
+  }, [pollDate, duration, pollId, timeRemaining]);
 
   // Option Click handler
   const handleOptionClick = async (optionId: number) => {
@@ -37,7 +119,6 @@ function Poll1({
       });
       if (response.status === 200) {
         setNewOption(response.data.options);
-        console.log("polling", response.data);
         setAlertType("success");
         setShowAlert(true);
         setAlertMessage("You have voted successfully!");
@@ -57,42 +138,79 @@ function Poll1({
   };
 
   return (
-    <div className="poll1 flex flex-col border h-fit bg-white rounded-md p-5">
+    <div className='poll1 flex flex-col border h-fit bg-white rounded-md p-5'>
       <Alert variant={alertType} message={alertMessage} showAlert={showAlert} />
-      <div className=" userChart flex justify-between items-center">
-        <div className="User flex relative">
+      <div className=' userChart flex justify-between items-center'>
+        <div className='User flex relative'>
           <img
             src={Avatar}
-            alt="Profile 1"
-            className="w-10 h-10 rounded-full mr-2 border-2 border-blue-500"
+            alt='Profile 1'
+            className='w-10 h-10 rounded-full mr-2 border-2 border-blue-500'
           />
-          <h5 className="text-sm">
-            <span className="bottom-1 left-8 absolute w-3 h-3 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
+          <h5 className='text-sm'>
+            <span className='bottom-1 left-8 absolute w-3 h-3 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full'></span>
             {createdBy} <br />
             <h4>{pollDate}</h4>
           </h5>
         </div>
-        <FcPieChart className="w-10 h-10" />
+        {/* Time Remaining */}
+        <div className='timeRemaining'>
+          {timeRemaining > 0 ? (
+            <>
+              <p>{Math.ceil(timeRemaining)} Minutes Left</p>{" "}
+              {/* Using Math.ceil to round up */}
+              <div
+                style={{ width: `${(timeRemaining / duration) * 100}%` }}
+                className={`timeRemainingBar ${
+                  timeRemaining <= duration * 0.1 ? "red" : ""
+                }`}
+              />
+            </>
+          ) : (
+            <p style={{ color: "red" }}>Time is Up!</p>
+          )}
+        </div>
+        {/* Time Remaining End */}
       </div>
-      <p className="mt-5 font-light text-[15px] md:text-[17px]">
+      <p className='mt-5 font-light text-[15px] md:text-[17px]'>
         {pollQuestion}
       </p>
-      <div className="food-menu grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 mt-5 text-gray-800">
+      <div className='food-menu grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 mt-5 text-gray-800'>
         {newOption.map((option: any) => {
+          const optionDisabled = timeRemaining <= 0; // Determine if the option should be disabled
+
           return (
             <div
               key={option.id}
-              onClick={() => handleOptionClick(option.id)}
+              onClick={
+                optionDisabled
+                  ? () => {
+                      {
+                        setAlertType("error");
+                        setShowAlert(true);
+                        setAlertMessage(
+                          "Voting has ended. You cannot vote anymore."
+                        );
+                        setTimeout(function () {
+                          setShowAlert(false);
+                          setAlertMessage("");
+                        }, 4000);
+                        return;
+                      }
+                    }
+                  : () => handleOptionClick(option.id)
+              }
               className={`flex items-center gap-x-2 text-[15px] font-sans font-bold border shadow px-4 py-3 rounded-xl hover:bg-blue-100 hover:cursor-pointer ${
                 votedOn === option.id && "bg-blue-100 border-blue-custom"
               }`}
+              style={{ cursor: optionDisabled ? "not-allowed" : "pointer" }}
             >
               {votedOn === option.id ? (
-                <AiFillCheckCircle className="w-5 h-5 text-blue-custom" />
+                <AiFillCheckCircle className='w-5 h-5 text-blue-custom' />
               ) : (
                 <span
-                  className="w-4 h-4 flex items-center justify-center rounded-full 
-                  border border-gray-400"
+                  className='w-4 h-4 flex items-center justify-center rounded-full 
+              border border-gray-400'
                 ></span>
               )}
               {option.optionText}
@@ -100,25 +218,29 @@ function Poll1({
           );
         })}
       </div>
-      <div className="progress-bar  mt-7">
+      <div className='progress-bar  mt-7'>
         {options.map((option: any) => {
           return (
             <div key={option.id}>
-              <div className="mb-1 text-base font-mediu flex justify-between items-center">
-                <h1 className="text-[12px] text-gray-800 md:text-[15px]">
+              <div className='mb-1 text-base font-mediu flex justify-between items-center'>
+                <h1 className='text-[12px] text-gray-800 md:text-[15px]'>
                   {option.optionText}
                 </h1>
-                <h1 className="text-[12px] font-semibold text-blue-custom md:text-[15px]">
-                  {(option.percentage * 100).toFixed(2)} %
+                <h1 className='text-[12px] font-semibold text-blue-custom md:text-[15px]'>
+                  {Number.isInteger(option.percentage * 100)
+                    ? (option.percentage * 100).toFixed(0) + "%"
+                    : (option.percentage * 100).toFixed(2) + "%"}
                 </h1>
               </div>
-              <div className="w-full bg-blue-100 rounded-full h-3 mb-2">
+              <div className='w-full bg-blue-100 rounded-full h-3 mb-2'>
                 {option.percentage === 0 ? (
-                  <div className="w-3 bg-blue-custom h-full rounded-full"></div>
+                  <div className='w-3 bg-blue-custom h-full rounded-full'></div>
                 ) : (
                   <div
-                    style={{ width: `${(option.percentage * 100).toFixed(2)}%` }}
-                    className="bg-blue-custom h-full rounded-full"
+                    style={{
+                      width: `${(option.percentage * 100).toFixed(2)}%`,
+                    }}
+                    className='bg-blue-custom h-full rounded-full'
                   ></div>
                 )}
               </div>

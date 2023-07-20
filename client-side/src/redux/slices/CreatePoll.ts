@@ -13,11 +13,9 @@ export const createPollSlice = createSlice({
   initialState: initialState,
   reducers: {
     openCreatePollPopup: (state) => {
-      console.log("Open Create Poll Popup action dispatched");
       state.isCreatePollPopupOpen = true;
     },
     closeCreatePollPopup: (state) => {
-      console.log("Close Create Poll Popup action dispatched");
       state.isCreatePollPopupOpen = false;
     },
     setPolls: (state, action: PayloadAction<Poll[]>) => {

@@ -52,7 +52,6 @@ function CreatePoll() {
   };
 
   const handleCreatePoll = () => {
-    console.log("Create Poll Clicked");
     dispatch(openCreatePollPopup());
   };
 
@@ -92,6 +91,7 @@ function CreatePoll() {
       setHasAccess(false);
     }
   }, [hasAccess, communityMembers]);
+
 
   return (
     <div className="relative bg-gray-100 w-full lg:w-full md:w-screen sm:w-full font-san h-screen">
@@ -170,6 +170,7 @@ function CreatePoll() {
                 pollDate={poll.user.createdAt}
                 options={poll.options}
                 pollQuestion={poll.pollQuestion}
+                duration={poll.duration}
               />
             ))}
           </div>
