@@ -1,6 +1,7 @@
 package com.polify.service.impl;
 
 import com.polify.entity.Community;
+import com.polify.entity.CommunityMembers;
 import com.polify.entity.User;
 import com.polify.repository.CommunityRepository;
 import com.polify.repository.UserRepository;
@@ -8,8 +9,7 @@ import com.polify.service.CommunityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class CommunityServiceImpl implements CommunityService {
@@ -22,8 +22,16 @@ public class CommunityServiceImpl implements CommunityService {
     private UserRepository userRepository;
 
     @Override
-    public List<Community> getAllCommunity() {
-        return communityRepository.findAll();
+    public List<Map<String, UUID>> getAllCommunity() {
+        List<Community> allCommunity = communityRepository.findAll();
+        List<Map<String, UUID>> response = new ArrayList<>();
+
+        for (Community community: allCommunity){
+            Map<String, UUID> communityIdMap = new HashMap<>();
+            communityIdMap.put("id", community.getId());
+            response.add(communityIdMap);
+        }
+        return response;
     }
 
     @Override

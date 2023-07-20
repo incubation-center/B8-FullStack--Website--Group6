@@ -4,11 +4,12 @@ import com.polify.entity.Community;
 import com.polify.entity.User;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public interface CommunityService {
 
-    public List<Community> getAllCommunity();
+    public List<Map<String, UUID>> getAllCommunity();
 
     public Community addCommunity(Community community);
 
