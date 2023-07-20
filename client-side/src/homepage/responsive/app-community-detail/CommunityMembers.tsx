@@ -45,8 +45,6 @@ function CommunityMembers() {
   return (
     <div className="profile flex flex-col h-[45vh] px-4 overflow-y-auto community-scrolling">
       {communityMembers.map((user: any, index: any) => {
-        console.log("user", user);
-
         return (
           <React.Fragment key={index}>
             <div className="profile-line flex flex-col justify-center border-b border-gray-300 py-4">

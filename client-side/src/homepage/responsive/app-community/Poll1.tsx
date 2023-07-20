@@ -12,7 +12,7 @@ import { RootState } from "../../../redux/store";
 function Poll1({ pollId }: any) {
   // poll state
   const [pollData, setPollData] = useState<Poll | null>(null);
-  console.log("pollData", pollData);
+  console.log("pollData vote", pollData?.totalVote);
 
   const { email } = useSelector((state: RootState) => state.userCommunity);
 
@@ -162,12 +162,18 @@ function Poll1({ pollId }: any) {
           );
         })}
       </div>
-      {/* <div className="btn-delete flex justify-end items-center mb-5 mr-5">
-        <button className="bg-red-500 text-white font-sans  text-[13px] py-2 px-2 rounded-full flex items-center gap-x-1 w-fit lg:text-[17px] lg:px-3">
-          <AiOutlineDelete style={deleteBtnIcon} />
-          <span>Delete</span>
+      <div className="btn-delete flex justify-start items-center mt-2">
+        <button className="font-sans border border-blue-custom px-4 py-2 rounded-full flex items-center gap-x-1 w-fit">
+          {pollData?.totalVote === null ? (
+            <span className="text-blue-custom">0 vote</span>
+          ) : (
+            <span className="text-blue-custom">
+              {pollData?.totalVote ?? 0}{" "}
+              {pollData?.totalVote && pollData.totalVote > 1 ? "votes" : "vote"}
+            </span>
+          )}
         </button>
-      </div> */}
+      </div>
     </div>
   );
 }
