@@ -164,14 +164,10 @@ function Poll1({ pollId }: any) {
       </div>
       <div className="btn-delete flex justify-start items-center mt-2">
         <button className="font-sans border border-blue-custom px-4 py-2 rounded-full flex items-center gap-x-1 w-fit">
-          {pollData?.totalVote === null ? (
-            <span className="text-blue-custom">0 vote</span>
-          ) : (
-            <span className="text-blue-custom">
-              {pollData?.totalVote ?? 0}{" "}
-              {pollData?.totalVote && pollData.totalVote > 1 ? "votes" : "vote"}
-            </span>
-          )}
+          <span className="text-blue-custom">
+            {pollData?.totalVote ?? 0}{" "}
+            {pollData?.totalVote && pollData.totalVote > 1 ? "votes" : "vote"}
+          </span>
         </button>
       </div>
     </div>
