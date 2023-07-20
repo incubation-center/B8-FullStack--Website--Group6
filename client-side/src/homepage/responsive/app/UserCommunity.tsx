@@ -28,7 +28,6 @@ function UserCommunity() {
     community: Community
   ): void => {
     e.preventDefault();
-    // setActiveCommunity(community.id);
     dispatch(setInCommunityId(community.id));
     dispatch(setIsBackToCommunity(false));
     dispatch(setSearchTerm(""));

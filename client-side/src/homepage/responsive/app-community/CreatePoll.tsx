@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { MdTranslate } from "react-icons/md";
-import { IoMdNotificationsOutline } from "react-icons/io";
 import { AiOutlineSearch } from "react-icons/ai";
 import { IoIosArrowBack } from "react-icons/io";
 import Poll1 from "./Poll1";
@@ -15,7 +13,6 @@ import { NoPoll } from "../../../homepage";
 import TrophyIcon from "../../../assets/icons/trophy.svg";
 import { Poll } from "../../../types/redux/create_poll";
 import api from "../../../utils/api";
-import Ellipse1007 from "../../../assets/community/Ellipse1007.png";
 
 function CreatePoll() {
   const dispatch = useDispatch();
@@ -33,11 +30,16 @@ function CreatePoll() {
     (state: RootState) => state.userCommunity
   );
 
-  const { inCommunityId, communityMembers } = useSelector(
+  const { communityMembers } = useSelector(
     (state: RootState) => state.community
   );
 
   const communityId = localStorage.getItem("communityId");
+
+  const inActiveCommunity =
+    communityId !== null
+      ? community.find((obj) => obj.id.toString() === communityId.toString())
+      : null;
 
   const currentProfile = communityMembers.find((member) => member.id === id);
 
@@ -110,19 +112,27 @@ function CreatePoll() {
             </div>
           </div>
           <div className="translate flex gap-x-3 items-center lg:hidden">
-            <MdTranslate className="w-6 h-6" />
-            <IoMdNotificationsOutline className="w-6 h-6" />
-            <div
-              className="relative cursor-pointer"
-              onClick={handleCommunityProfileClick}
-            >
-              <img
-                src={Ellipse1007}
-                alt="Profile 1"
-                className="w-10 h-10 rounded-full mr-2 border-2 border-blue-500"
-              />
-              <span className="bottom-1 left-8 absolute  w-3 h-3 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
-            </div>
+            {inActiveCommunity?.image === null ? (
+              <div
+                className="flex justify-center items-center w-9 h-9 rounded-full border border-blue-500 cursor-pointer"
+                onClick={handleCommunityProfileClick}
+              >
+                <span className="font-bold text-xl uppercase">
+                  {inActiveCommunity?.name[0]}
+                </span>
+              </div>
+            ) : (
+              <div
+                className="relative cursor-pointer"
+                onClick={handleCommunityProfileClick}
+              >
+                <img
+                  src={inActiveCommunity?.image}
+                  alt="community profile"
+                  className="w-9 h-9 rounded-full border-2 border-blue-500"
+                />
+              </div>
+            )}
           </div>
         </div>
         <div className="create-poll w-full flex flex-row justify-around items-center gap-x-3">
