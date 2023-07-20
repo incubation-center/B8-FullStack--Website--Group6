@@ -16,6 +16,7 @@ const initialState: CommunityState = {
   userData: [],
   invitedUsers: [],
   communityMembers: [],
+  isOpenUserProfileMobile: false,
 };
 
 export const communitySlice = createSlice({
@@ -55,6 +56,9 @@ export const communitySlice = createSlice({
     setCommunityMembers: (state, action: PayloadAction<User[]>) => {
       state.communityMembers = action.payload;
     },
+    setIsOpenUserProfileMobile: (state) => {
+      state.isOpenUserProfileMobile = !state.isOpenUserProfileMobile;
+    },
   },
 });
 
@@ -71,6 +75,7 @@ export const {
   setUserData,
   setInvitedUsers,
   setCommunityMembers,
+  setIsOpenUserProfileMobile,
 } = communitySlice.actions;
 
 export default communitySlice.reducer;

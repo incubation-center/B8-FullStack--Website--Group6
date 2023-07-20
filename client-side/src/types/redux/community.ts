@@ -18,6 +18,7 @@ interface CommunitySate {
   userData: User[];
   invitedUsers: User[];
   communityMembers: User[];
+  isOpenUserProfileMobile: boolean;
 }
 
 const UpdateCommunityAction = "Community";

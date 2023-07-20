@@ -1,5 +1,5 @@
 import React from "react";
-import { MdClear } from "react-icons/md";
+import { TiDelete } from "react-icons/ti";
 import { RootState } from "../redux/store";
 import { useSelector } from "react-redux";
 import api from "../utils/api";
@@ -68,12 +68,16 @@ const ButtonWithAvatar: React.FC<ButtonWithAvatarProps> = ({
     }
   };
   return (
-    <div className="min-w-[163px]  min-h-[40px] max-w-[170px] sm:max-w-[270px] poller-1 flex justify-between items-center border border-sky-500 rounded-full p-1 ">
-      <img src={avatarSrc} alt="Profile" className="w-10 h-10" />
-      <span className="text-sky-500">{name.split(" ")[0]}</span>
-      <MdClear
-        style={clearIconsStyle}
-        className="bg-sky-500 rounded-full"
+    <div className="flex flex-row items-center pl-1 h-8 space-x-2 w-auto border border-blue-custom rounded-full">
+      <div className="bg-gray-200 rounded-full w-6 h-6">
+        <span className="font-bold text-sm text-gray-600 uppercase text-center">
+          {name[0]}
+        </span>
+      </div>
+      {/* <img src={avatarSrc} alt="Profile" className="w-6 h-6" /> */}
+      <span className="text-sky-500">{name}</span>
+      <TiDelete
+        className="text-blue-custom w-6 h-6"
         onClick={() => demoteMember(id)}
       />
     </div>

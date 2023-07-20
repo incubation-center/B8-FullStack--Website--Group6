@@ -1,2 +1,2 @@
-import Logout from "./Popup/UserProfile";
-export { Logout };
+import UserProfile from "./Popup/UserProfile";
+export { UserProfile };
