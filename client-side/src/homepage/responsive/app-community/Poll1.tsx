@@ -12,7 +12,7 @@ import { RootState } from "../../../redux/store";
 function Poll1({ pollId }: any) {
   // poll state
   const [pollData, setPollData] = useState<Poll | null>(null);
-  console.log("pollData", pollData);
+  console.log("pollData vote", pollData?.totalVote);
 
   const { email } = useSelector((state: RootState) => state.userCommunity);
 
@@ -83,23 +83,29 @@ function Poll1({ pollId }: any) {
   return (
     <div className="poll1 flex flex-col border h-fit bg-white rounded-md p-5">
       <Alert variant={alertType} message={alertMessage} showAlert={showAlert} />
-      <div className=" userChart flex justify-between items-center">
-        <div className="User flex relative">
+      <div className="userChart flex justify-between items-center">
+        <div className="User flex items-center w-full">
           {/* <img
             src={Avatar}
             alt="Profile 1"
             className="w-10 h-10 rounded-full mr-2 border-2 border-blue-500"
           /> */}
-          <div className="flex justify-center items-center w-9 h-9 rounded-full mr-2 border border-blue-500">
+          <div className="relative flex justify-center items-center w-9 h-9 rounded-full mr-3 border border-blue-500">
             <span className="font-bold text-xl uppercase">
               {pollData?.user.createdBy.slice(0, 2)}
             </span>
+            <span className="absolute bottom-0 left-6 w-3 h-3 bg-green-400 border-2 border-white rounded-full"></span>
           </div>
-          <h5 className="text-sm">
-            <span className="bottom-1 left-8 absolute w-3 h-3 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
-            {pollData?.user.createdBy} <br />
-            <Moment format="MMMM Do YYYY">{pollData?.pollDate}</Moment>
-          </h5>
+          <div className="">
+            <h5 className="text-lg leading-none font-semibold">
+              {pollData?.user.createdBy}
+            </h5>
+            <small>
+              <Moment className="leading-none" format="Do MMMM YYYY">
+                {pollData?.pollDate}
+              </Moment>
+            </small>
+          </div>
         </div>
         <FcPieChart className="w-10 h-10" />
       </div>
@@ -156,12 +162,14 @@ function Poll1({ pollId }: any) {
           );
         })}
       </div>
-      {/* <div className="btn-delete flex justify-end items-center mb-5 mr-5">
-        <button className="bg-red-500 text-white font-sans  text-[13px] py-2 px-2 rounded-full flex items-center gap-x-1 w-fit lg:text-[17px] lg:px-3">
-          <AiOutlineDelete style={deleteBtnIcon} />
-          <span>Delete</span>
+      <div className="btn-delete flex justify-start items-center mt-2">
+        <button className="font-sans border border-blue-custom px-4 py-2 rounded-full flex items-center gap-x-1 w-fit">
+          <span className="text-blue-custom">
+            {pollData?.totalVote ?? 0}{" "}
+            {pollData?.totalVote && pollData.totalVote > 1 ? "votes" : "vote"}
+          </span>
         </button>
-      </div> */}
+      </div>
     </div>
   );
 }
