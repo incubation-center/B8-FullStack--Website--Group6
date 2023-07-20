@@ -7,9 +7,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../../redux/store";
 import { setIsCommunityProfileOpen } from "../../../redux/slices/Community";
 import { useLocation } from "react-router-dom";
+import { UserProfile } from "../../../components";
 import api from "../../../utils/api";
 import Alert from "../../../components/Popup/Alert";
-import { Logout } from "../../../components";
 
 function CommunityProfile() {
   const dispatch = useDispatch();
@@ -23,6 +23,8 @@ function CommunityProfile() {
   const { communityMembers } = useSelector(
     (state: RootState) => state.community
   );
+
+  const [isOpenUserProfile, setIsOpenUserProfile] = React.useState(false);
 
   // Alert popup setup
   const [showAlert, setShowAlert] = useState(false);
@@ -62,12 +64,12 @@ function CommunityProfile() {
       console.log("An error occured: ", error);
     }
   };
-  const [isOpenLogout, setIsOpenLogout] = React.useState(false);
+
 
   const { username } = useSelector((state: RootState) => state.userCommunity);
   const location = useLocation();
-  const communityName = location.state?.communityName || "";
-  const communityImage = location.state?.communityImage || "";
+  // const communityName = location.state?.communityName || "";
+  // const communityImage = location.state?.communityImage || "";
 
   const currentProfile = communityMembers.find((member) => member.id === id);
   const communityId = localStorage.getItem("communityId");
@@ -85,8 +87,8 @@ function CommunityProfile() {
     }
   }, [hasAccess, communityMembers]);
 
-  const handleOpenLogout = () => {
-    setIsOpenLogout(!isOpenLogout);
+  const handleOpenUserProfile = () => {
+    setIsOpenUserProfile(!isOpenUserProfile);
   };
 
   const handleBackToPoll = () => {
@@ -118,9 +120,9 @@ function CommunityProfile() {
           </div>
           <div
             className="flex gap-x-3 items-center hover:text-blue-custom"
-            onClick={handleOpenLogout}
+            onClick={handleOpenUserProfile}
           >
-            <p className="lg:text-lg lg:font-sans lg:font-bold uppercase">
+            <p className="hidden lg:block lg:font-sans lg:font-bold uppercase">
               {username}
             </p>
             <div className="relative">
@@ -129,7 +131,7 @@ function CommunityProfile() {
               alt="Profile 1"
               className="w-10 h-10 rounded-full mr-2 border-2 border-blue-500"
             /> */}
-              <div className="flex justify-center items-center w-9 h-9 rounded-full mr-2 border border-blue-500">
+              <div className="flex justify-center items-center w-9 h-9 rounded-full lg:mr-2 border border-blue-500">
                 <span className="font-bold text-xl uppercase">
                   {username.slice(0, 2)}
                 </span>
@@ -137,7 +139,7 @@ function CommunityProfile() {
               <span className="bottom-1 left-7 absolute w-3 h-3 bg-green-400 border-2 border-white rounded-full"></span>
             </div>
           </div>
-          {isOpenLogout && <Logout />}
+          {isOpenUserProfile && <UserProfile />}
         </div>
       </div>
       <div className="border border-gray-200 mt-8 lg:hidden"></div>
@@ -168,7 +170,7 @@ function CommunityProfile() {
               ) : (
                 <img
                   src={inActiveCommunity?.image}
-                  alt="moringa"
+                  alt="community profile"
                   className="w-16 h-16 rounded-full object-cover border border-blue-custom cursor-pointer"
                 />
               )}
