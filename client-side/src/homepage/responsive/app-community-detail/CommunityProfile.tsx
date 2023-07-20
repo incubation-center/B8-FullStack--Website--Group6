@@ -65,7 +65,6 @@ function CommunityProfile() {
     }
   };
 
-
   const { username } = useSelector((state: RootState) => state.userCommunity);
   const location = useLocation();
   // const communityName = location.state?.communityName || "";

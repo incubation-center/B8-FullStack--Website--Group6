@@ -162,9 +162,9 @@ function CreateCommunity() {
   };
 
   return (
-    <div className="h-screen relative lg:fixed z-20 lg:inset-0 overflow-y-auto flex lg:items-center lg:justify-center">
+    <div className="h-screen fixed z-20 lg:inset-0 flex lg:items-center lg:justify-center">
       <div
-        className="relative lg:fixed z-20 lg:inset-0 bg-gray-500 opacity-60"
+        className="fixed z-20 lg:inset-0 bg-gray-500 opacity-60"
         onClick={handleCloseCreateCommunity}
       ></div>
       {isLoading ? (
@@ -239,7 +239,11 @@ function CreateCommunity() {
                   return (
                     <React.Fragment key={index}>
                       <div className="flex flex-row items-center pl-1 h-8 space-x-2 w-auto border border-blue-custom rounded-full ">
-                        <img className="w-6 h-6" src={avatar2} alt="" />
+                        <div className="flex justify-center items-center w-6 h-6 bg-gray-200 rounded-full">
+                          <span className="text-gray-600 uppercase font-semibold">
+                            {user.username[0]}
+                          </span>
+                        </div>
                         <p className="text-sm text-blue-custom">
                           {user.username}
                         </p>
@@ -271,7 +275,12 @@ function CreateCommunity() {
                       className="flex flex-row items-center space-x-3 w-full px-1 py-3 border-b border-gray-300 hover:bg-gray-100"
                       onClick={(e) => handleAddUser(e, user)}
                     >
-                      <img className="w-8 h-8" src={avatar3} alt="" />
+                      {/* <img className="w-8 h-8" src={avatar3} alt="" /> */}
+                      <div className="flex justify-center items-center w-8 h-8 bg-gray-200 rounded-full">
+                        <span className="text-gray-600 uppercase font-semibold">
+                          {user.username[0]}
+                        </span>
+                      </div>
                       <p className="text-sm text-black-secondary font-medium">
                         {user.username}
                       </p>
