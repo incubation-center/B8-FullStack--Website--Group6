@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { RxCrossCircled } from "react-icons/rx";
 import RoleSection from "../../components/RoleSection";
 import { useSelector } from "react-redux";
@@ -7,6 +7,12 @@ import { RootState } from "../../redux/store";
 interface PopupModalProps {
   isOpen: boolean;
   onClose: () => void;
+}
+
+interface Member {
+  avatarSrc?: string;
+  username: string;
+  id: number;
 }
 
 const clearIcons = {
@@ -20,13 +26,17 @@ const PopupModal: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
   // Get datas from current active community to display on UI
   const currentCommunity = useSelector((state: RootState) => state.community);
 
-  const pollers = currentCommunity.communityMembers.filter(
+  const defaultPollers = currentCommunity.communityMembers.filter(
     (obj) => obj.role === "poller"
   );
 
-  const admins = currentCommunity.communityMembers.filter(
+  const defaultAdmins = currentCommunity.communityMembers.filter(
     (obj) => obj.role === "admin"
   );
+
+  // Set state for each role section
+  const [pollers, setPollers] = useState<Member[]>(defaultPollers);
+  const [admins, setAdmins] = useState<Member[]>(defaultAdmins);
 
   function onButtonClick() {
     //
@@ -35,7 +45,10 @@ const PopupModal: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto flex items-center justify-center">
       <div className="fixed inset-0 transition-opacity">
-        <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+        <div
+          className="absolute inset-0 bg-gray-500 opacity-60"
+          onClick={onClose}
+        ></div>
       </div>
       <div
         className="flex flex-col justify-start bg-white rounded-lg text-center overflow-hidden shadow-xl px-6 transform transition-all w-full lg:w-2/5  h-full lg:h-auto"
@@ -43,7 +56,7 @@ const PopupModal: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
         aria-modal="true"
         aria-labelledby="modal-headline"
       >
-        <div className="bg-white pt-6">
+        <div className="bg-white py-6">
           <div className="role flex flex-col gap-y-5">
             <div className="text-xl text-sky-500">
               <h1>Role</h1>
@@ -53,11 +66,12 @@ const PopupModal: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
             </div>
             <div className="line border border-gray-200"></div>
             <RoleSection
-              role="Admin"
+              role="Admins"
               members={admins}
               clearIconsStyle={clearIcons}
               onClearClick={onButtonClick}
               onAddClick={onButtonClick}
+              setAdmins={setAdmins}
             />
             <div className="line border border-gray-200"></div>
             <RoleSection
@@ -66,6 +80,7 @@ const PopupModal: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
               clearIconsStyle={clearIcons}
               onClearClick={onButtonClick}
               onAddClick={onButtonClick}
+              setPollers={setPollers}
             />
           </div>
         </div>

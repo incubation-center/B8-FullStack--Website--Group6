@@ -32,6 +32,13 @@ const OtpVerification = () => {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Handling invitation
+  const isRedirected = window.location.search.includes("redirect");
+  let inviteToken = "";
+  if (isRedirected) {
+    inviteToken = window.location.search.split("=")[1];
+  }
+
   const handleOptOnChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const value = e.target.value;
     const newOtpCodes: string[] = [...otpCodes];
@@ -87,7 +94,11 @@ const OtpVerification = () => {
         dispatch(setEmail(""));
         dispatch(setPassword(""));
         dispatch(setIsAgree(false));
-        navigate("/user/sign_in");
+        if (isRedirected) {
+          navigate(`/user/sign_in?redirect=${inviteToken}`);
+        } else {
+          navigate("/user/sign_in");
+        }
       } else {
         // Verification failed, handle the error
         dispatch(setErrorMessage("Verification code is invalid."));

@@ -1,34 +1,24 @@
 import React, { useState, useEffect } from "react";
-import Avatar from "../../../assets/Avatar.png";
-import { MdTranslate } from "react-icons/md";
-import { IoMdNotificationsOutline } from "react-icons/io";
 import { AiOutlineSearch } from "react-icons/ai";
 import { IoIosArrowBack } from "react-icons/io";
 import Poll1 from "./Poll1";
-import Poll2 from "./Poll2";
-import SelectFood from "./SelectFood";
-import Rating from "./Rating";
 import { RootState } from "../../../redux/store";
-import { useNavigate } from "react-router-dom";
-import CreatePollPopup from "../../popup/CreatePollPopup";
 import { useDispatch, useSelector } from "react-redux";
 import { openCreatePollPopup } from "../../../redux/slices/CreatePoll";
 import {
   setIsBackToCommunity,
   setIsCommunityProfileOpen,
 } from "../../../redux/slices/Community";
-import PolliFy from "../../../assets/PolliFy.png";
 import { NoPoll } from "../../../homepage";
 import TrophyIcon from "../../../assets/icons/trophy.svg";
 import { Poll } from "../../../types/redux/create_poll";
 import api from "../../../utils/api";
-import Ellipse1007 from "../../../assets/community/Ellipse1007.png";
 
 function CreatePoll() {
   const dispatch = useDispatch();
-  const isCreatePollPopupOpen = useSelector(
-    (state: RootState) => state.createPoll.isCreatePollPopupOpen
-  );
+
+  // search poll
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Check Access Right
   const [hasAccess, setHasAccess] = useState(false);
@@ -40,15 +30,21 @@ function CreatePoll() {
     (state: RootState) => state.userCommunity
   );
 
-  const { inCommunityId, communityMembers } = useSelector(
+  const { communityMembers } = useSelector(
     (state: RootState) => state.community
   );
+
+  const communityId = localStorage.getItem("communityId");
+
+  const inActiveCommunity =
+    communityId !== null
+      ? community.find((obj) => obj.id.toString() === communityId.toString())
+      : null;
 
   const currentProfile = communityMembers.find((member) => member.id === id);
 
   const handleCommunityProfileClick = () => {
     dispatch(setIsCommunityProfileOpen(true));
-    // navigate("/communitydetail");
   };
 
   const handleCreatePoll = () => {
@@ -65,23 +61,23 @@ function CreatePoll() {
       const headers = {
         Authorization: `${accessToken}`,
       };
-      if (inCommunityId !== 0) {
-        try {
-          const response = await api.get(`/poll/community/${inCommunityId}`, {
-            headers,
-          });
-          if (response.status === 200) {
-            const pollData = response.data.reverse();
-            setPolls(pollData);
-          }
-        } catch (e) {
-          console.log(e);
+      try {
+        const response = await api.get(`/poll/community/${communityId}`, {
+          headers,
+        });
+        if (response.status === 200) {
+          const pollData = response.data.reverse();
+          setPolls(pollData);
+
+          sessionStorage.setItem("pollData", JSON.stringify(pollData));
         }
+      } catch (e) {
+        console.log(e);
       }
     };
 
     fetchPolls();
-  }, [inCommunityId]);
+  }, [communityId]);
 
   // Checking Access Right
   useEffect(() => {
@@ -94,7 +90,7 @@ function CreatePoll() {
 
 
   return (
-    <div className="relative bg-gray-100 w-full lg:w-full md:w-screen sm:w-full font-san h-screen">
+    <div className="relative bg-gray-100 w-full lg:w-full md:w-screen sm:w-full font-san min-h-screen">
       <div className="bg-white flex flex-col pl-6 pr-7 py-6 gap-y-7">
         <div className="logo-profile-createPoll flex justify-between items-center">
           <div className="logo-text">
@@ -116,19 +112,27 @@ function CreatePoll() {
             </div>
           </div>
           <div className="translate flex gap-x-3 items-center lg:hidden">
-            <MdTranslate className="w-6 h-6" />
-            <IoMdNotificationsOutline className="w-6 h-6" />
-            <div
-              className="relative cursor-pointer"
-              onClick={handleCommunityProfileClick}
-            >
-              <img
-                src={Ellipse1007}
-                alt="Profile 1"
-                className="w-10 h-10 rounded-full mr-2 border-2 border-blue-500"
-              />
-              <span className="bottom-1 left-8 absolute  w-3 h-3 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full"></span>
-            </div>
+            {inActiveCommunity?.image === null ? (
+              <div
+                className="flex justify-center items-center w-10 h-10 rounded-full border border-blue-500 cursor-pointer"
+                onClick={handleCommunityProfileClick}
+              >
+                <span className="font-bold text-xl uppercase">
+                  {inActiveCommunity?.name[0]}
+                </span>
+              </div>
+            ) : (
+              <div
+                className="relative cursor-pointer"
+                onClick={handleCommunityProfileClick}
+              >
+                <img
+                  src={inActiveCommunity?.image}
+                  alt="community profile"
+                  className="w-9 h-9 rounded-full border-2 border-blue-500"
+                />
+              </div>
+            )}
           </div>
         </div>
         <div className="create-poll w-full flex flex-row justify-around items-center gap-x-3">
@@ -140,6 +144,9 @@ function CreatePoll() {
               type="text"
               placeholder="Search Poll"
               className="py-2 px-4 pl-9 border-2 border-gray-300 w-full rounded-full focus:outline-none focus:border-blue-500"
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+              }}
             />
           </div>
 
@@ -158,21 +165,28 @@ function CreatePoll() {
         </div>
         {/* {isCreatePollPopupOpen && <CreatePollPopup />} */}
       </div>
-      <div className="flex flex-col gap-y-5 h-[87%] lg:h-[80%] overflow-auto p-6 home-scrolling">
-        {polls.length > 0 ? (
+      <div className="flex flex-col h-[75vh] overflow-auto p-6 home-scrolling">
+        {polls?.length > 0 ? (
           <div className="flex flex-col gap-y-5">
-            {polls.map((poll: any) => (
-              <Poll1
-                key={poll.id}
-                votedOn={poll.votedOn}
-                pollId={poll.id}
-                createdBy={poll.user.createdBy}
-                pollDate={poll.user.createdAt}
-                options={poll.options}
-                pollQuestion={poll.pollQuestion}
-                duration={poll.duration}
-              />
-            ))}
+            {polls
+              .filter((poll) => {
+                return searchTerm.toLowerCase() === ""
+                  ? poll
+                  : poll.pollQuestion
+                      .toLowerCase()
+                      .includes(searchTerm.toLowerCase());
+              })
+              .map((poll: any) => (
+                <Poll1
+                  key={poll.id}
+                  votedOn={poll.votedOn}
+                  pollId={poll.id}
+                  createdBy={poll.user.createdBy}
+                  pollDate={poll.user.createdAt}
+                  options={poll.options}
+                  pollQuestion={poll.pollQuestion}
+                />
+              ))}
           </div>
         ) : (
           <NoPoll />

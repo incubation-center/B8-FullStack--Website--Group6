@@ -12,13 +12,13 @@ interface CommunitySate {
   communityName: string;
   inCommunityId: number;
   searchTerm: string;
-  communityDescription: string;
   isCreateCommunityOpen: boolean;
   isBackToCommunity: boolean;
   isCommunityProfileOpen: boolean;
   userData: User[];
   invitedUsers: User[];
   communityMembers: User[];
+  isOpenUserProfileMobile: boolean;
 }
 
 const UpdateCommunityAction = "Community";

@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from "react";
-import Avatar from "../../../assets/Avatar.png";
 import { FcPieChart } from "react-icons/fc";
 import { AiFillCheckCircle } from "react-icons/ai";
-import { BsCircle } from "react-icons/bs";
 import api from "../../../utils/api";
 import Alert from "../../../components/Popup/Alert";
+import Moment from "react-moment";
+import { apiURL } from "../../../config/config";
+import { Poll } from "../../../types/redux/create_poll";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
+
+function Poll1({ pollId }: any) {
+  // poll state
+  const [pollData, setPollData] = useState<Poll | null>(null);
+  console.log("pollData vote", pollData?.totalVote);
+
+  const { email } = useSelector((state: RootState) => state.userCommunity);
 
 function Poll1({
   createdBy,
@@ -17,7 +27,8 @@ function Poll1({
 }: any) {
   const timeNow = new Date().toISOString();
   const splittedTime = timeNow.split("+")[0];
-  const creationTime = splittedTime.replace("Z", "+00:00") ;
+  const creationTime = splittedTime.replace("Z", "+00:00");
+//helper function to convert the custom format of duration
   const reverseCustomFormat = (customFormat: any) => {
     const timezoneOffset = customFormat.split("+")[1];
     const splittedTime = customFormat.split("+")[0];
@@ -32,25 +43,17 @@ function Poll1({
     return currentTime.toLocaleString(); // Returns a string like "7/20/2023, 8:40:32 AM" based on the user's local timezone
   };
 
-
+//helper function to calculate time diff
   const calculateTimeDifference = () => {
     const pollDateInMillis = new Date(reverseCustomFormat(creationTime)).getTime();
     const durationInMillis = new Date(reverseCustomFormat(duration)).getTime();
 
-    // Calculate the time difference between pollDate and duration
-    // console.log("duration: ", duration);
-    // console.log("duration: ", reverseCustomFormat(duration));
-    // console.log("duration mil: ", durationInMillis);
-    // console.log("polldate: ", creationTime);
-    // console.log("polldate: ", reverseCustomFormat(creationTime));
-    // console.log("polldate mil: ", pollDateInMillis);
     const timeDifferenceInMillis = durationInMillis - pollDateInMillis;
-    // console.log("timediff: ", timeDifferenceInMillis);
     return timeDifferenceInMillis;
   };
 
   // Handle options update
-  const [newOption, setNewOption] = useState(options);
+  // const [newOption, setNewOption] = useState(options);
 
   // Show Alert message
   const [showAlert, setShowAlert] = useState(false);
@@ -104,6 +107,29 @@ function Poll1({
     // };
   }, [pollDate, duration, pollId, timeRemaining]);
 
+  // update real time data with SSE
+  useEffect(() => {
+    const sse = new EventSource(
+      `${apiURL}/poll/stream/${pollId}?email=${email}`
+    );
+
+    sse.onmessage = (e) => {
+      // Handle incoming SSE messages
+      const pollData = JSON.parse(e.data);
+      setPollData(pollData);
+    };
+
+    sse.onerror = (error) => {
+      // Handle incoming SSE error
+      // console.error("SSE connection error:", error);
+    };
+
+    return () => {
+      // Cleanup: close the SSE connection when the component unmounts
+      sse.close();
+    };
+  }, []);
+
   // Option Click handler
   const handleOptionClick = async (optionId: number) => {
     const accessToken = localStorage.getItem("accessToken");
@@ -118,7 +144,7 @@ function Poll1({
         headers,
       });
       if (response.status === 200) {
-        setNewOption(response.data.options);
+        // setNewOption(response.data.options);
         setAlertType("success");
         setShowAlert(true);
         setAlertMessage("You have voted successfully!");
@@ -140,18 +166,29 @@ function Poll1({
   return (
     <div className='poll1 flex flex-col border h-fit bg-white rounded-md p-5'>
       <Alert variant={alertType} message={alertMessage} showAlert={showAlert} />
-      <div className=' userChart flex justify-between items-center'>
-        <div className='User flex relative'>
-          <img
+      <div className="userChart flex justify-between items-center">
+        <div className="User flex items-center w-full">
+          {/* <img
             src={Avatar}
-            alt='Profile 1'
-            className='w-10 h-10 rounded-full mr-2 border-2 border-blue-500'
-          />
-          <h5 className='text-sm'>
-            <span className='bottom-1 left-8 absolute w-3 h-3 bg-green-400 border-2 border-white dark:border-gray-800 rounded-full'></span>
-            {createdBy} <br />
-            <h4>{pollDate}</h4>
-          </h5>
+            alt="Profile 1"
+            className="w-10 h-10 rounded-full mr-2 border-2 border-blue-500"
+          /> */}
+          <div className="relative flex justify-center items-center w-12 h-12 rounded-full mr-3 border border-blue-500">
+            <span className="font-bold text-2xl uppercase">
+              {pollData?.user.createdBy.slice(0, 2)}
+            </span>
+            <span className="absolute bottom-0 left-8 w-3 h-3 bg-green-400 border-2 border-white rounded-full"></span>
+          </div>
+          <div className="mt-1">
+            <h5 className="text-md leading-none font-semibold">
+              {pollData?.user.createdBy}
+            </h5>
+            <small>
+              <Moment className="leading-none" format="Do MMMM YYYY">
+                {pollData?.pollDate}
+              </Moment>
+            </small>
+          </div>
         </div>
         {/* Time Remaining */}
         <div className='timeRemaining'>
@@ -172,13 +209,12 @@ function Poll1({
         </div>
         {/* Time Remaining End */}
       </div>
-      <p className='mt-5 font-light text-[15px] md:text-[17px]'>
-        {pollQuestion}
+      <p className="mt-5 font-light text-[15px] md:text-[17px]">
+        {pollData?.pollQuestion}
       </p>
-      <div className='food-menu grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 mt-5 text-gray-800'>
-        {newOption.map((option: any) => {
-          const optionDisabled = timeRemaining <= 0; // Determine if the option should be disabled
-
+      <div className="food-menu grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-4 mt-5 text-gray-800">
+        {pollData?.options.map((option: any) => {
+          const optionDisabled = timeRemaining <= 0;
           return (
             <div
               key={option.id}
@@ -201,12 +237,13 @@ function Poll1({
                   : () => handleOptionClick(option.id)
               }
               className={`flex items-center gap-x-2 text-[15px] font-sans font-bold border shadow px-4 py-3 rounded-xl hover:bg-blue-100 hover:cursor-pointer ${
-                votedOn === option.id && "bg-blue-100 border-blue-custom"
+                pollData?.votedOn === option.id &&
+                "bg-blue-100 border-blue-custom"
               }`}
               style={{ cursor: optionDisabled ? "not-allowed" : "pointer" }}
             >
-              {votedOn === option.id ? (
-                <AiFillCheckCircle className='w-5 h-5 text-blue-custom' />
+              {pollData?.votedOn === option.id ? (
+                <AiFillCheckCircle className="w-5 h-5 text-blue-custom" />
               ) : (
                 <span
                   className='w-4 h-4 flex items-center justify-center rounded-full 
@@ -218,8 +255,8 @@ function Poll1({
           );
         })}
       </div>
-      <div className='progress-bar  mt-7'>
-        {options.map((option: any) => {
+      <div className="progress-bar  mt-7">
+        {pollData?.options.map((option: any) => {
           return (
             <div key={option.id}>
               <div className='mb-1 text-base font-mediu flex justify-between items-center'>
@@ -247,43 +284,17 @@ function Poll1({
             </div>
           );
         })}
-        {/* <div className="mb-1 text-base font-medium dark:text-white flex justify-between items-center">
-          <h1 className="text-[12px] md:text-[15px]">Solor Korko</h1>
-          <h1 className="text-[12px] md:text-[15px]">0%</h1>
-        </div>
-        <div className="w-full bg-gray-100 rounded-full h-2 mb-4 dark:bg-gray-100">
-          <div className="w-3 bg-sky-500 h-full rounded-full dark:bg-blue-500"></div>
-        </div> */}
-        {/* <div className="mb-1 text-base font-medium dark:text-white flex justify-between items-center">
-          <h1 className="text-[12px] md:text-[15px]">Kangkep Boak</h1>
-          <h1 className="text-[12px] md:text-[15px]">0%</h1>
-        </div>
-        <div className="w-full bg-gray-100 rounded-full h-2 mb-4 dark:bg-gray-100">
-          <div className="w-3 bg-sky-500 h-full rounded-full dark:bg-blue-500"></div>
-        </div>
-        <div className="mb-1 text-base font-medium dark:text-white flex justify-between items-center">
-          <h1 className="text-[12px] md:text-[15px]">Khmer Curry</h1>
-          <h1 className="text-[12px] md:text-[15px]">0%</h1>
-        </div>
-        <div className="w-full bg-gray-100 rounded-full h-2 mb-4 dark:bg-gray-100">
-          <div className="w-3 bg-sky-500 h-full rounded-full dark:bg-blue-500"></div>
-        </div>
-        <div className="mb-1 text-base font-medium dark:text-white flex justify-between items-center">
-          <h1 className="text-[12px] md:text-[15px]">Fried Chicken</h1>
-          <h1 className="text-[12px] md:text-[15px]">0%</h1>
-        </div>
-        <div className="w-full bg-gray-100 rounded-full h-2 mb-4 dark:bg-gray-100">
-          <div className="w-3 bg-sky-500 h-full rounded-full dark:bg-blue-500"></div>
-        </div> */}
       </div>
-      {/* <div className="btn-delete flex justify-end items-center mb-5 mr-5">
-        <button className="bg-red-500 text-white font-sans  text-[13px] py-2 px-2 rounded-full flex items-center gap-x-1 w-fit lg:text-[17px] lg:px-3">
-          <AiOutlineDelete style={deleteBtnIcon} />
-          <span>Delete</span>
+      <div className="btn-delete flex justify-start items-center mt-2">
+        <button className="font-sans border border-blue-custom px-4 py-2 rounded-full flex items-center gap-x-1 w-fit">
+          <span className="text-blue-custom">
+            {pollData?.totalVote ?? 0}{" "}
+            {pollData?.totalVote && pollData.totalVote > 1 ? "votes" : "vote"}
+          </span>
         </button>
-      </div> */}
+      </div>
     </div>
   );
-}
+}}
 
 export default Poll1;

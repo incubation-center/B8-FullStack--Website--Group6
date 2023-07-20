@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import MainLogo from "../../assets/images/pollify_logo.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import GoogleLogin, {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
@@ -19,6 +19,12 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const isRedirected = window.location.search.includes("redirect");
+  let inviteToken = "";
+  if (isRedirected) {
+    inviteToken = window.location.search.split("=")[1];
+  }
 
   // Handling login
   const dispatch = useDispatch();
@@ -50,7 +56,12 @@ const LoginForm = () => {
 
         dispatch(setAccessToken(token));
         localStorage.setItem("accessToken", `${token}`);
-        navigate("/community");
+
+        if (isRedirected) {
+          navigate(`/community/invite/${inviteToken}`);
+        } else {
+          navigate("/community");
+        }
       }
     } catch (error) {
       alert("Can not login");
@@ -143,7 +154,11 @@ const LoginForm = () => {
         <div className="flex items-center justify-center py-2 mt-3">
           <p className="pr-3 font-light text-sm">New on our platform?</p>
           <Link
-            to="/user/sign_up"
+            to={
+              isRedirected
+                ? `/user/sign_up?redirect=${inviteToken}`
+                : "/user/sign_up"
+            }
             className="inline-block align-baseline font-bold text-sm text-[#2D9CDB] hover:opacity-70"
           >
             Create an account
@@ -182,7 +197,7 @@ const LoginForm = () => {
                 disabled={renderProps.disabled}
               >
                 <FcGoogle className="w-5 h-5" />
-                <span className="text-sm">Sign up with Google</span>
+                <span className="text-sm">Sign in with Google</span>
               </button>
             )}
           />

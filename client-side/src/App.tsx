@@ -19,6 +19,7 @@ import CommunityProfile from "./homepage/responsive/app-community-detail/Communi
 import CreatePollPopup from "./homepage/popup/CreatePollPopup";
 import ProtectedRoute from "./ProtectedRoute";
 import UserProfilePage from "./pages/UserProfile/UserProfilePage";
+import CommunityInvitationHandler from "./pages/CommunityInvitation";
 
 const App = () => {
   return (
@@ -31,6 +32,10 @@ const App = () => {
       <Route path="/test" element={<CreatePollPopup />} />
       <Route path="/auth/verification" element={<OtpVerification />} />
       <Route path="/user/reset_password" element={<ResetPassword />} />
+      <Route
+        path="/community/invite/:inviteLink"
+        element={<CommunityInvitationHandler />}
+      />
       <Route
         path="/auth/verify_forgot_password"
         element={<ForgotPasswordOtp />}

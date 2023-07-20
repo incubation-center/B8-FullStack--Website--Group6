@@ -35,6 +35,13 @@ const RegisterForm = () => {
     "success"
   );
 
+  // Handling invitation logic
+  const isRedirected = window.location.search.includes("redirect");
+  let inviteToken = "";
+  if (isRedirected) {
+    inviteToken = window.location.search.split("=")[1];
+  }
+
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(setUsername((e.target.value).toLowerCase()));
   };
@@ -106,11 +113,15 @@ const RegisterForm = () => {
 
         // Clear form inputs
         setShowPassword(false);
-        navigate("/auth/verification");
+        if (isRedirected) {
+          navigate(`/auth/verification?redirect=${inviteToken}`);
+        } else {
+          navigate("/auth/verification");
+        }
       } else {
         // Registration failed, handle the error
         const errorData = await response.json();
-        console.log("Registration failed:", errorData);
+        console.log("Registration failed:", errorData.message);
         setAlertType("error");
         setShowAlert(true);
         setMessage(`${errorData.message}`);
