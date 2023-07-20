@@ -67,15 +67,15 @@ const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
       });
       const body = { roleList };
 
-      const response = await api.put(
-        `/community_members/community/${inCommunityId}`,
+      const response = await api.post(
+        `/community_members/role/community/${inCommunityId}`,
         body,
         { headers }
       );
 
       console.log(response);
       if (response.status === 200) {
-        alert("success");
+        window.location.reload();
         console.log("Add member successfully");
       }
     } catch (error) {

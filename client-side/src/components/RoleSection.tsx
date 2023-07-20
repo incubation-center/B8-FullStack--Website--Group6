@@ -1,10 +1,12 @@
 import React from "react";
 import ButtonWithAvatar from "./ButtonWithAvatar";
 import Avatar1 from "../assets/userProfile/Avatar-1.png";
+import api from "../utils/api";
 
 interface Member {
   avatarSrc?: string;
   username: string;
+  id: number;
 }
 
 interface AdminsSectionProps {
@@ -13,6 +15,8 @@ interface AdminsSectionProps {
   clearIconsStyle: React.CSSProperties;
   onClearClick: () => void;
   onAddClick: () => void;
+  setPollers?: React.Dispatch<React.SetStateAction<Member[]>>;
+  setAdmins?: React.Dispatch<React.SetStateAction<Member[]>>;
 }
 
 const RoleSection: React.FC<AdminsSectionProps> = ({
@@ -21,6 +25,8 @@ const RoleSection: React.FC<AdminsSectionProps> = ({
   clearIconsStyle,
   onClearClick,
   onAddClick,
+  setPollers,
+  setAdmins,
 }) => {
   return (
     <>
@@ -37,10 +43,14 @@ const RoleSection: React.FC<AdminsSectionProps> = ({
         {members.map((member, index) => (
           <ButtonWithAvatar
             key={index}
+            role={role}
+            id={member.id}
             avatarSrc={member.avatarSrc || Avatar1}
             name={member.username}
             clearIconsStyle={clearIconsStyle}
             onClearClick={onClearClick}
+            setAdmins={setAdmins}
+            setPollers={setPollers}
           />
         ))}
       </div>
