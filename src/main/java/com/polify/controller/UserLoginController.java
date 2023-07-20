@@ -87,12 +87,24 @@ public class UserLoginController {
         User existing_username = userAccountService.getUserByUsername(userDTO.getUsername());
         User existing_email =  userAccountService.getByEmail(userDTO.getEmail());
 
-        if (existing_username != null || existing_email !=null) {
+        if (existing_username != null) {
             ObjectMapper objectMapper = new ObjectMapper();
             String userJson = objectMapper.writeValueAsString(existing_username);
 
             Map<String, String> responseMap = new HashMap<>();
-            responseMap.put("message", "User is already exist");
+            responseMap.put("message", "Username is already taken!!!");
+            responseMap.put("user", userJson);
+
+            return new ResponseEntity<>(
+                responseMap,
+                HttpStatus.BAD_REQUEST);
+        }
+        if (existing_email !=null) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String userJson = objectMapper.writeValueAsString(existing_email);
+
+            Map<String, String> responseMap = new HashMap<>();
+            responseMap.put("message", "Email is already taken!!!");
             responseMap.put("user", userJson);
 
             return new ResponseEntity<>(
