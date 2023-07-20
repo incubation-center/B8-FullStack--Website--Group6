@@ -122,7 +122,7 @@ public class CommunityMembersController {
 
     }
 
-    @DeleteMapping(path = "community/{id}")
+    @PostMapping(path = "/leave/community/{id}")
     public ResponseEntity<String> leaveCommunity(@PathVariable UUID id, Authentication authentication) {
         Community community = communityMembersService.getCommunityById(id);
         String username = authentication.getName();

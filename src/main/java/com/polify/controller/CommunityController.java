@@ -123,7 +123,7 @@ public class CommunityController {
         return response;
     }
 
-    @DeleteMapping(path = "/{id}")
+    @PostMapping(path = "/delete/{id}")
     public ResponseEntity<String> deleteCommunity(@PathVariable UUID id, Authentication authentication){
 
         String username = authentication.getName();
