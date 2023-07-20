@@ -1,6 +1,5 @@
 import React from "react";
 import Avatar2 from "../../assets/userProfile/Avatar-2.png";
-import Avatar3 from "../../assets/userProfile/Avatar-3.png";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
 import { TiDelete } from "react-icons/ti";

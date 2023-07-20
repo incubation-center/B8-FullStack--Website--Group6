@@ -154,7 +154,11 @@ const LoginForm = () => {
         <div className="flex items-center justify-center py-2 mt-3">
           <p className="pr-3 font-light text-sm">New on our platform?</p>
           <Link
-            to="/user/sign_up"
+            to={
+              isRedirected
+                ? `/user/sign_up?redirect=${inviteToken}`
+                : "/user/sign_up"
+            }
             className="inline-block align-baseline font-bold text-sm text-[#2D9CDB] hover:opacity-70"
           >
             Create an account

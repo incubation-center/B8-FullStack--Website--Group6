@@ -4,8 +4,6 @@ import { RootState } from "../../redux/store";
 import { TiDelete } from "react-icons/ti";
 import { HiOutlineCamera } from "react-icons/hi";
 import { RxCrossCircled } from "react-icons/rx";
-import avatar2 from "../../assets/userProfile/Avatar-2.png";
-import avatar3 from "../../assets/userProfile/Avatar-3.png";
 import {
   setCommunityName,
   closeCreateCommunity,

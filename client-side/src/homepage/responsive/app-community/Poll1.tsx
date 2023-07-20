@@ -23,6 +23,8 @@ function Poll1({ pollId }: any) {
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState<any>("success");
 
+  // duration "2023-07-14 05:52:41"
+
   // update real time data with SSE
   useEffect(() => {
     const sse = new EventSource(
@@ -106,7 +108,7 @@ function Poll1({ pollId }: any) {
             </small>
           </div>
         </div>
-        <FcPieChart className="w-10 h-10" />
+        <div className="w-24 text-xs lg:text-sm">10 Minutes Remaining</div>
       </div>
       <p className="mt-5 font-light text-[15px] md:text-[17px]">
         {pollData?.pollQuestion}
