@@ -99,7 +99,7 @@ function CommunityProfile() {
     <div
       className={` ${
         isCommunityProfileOpen ? "w-full" : "w-0"
-      } absolute z-10 duration-300 right-0 lg:relative font-sans bg-white lg:w-2/6 h-full lg:flex lg:flex-col overflow-hidden`}
+      } absolute z-10 duration-300 right-0 lg:relative font-sans bg-white lg:w-2/6 h-screen lg:flex lg:flex-col overflow-hidden`}
     >
       <Alert variant={alertType} message={alertMessage} showAlert={showAlert} />
       <div className="logo-profile-createPoll flex justify-between lg:justify-end items-center pt-5 px-5">
@@ -131,12 +131,12 @@ function CommunityProfile() {
               alt="Profile 1"
               className="w-10 h-10 rounded-full mr-2 border-2 border-blue-500"
             /> */}
-              <div className="flex justify-center items-center w-9 h-9 rounded-full lg:mr-2 border border-blue-500">
+              <div className="flex justify-center items-center w-10 h-10 rounded-full lg:mr-2 border border-blue-500">
                 <span className="font-bold text-xl uppercase">
                   {username.slice(0, 2)}
                 </span>
               </div>
-              <span className="bottom-1 left-7 absolute w-3 h-3 bg-green-400 border-2 border-white rounded-full"></span>
+              <span className="bottom-1 left-8 absolute w-3 h-3 bg-green-400 border-2 border-white rounded-full"></span>
             </div>
           </div>
           {isOpenUserProfile && <UserProfile />}

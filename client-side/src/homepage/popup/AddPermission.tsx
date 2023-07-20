@@ -17,9 +17,11 @@ const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
   const dispatch = useDispatch();
 
-  const { communityMembers, inCommunityId } = useSelector(
+  const { communityMembers } = useSelector(
     (state: RootState) => state.community
   );
+
+  const communityId = localStorage.getItem("communityId");
 
   // Grabbing the access token
   const accessToken = localStorage.getItem("accessToken");
@@ -64,7 +66,7 @@ const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
       const body = { roleList };
 
       const response = await api.post(
-        `/community_members/role/community/${inCommunityId}`,
+        `/community_members/role/community/${communityId}`,
         body,
         { headers }
       );
@@ -120,10 +122,6 @@ const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
               id="user"
               className={`flex flex-wrap w-auto gap-2 mt-2 overflow-auto`}
             >
-              {/* {invitedUsers.map((user, index) => { */}
-              {/* return (
-                <React.Fragment key={index}> */}
-
               {currentInvitedMembers.length > 0 &&
                 currentInvitedMembers.map((user, index) => {
                   return (
@@ -144,12 +142,10 @@ const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
                     </div>
                   );
                 })}
-              {/* </React.Fragment>
-              ); */}
-              {/* })} */}
             </div>
           </div>
-          <div className="w-full mt-4 lg:h-44 overflow-auto">
+          <div className="w-full lg:h-44 mt-4 overflow-auto">
+            {/* {currentMembers.length} */}
             {currentMembers
               .filter((user) => {
                 return searchTerm.toLowerCase() === ""

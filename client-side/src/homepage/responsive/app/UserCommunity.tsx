@@ -37,7 +37,7 @@ function UserCommunity() {
   };
 
   return (
-    <div className="profile flex flex-col pt-2 gap-y-2 mt-5 mr-1 h-[50vh] sm:h-full  overflow-y-auto community-scrolling">
+    <div className="profile flex flex-col pt-2 gap-y-2 mt-3 mr-1 h-[50vh] sm:h-full  overflow-y-auto community-scrolling">
       {community
         .filter((community) => {
           return searchTerm.toLowerCase() === ""
@@ -59,7 +59,7 @@ function UserCommunity() {
                   <div className="absolute w-2 h-full left-0 rounded-tr-lg rounded-br-lg bg-gradient-to-b from-cyan-400 to-blue-500 opacity-70"></div>
                 )}
                 {community.image === null ? (
-                  <div className="flex justify-center items-center w-9 h-9 rounded-full border border-blue-500">
+                  <div className="flex justify-center items-center w-10 h-10 rounded-full border border-blue-500">
                     <span className="font-bold text-xl uppercase">
                       {community.name[0]}
                     </span>
@@ -68,7 +68,7 @@ function UserCommunity() {
                   <img
                     src={community.image}
                     alt={`Community ${community.id}`}
-                    className="w-8 h-8 rounded-full border-2 border-blue-500 object-cover"
+                    className="w-10 h-10 rounded-full border-2 border-blue-500 object-cover"
                   />
                 )}
                 <h1>{community.name}</h1>

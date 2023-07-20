@@ -66,7 +66,7 @@ const PopupModal: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
             </div>
             <div className="line border border-gray-200"></div>
             <RoleSection
-              role="Admin"
+              role="Admins"
               members={admins}
               clearIconsStyle={clearIcons}
               onClearClick={onButtonClick}

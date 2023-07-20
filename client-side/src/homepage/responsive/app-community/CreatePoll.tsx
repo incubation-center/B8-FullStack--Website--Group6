@@ -114,7 +114,7 @@ function CreatePoll() {
           <div className="translate flex gap-x-3 items-center lg:hidden">
             {inActiveCommunity?.image === null ? (
               <div
-                className="flex justify-center items-center w-9 h-9 rounded-full border border-blue-500 cursor-pointer"
+                className="flex justify-center items-center w-10 h-10 rounded-full border border-blue-500 cursor-pointer"
                 onClick={handleCommunityProfileClick}
               >
                 <span className="font-bold text-xl uppercase">

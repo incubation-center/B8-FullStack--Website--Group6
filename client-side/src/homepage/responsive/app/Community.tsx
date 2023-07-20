@@ -64,12 +64,12 @@ function Community() {
         </div>
         <div className="translate flex mt-2 gap-x-3 items-center lg:hidden">
           <div className="relative" onClick={handleOpenUserProfile}>
-            <div className="flex justify-center items-center w-9 h-9 rounded-full border border-blue-500">
+            <div className="flex justify-center items-center w-10 h-10 rounded-full border border-blue-500">
               <span className="font-bold text-xl uppercase">
                 {username.slice(0, 2)}
               </span>
             </div>
-            <span className="bottom-1 left-7 absolute w-3 h-3 bg-green-400 border-2 border-white rounded-full"></span>
+            <span className="bottom-1 left-8 absolute w-3 h-3 bg-green-400 border-2 border-white rounded-full"></span>
           </div>
         </div>
         <div className="lg:hidden">
@@ -104,7 +104,7 @@ function Community() {
         <div> */}
       {/* <h1 className="mt-4 px-4">Favorite</h1>
           <AddedFavorite /> */}
-      <h1 className="mt-6 px-4">Your Community</h1>
+      <h1 className="mt-5 px-4">Your Community</h1>
       <UserCommunity />
       {/* </div>
       ) : null} */}
