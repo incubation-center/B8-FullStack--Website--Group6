@@ -9,7 +9,7 @@ import { Poll } from "../../../types/redux/create_poll";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../redux/store";
 
-function Poll1({ pollId }: any) {
+
   // poll state
   const [pollData, setPollData] = useState<Poll | null>(null);
   console.log("pollData vote", pollData?.totalVote);
@@ -295,6 +295,6 @@ function Poll1({
       </div>
     </div>
   );
-}}
+}
 
 export default Poll1;

@@ -168,25 +168,18 @@ function CreatePoll() {
       <div className="flex flex-col h-[75vh] overflow-auto p-6 home-scrolling">
         {polls?.length > 0 ? (
           <div className="flex flex-col gap-y-5">
-            {polls
-              .filter((poll) => {
-                return searchTerm.toLowerCase() === ""
-                  ? poll
-                  : poll.pollQuestion
-                      .toLowerCase()
-                      .includes(searchTerm.toLowerCase());
-              })
-              .map((poll: any) => (
-                <Poll1
-                  key={poll.id}
-                  votedOn={poll.votedOn}
-                  pollId={poll.id}
-                  createdBy={poll.user.createdBy}
-                  pollDate={poll.user.createdAt}
-                  options={poll.options}
-                  pollQuestion={poll.pollQuestion}
-                />
-              ))}
+            {polls.map((poll: any) => (
+              <Poll1
+                key={poll.id}
+                votedOn={poll.votedOn}
+                pollId={poll.id}
+                createdBy={poll.user.createdBy}
+                pollDate={poll.user.createdAt}
+                options={poll.options}
+                pollQuestion={poll.pollQuestion}
+                duration={poll.duration}
+              />
+            ))}
           </div>
         ) : (
           <NoPoll />
