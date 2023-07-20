@@ -59,20 +59,20 @@ public class CommunityMembersController {
     }
 
     @PostMapping(path = "/community/{id}")
-    public ResponseEntity<Object> addCommunityMembers(@PathVariable UUID id, Authentication authentication){
+    public ResponseEntity<String> addCommunityMembers(@PathVariable UUID id, Authentication authentication){
 
         String username = authentication.getName();
         User user = userAccountService.getUserByUsername(username);
 
         Community community = communityMembersService.getCommunityById(id);
 
-        if (communityMembersService.isExist(community, user) == null){
+        if (communityMembersService.isExist(community, user) != null){
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body("User is already in Community!!!");
         }
 
         CommunityMembers savedCommunityMembers = communityMembersService.addCommunityMembers(community, user, "poller");
 
-        return ResponseEntity.ok(savedCommunityMembers);
+        return ResponseEntity.ok(user.getUsername() + " has been added to " + community.getCommunityName());
     }
 
     @PostMapping(path = "/role/community/{id}")
