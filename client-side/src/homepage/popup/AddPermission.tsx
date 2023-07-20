@@ -20,7 +20,7 @@ const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
   const { communityMembers, inCommunityId } = useSelector(
     (state: RootState) => state.community
   );
-  
+
   // Grabbing the access token
   const accessToken = localStorage.getItem("accessToken");
 
@@ -86,7 +86,7 @@ const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
         className="fixed z-20 inset-0 bg-gray-500 opacity-60"
         onClick={onClose}
       ></div>
-      <form className="fixed z-20 flex flex-col justify-between lg:justify-center items-start bg-white px-6  py-6 w-full h-full lg:h-auto lg:w-2/5 rounded-lg">
+      <div className="fixed z-20 flex flex-col justify-between lg:justify-center items-start bg-white px-6  py-6 w-full h-full lg:h-auto lg:w-2/5 rounded-lg">
         {/* <div className="flex flex-col w-full justify-center items-center">
           <h1 className=" text-blue-custom text-lg mb-4">Add Permission</h1>
           <button className="absolute top-6 right-7">
@@ -182,7 +182,7 @@ const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
         >
           Add
         </button>
-      </form>
+      </div>
     </div>
   );
 };

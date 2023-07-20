@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import MainLogo from "../../assets/images/pollify_logo.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import GoogleLogin, {
   GoogleLoginResponse,
   GoogleLoginResponseOffline,
@@ -19,6 +19,12 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const isRedirected = window.location.search.includes("redirect");
+  let inviteToken = "";
+  if (isRedirected) {
+    inviteToken = window.location.search.split("=")[1];
+  }
 
   // Handling login
   const dispatch = useDispatch();
@@ -50,7 +56,12 @@ const LoginForm = () => {
 
         dispatch(setAccessToken(token));
         localStorage.setItem("accessToken", `${token}`);
-        navigate("/community");
+
+        if (isRedirected) {
+          navigate(`/community/invite/${inviteToken}`);
+        } else {
+          navigate("/community");
+        }
       }
     } catch (error) {
       alert("Can not login");
