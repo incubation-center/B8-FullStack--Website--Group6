@@ -21,4 +21,6 @@ public interface PollService {
     public User getUserById(Long id);
 
     public Map<String, Object> getPollResponse(Poll poll, User user);
+
+    public void updateTotalVote(Long id, Long totalVote);
 }

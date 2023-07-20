@@ -72,6 +72,7 @@ public class PollController {
         poll.setLimitVote(pollDTO.getLimitVote());
         poll.setDuration(pollDTO.getDuration());
         poll.setCommunity(pollService.getCommunityById(community_id));
+        poll.setTotalVote(0L);
 
         String username = authentication.getName();
         User user = userAccountService.getUserByUsername(username);

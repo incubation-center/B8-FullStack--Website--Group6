@@ -65,6 +65,7 @@ public class VoteController {
         for (PollOption pollOption: pollOptions) {
             total += pollOption.getOptionVoted();
         }
+        pollService.updateTotalVote(poll_id, total);
 
         List<Map<String, Object>> options = new ArrayList<>();
         for (PollOption pollOption: pollOptions) {

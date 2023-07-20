@@ -36,6 +36,9 @@ public class Poll {
     @Column(name = "poll_date")
     private Date pollDate;
 
+    @Column(name = "total_vote")
+    private Long totalVote;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -112,5 +115,13 @@ public class Poll {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Long getTotalVote() {
+        return totalVote;
+    }
+
+    public void setTotalVote(Long totalVote) {
+        this.totalVote = totalVote;
     }
 }

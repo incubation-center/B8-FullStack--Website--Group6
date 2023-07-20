@@ -70,6 +70,16 @@ public class PollServiceImpl implements PollService {
         pollMap.put("user", poll.getUser());
         pollMap.put("hasVoted", hasVotedService.getHasVoted(poll.getId(), user.getId()));
         pollMap.put("votedOn", hasVotedService.votedOn(poll.getId(), user.getId()));
+        pollMap.put("totalVote", poll.getTotalVote());
         return pollMap;
     }
+
+    @Override
+    public void updateTotalVote(Long id, Long totalVote) {
+        Poll poll = pollRepository.findById(id).orElseThrow( ()-> new RuntimeException("Poll not found!!!"));
+        poll.setTotalVote(totalVote);
+        pollRepository.save(poll);
+    }
+
+
 }
