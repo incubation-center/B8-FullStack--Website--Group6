@@ -1,15 +1,10 @@
 import React from "react";
-import Avatar from "../../assets/Avatar.png";
-import { MdClear } from "react-icons/md";
-import Avatar1 from "../../assets/userProfile/Avatar-1.png";
 import Avatar2 from "../../assets/userProfile/Avatar-2.png";
 import Avatar3 from "../../assets/userProfile/Avatar-3.png";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../../redux/store";
 import { TiDelete } from "react-icons/ti";
-import { HiOutlineCamera } from "react-icons/hi";
 import { RxCrossCircled } from "react-icons/rx";
-import { setSearchTerm } from "../../redux/slices/Community";
 import { User } from "../../types/redux/community";
 import api from "../../utils/api";
 
@@ -25,6 +20,7 @@ const AddPermission: React.FC<PopupModalProps> = ({ isOpen, onClose }) => {
   const { communityMembers, inCommunityId } = useSelector(
     (state: RootState) => state.community
   );
+  
   // Grabbing the access token
   const accessToken = localStorage.getItem("accessToken");
 
