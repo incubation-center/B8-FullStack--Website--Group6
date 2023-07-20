@@ -29,11 +29,21 @@ function CommunityInvitationHandler() {
         }
       );
       if (response.status === 200) {
-        alert("success");
-        if (response.data.isMember === false) {
+        if (response.data.isMember === true) {
           navigate(`/community/${response.data.id}`);
         } else {
-          navigate(`/community/${response.data.id}`);
+          const result = await api
+            .post(
+              `/community_members/community/${response.data.id}`,
+              {},
+              { headers }
+            )
+            .then((res) => {
+              navigate(`/community/${response.data.id}`);
+            })
+            .catch((err) => {
+              alert("Error, please contact admin!");
+            });
         }
       }
     } catch (error) {
@@ -46,7 +56,7 @@ function CommunityInvitationHandler() {
 
     // Replace this with your authentication check
 
-    if (userLoggedIn) {
+    if (userLoggedIn === true && accessToken !== null) {
       // Redirect the user to join the community if logged in
       // call an API to validate the inviteLink and join the community
       // Once the user is joined,  redirect them to the community page or dashboard
@@ -54,6 +64,7 @@ function CommunityInvitationHandler() {
       validateToken();
     } else {
       // If the user is not logged in,  redirect them to the login page or show a message
+
       navigate(`/user/sign_in?redirect=${inviteLink}`);
     }
   }, []);
