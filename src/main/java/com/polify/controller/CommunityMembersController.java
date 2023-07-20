@@ -12,10 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping(ProjectUtils.COMMUNITY_MEMBERS_URL)
@@ -113,9 +110,16 @@ public class CommunityMembersController {
             errorMessage.put("Message", "User Id " + " is not in this community!!!");
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(errorMessage);
         }
-        communityMembers.setRole("poller");
-        communityMembersService.saveCommunityMember(communityMembers);
-        return ResponseEntity.ok(communityMembersService.getCommunityMembersResponse(id));
+        if (Objects.equals(communityMembers.getRole(), "admin")) {
+            communityMembers.setRole("poller");
+            communityMembersService.saveCommunityMember(communityMembers);
+            return ResponseEntity.ok(communityMembersService.getCommunityMembersResponse(id));
+        }
+        communityMembersService.leaveCommunity(communityMembers.getId());
+        Map<String, Object> kickMessage = new HashMap<>();
+        kickMessage.put("Message", user.getUsername() + " has been kicked out from community!!!");
+        return ResponseEntity.ok(kickMessage);
+
     }
 
     @DeleteMapping(path = "community/{id}")
