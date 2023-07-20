@@ -8,6 +8,8 @@ import { RootState } from "../../../redux/store";
 import { setIsCommunityProfileOpen } from "../../../redux/slices/Community";
 import { useLocation } from "react-router-dom";
 import { UserProfile } from "../../../components";
+import api from "../../../utils/api";
+import Alert from "../../../components/Popup/Alert";
 
 function CommunityProfile() {
   const dispatch = useDispatch();
@@ -23,6 +25,46 @@ function CommunityProfile() {
   );
 
   const [isOpenUserProfile, setIsOpenUserProfile] = React.useState(false);
+
+  // Alert popup setup
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState<any>("success");
+
+  // Copy link to clipboard
+  const copyLink = async () => {
+    const accessToken = localStorage.getItem("accessToken");
+    const headers = {
+      Authorization: `${accessToken}`,
+    };
+
+    try {
+      const response = await api.post(
+        `/community/generate?id=${communityId}`,
+        {},
+        {
+          headers,
+        }
+      );
+      if (response.status === 200) {
+        if (response.data.inviteLink !== null) {
+          navigator.clipboard
+            .writeText(response.data.inviteLink)
+            .then(function (x) {
+              setAlertType("success");
+              setShowAlert(true);
+              setAlertMessage("Link is copied to clipboard!");
+              setTimeout(function () {
+                setShowAlert(false);
+              }, 2000);
+            });
+        }
+      }
+    } catch (error) {
+      console.log("An error occured: ", error);
+    }
+  };
+
 
   const { username } = useSelector((state: RootState) => state.userCommunity);
   const location = useLocation();
@@ -59,6 +101,7 @@ function CommunityProfile() {
         isCommunityProfileOpen ? "w-full" : "w-0"
       } absolute z-10 duration-300 right-0 lg:relative font-sans bg-white lg:w-2/6 h-screen lg:flex lg:flex-col overflow-hidden`}
     >
+      <Alert variant={alertType} message={alertMessage} showAlert={showAlert} />
       <div className="logo-profile-createPoll flex justify-between lg:justify-end items-center pt-5 px-5">
         <div
           className="flex items-center gap-x-2 lg:hidden cursor-pointer"
@@ -142,6 +185,7 @@ function CommunityProfile() {
                 />
               </div>
               <button
+                onClick={() => copyLink()}
                 id="copyButton"
                 type="button"
                 className="bg-blue-custom hover:opacity-70 text-white font-bold py-2 px-5 rounded-lg"
