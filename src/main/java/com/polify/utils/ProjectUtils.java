@@ -45,6 +45,7 @@ public class ProjectUtils {
     public static final String FILE_URL = "http://52.220.220.40:8081";
     public static final String STREAM_URL = ProjectUtils.POLL_URL + "/stream/**";
     public static final String CLIENT_INVITE_URL = "https://newbootcamp.vercel.app/join/community/";
+    public static final String VALIDATE_URL = ProjectUtils.COMMUNITY_URL + "/validate";
 
 	public static <T> T getValue(T value) {
 		return value == null ? null : value;

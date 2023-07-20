@@ -178,6 +178,7 @@ public class CommunityController {
                 }
 
                 response.put("isMember", isMember);
+                response.put("id", community_id);
                 return ResponseEntity.ok(response);
             } catch (SignatureVerificationException e) {
                 response.put("Error", "Authentication error, SignatureVerification fail.");

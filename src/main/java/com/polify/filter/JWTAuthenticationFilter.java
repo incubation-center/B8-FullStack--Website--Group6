@@ -75,7 +75,6 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
             UserDTO loginUser = new ObjectMapper().readValue(request.getInputStream(),
                 UserDTO.class);
-            System.out.println("-------------------------loginUser: " + loginUser);
             this.setLoginHistory(loginHistoryService.save(loginUser.getUsername(), ProjectUtils.PENDING_STATUS));
             com.polify.entity.User user = userAccountService.getUserByUsername(loginUser.getUsername());
 
