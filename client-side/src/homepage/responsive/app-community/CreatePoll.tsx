@@ -48,7 +48,6 @@ function CreatePoll() {
   };
 
   const handleCreatePoll = () => {
-    console.log("Create Poll Clicked");
     dispatch(openCreatePollPopup());
   };
 
@@ -185,6 +184,7 @@ function CreatePoll() {
                   pollDate={poll.user.createdAt}
                   options={poll.options}
                   pollQuestion={poll.pollQuestion}
+                  duration={poll.duration}
                 />
               ))}
           </div>

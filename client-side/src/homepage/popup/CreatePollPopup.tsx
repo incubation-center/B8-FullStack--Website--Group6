@@ -49,7 +49,6 @@ const CreatePollPopup = () => {
 
   //close popup
   const handleClosePoll = () => {
-    console.log("close pop up");
     dispatch(closeCreatePollPopup());
   };
   //
@@ -156,9 +155,7 @@ const CreatePollPopup = () => {
           headers,
         }
       );
-      console.log(response);
       if (response.status === 200) {
-        console.log("Create Poll Success");
         // Refresh the page after successfully creating poll
         window.location.reload();
 
