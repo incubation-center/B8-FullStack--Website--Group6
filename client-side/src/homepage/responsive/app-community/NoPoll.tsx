@@ -20,7 +20,7 @@ const NoPoll = () => {
       <div className="w-36 h-36 mb-3">
         <img className="w-full h-full" src={WelcomeIcon} alt="Welcome" />
       </div>
-      {community && community.length > 0 ? (
+      {communityId && community && community.length > 0 ? (
         <div className="flex flex-col justify-center items-center">
           <h1 className="font-bold text-2xl text-center">
             Welcome to {inCommunity?.name} Community!

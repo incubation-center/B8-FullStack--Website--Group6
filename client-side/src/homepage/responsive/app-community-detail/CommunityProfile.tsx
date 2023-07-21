@@ -214,13 +214,13 @@ function CommunityProfile() {
               <h1 className="text-lg text-center">{inActiveCommunity?.name}</h1>
             </div>
             <div className="flex justify-center items-center gap-x-4 mb-3">
-              <div className="flex justify-center items-center w-10 h-10 p-1 bg-blue-100 rounded-lg">
+              {/* <div className="flex justify-center items-center w-10 h-10 p-1 bg-blue-100 rounded-lg">
                 <img
                   className="w-full h-full"
                   src={QrCode}
                   alt="QR Code Icon"
                 />
-              </div>
+              </div> */}
               <button
                 onClick={() => copyLink()}
                 id="copyButton"
@@ -255,8 +255,8 @@ function CommunityProfile() {
 
               <h1>
                 {currentProfile?.role === "owner"
-                  ? "Leave abd Dekete"
-                  : "Delete"}
+                  ? "Leave and Delete"
+                  : "Leave"}
               </h1>
             </div>
           </div>

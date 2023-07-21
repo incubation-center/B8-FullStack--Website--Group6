@@ -129,9 +129,6 @@ function CreateCommunity() {
     if (communityProfile) {
       formData.append("file", communityProfile);
     }
-    for (const pair of formData.entries()) {
-      console.log(pair[0], pair[1]);
-    }
 
     const accessToken = localStorage.getItem("accessToken");
     const headers = {
@@ -236,15 +233,15 @@ function CreateCommunity() {
                 {invitedUsers.map((user, index) => {
                   return (
                     <React.Fragment key={index}>
-                      <div className="flex flex-row items-center pl-1 h-8 space-x-2 w-auto border border-blue-custom rounded-full ">
-                        <div className="flex justify-center items-center w-6 h-6 bg-gray-200 rounded-full">
+                      <div className="flex flex-row items-center pl-1 h-9 space-x-2 w-auto border border-blue-custom rounded-full ">
+                        <div className="flex justify-center items-center w-7 h-7 bg-gray-200 rounded-full">
                           <span className="text-gray-600 uppercase font-semibold">
-                            {user.username[0]}
+                            {user.username.slice(0, 2)}
                           </span>
                         </div>
-                        <p className="text-sm text-blue-custom">
+                        <small className="text-blue-custom">
                           {user.username}
-                        </p>
+                        </small>
                         <button
                           type="button"
                           onClick={(e) => handleRemoveUser(e, user)}
@@ -276,7 +273,7 @@ function CreateCommunity() {
                       {/* <img className="w-8 h-8" src={avatar3} alt="" /> */}
                       <div className="flex justify-center items-center w-8 h-8 bg-gray-200 rounded-full">
                         <span className="text-gray-600 uppercase font-semibold">
-                          {user.username[0]}
+                          {user.username.slice(0, 2)}
                         </span>
                       </div>
                       <p className="text-sm text-black-secondary font-medium">

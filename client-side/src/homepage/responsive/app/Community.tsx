@@ -60,7 +60,11 @@ function Community() {
     >
       <div className="logo-profile flex px-5 justify-between items-center">
         <div className="flex lg:justify-center w-full pt-5">
-          <img src={PolliFy} alt="Profile 1" className="logo w-fit h-10" />
+          <img
+            src={PolliFy}
+            alt="Profile 1"
+            className="logo w-32 lg:w-fit h-10"
+          />
         </div>
         <div className="translate flex mt-2 gap-x-3 items-center lg:hidden">
           <div className="relative" onClick={handleOpenUserProfile}>

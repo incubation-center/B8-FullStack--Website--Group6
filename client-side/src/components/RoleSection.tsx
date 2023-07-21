@@ -32,12 +32,12 @@ const RoleSection: React.FC<AdminsSectionProps> = ({
     <>
       <div className="admins flex flex-row items-center justify-between">
         <span className="mr-2 font-bold">{role}</span>
-        <button
+        {/* <button
           className="bg-sky-500 hover:bg-sky-600 text-white py-2 px-5 rounded-full"
           onClick={onAddClick}
         >
           Add
-        </button>
+        </button> */}
       </div>
       <div className="admin-profile flex flex-wrap gap-2 flex-row w-auto overflow-auto h-20">
         {members.map((member, index) => (

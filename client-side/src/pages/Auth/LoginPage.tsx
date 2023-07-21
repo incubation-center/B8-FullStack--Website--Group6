@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import MainLogo from "../../assets/images/pollify_logo.png";
 import { Link, redirect, useNavigate } from "react-router-dom";
-import GoogleLogin, {
-  GoogleLoginResponse,
-  GoogleLoginResponseOffline,
-} from "react-google-login";
+// import GoogleLogin, {
+//   GoogleLoginResponse,
+//   GoogleLoginResponseOffline,
+// } from "react-google-login";
 import { clientId } from "../../config/config";
 import { FaGithub, FaTwitter } from "react-icons/fa";
 import { BsFacebook } from "react-icons/bs";
@@ -69,15 +69,15 @@ const LoginForm = () => {
     }
   };
 
-  const handleGoogleSuccess = (
-    response: GoogleLoginResponse | GoogleLoginResponseOffline
-  ) => {
-    console.log("Google Sign up Success", response);
-  };
+  // const handleGoogleSuccess = (
+  //   response: GoogleLoginResponse | GoogleLoginResponseOffline
+  // ) => {
+  //   console.log("Google Sign up Success", response);
+  // };
 
-  const handleGoogleFailure = (error: any) => {
-    console.log("Google Sign up Fail", error);
-  };
+  // const handleGoogleFailure = (error: any) => {
+  //   console.log("Google Sign up Fail", error);
+  // };
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
@@ -128,14 +128,14 @@ const LoginForm = () => {
           </button>
         </div>
         <div className="flex items-center mb-6 pt-2">
-          <input
+          {/* <input
             className="mr-2 w-4 h-4 leading-tight"
             type="checkbox"
             id="rememberMe"
           />
           <label className="text-sm" htmlFor="rememberMe">
             Remember me
-          </label>
+          </label> */}
           <Link
             to="/user/forgot_password"
             className="text-blue-custom ml-auto text-sm hover:opacity-80"
@@ -164,11 +164,11 @@ const LoginForm = () => {
             Create an account
           </Link>
         </div>
-        <div className="flex items-center justify-center">
+        {/* <div className="flex items-center justify-center">
           <span className="flex-grow border-t border-gray-300 mx-2"></span>
           <p className="text-gray-400">or</p>
           <span className="flex-grow border-t border-gray-300 mx-2"></span>
-        </div>
+        </div> */}
         <div className="flex items-center justify-center space-x-5 pt-4">
           {/* <span>
             <BsFacebook className="text-blue-600 w-6 h-6 hover:opacity-70" />
@@ -182,7 +182,7 @@ const LoginForm = () => {
           <span>
             <FcGoogle className="w-6 h-6 hover:opacity-70" />
           </span> */}
-          <GoogleLogin
+          {/* <GoogleLogin
             className="w-full flex justify-center"
             clientId={clientId}
             onSuccess={handleGoogleSuccess}
@@ -200,7 +200,7 @@ const LoginForm = () => {
                 <span className="text-sm">Sign in with Google</span>
               </button>
             )}
-          />
+          /> */}
         </div>
       </form>
     </div>

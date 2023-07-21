@@ -8,7 +8,7 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { LuWrapText } from "react-icons/lu";
 import { RootState } from "../../redux/store";
 import { RxCrossCircled } from "react-icons/rx";
-import Dropdown from "react-dropdown-select";
+// import Dropdown from "react-dropdown-select";
 import api from "../../utils/api";
 
 const CreatePollPopup = () => {
@@ -156,10 +156,10 @@ const CreatePollPopup = () => {
           headers,
         }
       );
-      console.log(response);
+      console.log("response", response);
       if (response.status === 200) {
         console.log("Create Poll Success");
-        // Refresh the page after successfully creating poll
+        // // Refresh the page after successfully creating poll
         window.location.reload();
 
         // Clear form inputs

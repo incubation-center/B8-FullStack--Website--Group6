@@ -121,7 +121,7 @@ const ForgotPasswordOtp = () => {
             );
           })}
         </div>
-        <div className="flex justify-center">
+        {/* <div className="flex justify-center">
           <span className="text-center text-sm">
             Not received?{" "}
             <button
@@ -132,7 +132,7 @@ const ForgotPasswordOtp = () => {
               Resend
             </button>
           </span>
-        </div>
+        </div> */}
         <button
           id="submit"
           className="w-full text-white uppercase bg-blue-custom rounded mt-4 py-2 hover:opacity-70"

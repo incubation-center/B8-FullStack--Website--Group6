@@ -63,6 +63,7 @@ function CreatePoll() {
         Authorization: `${accessToken}`,
       };
       try {
+        console.log("poll");
         const response = await api.get(`/poll/community/${communityId}`, {
           headers,
         });
@@ -70,7 +71,7 @@ function CreatePoll() {
           const pollData = response.data.reverse();
           setPolls(pollData);
 
-          sessionStorage.setItem("pollData", JSON.stringify(pollData));
+          // sessionStorage.setItem("pollData", JSON.stringify(pollData));
         }
       } catch (e) {
         console.log(e);
@@ -88,7 +89,6 @@ function CreatePoll() {
       setHasAccess(false);
     }
   }, [hasAccess, communityMembers]);
-  console.log("back", isBackToCommunity);
 
   return (
     <div

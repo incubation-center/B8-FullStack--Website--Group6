@@ -68,10 +68,10 @@ const ButtonWithAvatar: React.FC<ButtonWithAvatarProps> = ({
     }
   };
   return (
-    <div className="flex flex-row items-center pl-1 h-8 space-x-2 w-auto border border-blue-custom rounded-full">
-      <div className="bg-gray-200 rounded-full w-6 h-6">
+    <div className="flex flex-row items-center pl-1 h-9 space-x-2 w-auto border border-blue-custom rounded-full">
+      <div className="flex justify-center items-center bg-gray-200 rounded-full w-7 h-7">
         <span className="font-bold text-sm text-gray-600 uppercase text-center">
-          {name[0]}
+          {name.slice(0, 2)}
         </span>
       </div>
       {/* <img src={avatarSrc} alt="Profile" className="w-6 h-6" /> */}
