@@ -15,51 +15,62 @@ function Poll1({ pollId, duration }: any) {
 
   const { email } = useSelector((state: RootState) => state.userCommunity);
 
+  
+
   //get current time of poll creation
 
   const timeNow = new Date().toISOString();
+  const now = new Date().toLocaleString(); //debug
   const splittedTime = timeNow.split("+")[0];
   const creationTime = splittedTime.replace("Z", "+00:00");
+  const getDuration = duration; //debug
+
+  // console.log(`Creation Time:\nnow: ${now},\ntimenow: ${timeNow},\nst: ${splittedTime},\nct: ${creationTime}`)
+  // console.log(`Poll Duration: \ngetDuration: ${getDuration}\n`)
+  
+
 
   // This function is used to convert the duration's custom format to normal locale string format
   //
 
-  const reverseCustomFormat = (customFormat: any) => {
-    // try {
-    const timezoneOffset = customFormat.split("+")[1];
-    const splittedTime = customFormat.split("+")[0];
-    const dateTime = splittedTime + "Z";
-    const hours = parseInt(timezoneOffset.slice(0, 2));
-    const minutes = parseInt(timezoneOffset.slice(3));
+  const reverseCustomFormat = (customFormat: string) => {
+    try {
+      const timezoneOffset = customFormat.split("+")[1];
+      const splittedTime = customFormat.split("+")[0];
+      const dateTime = splittedTime + "Z";
+      const hours = parseInt(timezoneOffset.slice(0, 2));
+      const minutes = parseInt(timezoneOffset.slice(3));
+      const currentTime = new Date(dateTime);
 
-    const currentTime = new Date(dateTime);
-    currentTime.setHours(currentTime.getHours() + hours);
-    currentTime.setMinutes(currentTime.getMinutes() + minutes);
+      currentTime.setHours(currentTime.getHours() + hours);
+      currentTime.setMinutes(currentTime.getMinutes() + minutes);
 
-    return currentTime.toLocaleString();
-    // } catch (error) {
-    //   console.error("Error in reverseCustomFormat:", error);
-    //   return "Invalid date format";
-    // }
+      return currentTime.toLocaleString();
+    } catch (error) {
+      console.error("Error in reverseCustomFormat:", error);
+      return "Invalid date format";
+    }
   };
 
-  const calculateTimeDifference = () => {
-    const pollDateInMillis = new Date(
-      reverseCustomFormat(creationTime)
-    ).getTime();
-    // const pollDateNormal = new Date(reverseCustomFormat(creationTime));
+  // const calculateTimeDifference = () => {
+  //   const pollDateInMillis = new Date(
+  //     reverseCustomFormat(creationTime)
+  //   ).getTime();
+  //   const pollDateNormal = new Date(reverseCustomFormat(creationTime));
 
-    const durationInMillis = new Date(reverseCustomFormat(duration)).getTime();
-    // const durationNormal = new Date(reverseCustomFormat(duration)).getTime();
-    const timeDifferenceInMillis = durationInMillis - pollDateInMillis;
-    // console.log("pollDate", pollDateInMillis);
-    // console.log("pollDate", pollDateNormal);
-    // console.log("duration", durationInMillis);
-    // console.log("duration", durationNormal);
-    // console.log("diff", timeDifferenceInMillis);
+  //   const durationInMillis = new Date(reverseCustomFormat(duration)).getTime();
+  //   const durationNormal = new Date(reverseCustomFormat(duration)).getTime();
+  //   const timeDifferenceInMillis = durationInMillis - pollDateInMillis;
 
-    return timeDifferenceInMillis;
-  };
+  //   // console.log(
+  //   //   `PollDate: ${pollDateNormal}
+  //   // \nPollDateMs: ${pollDateInMillis}
+  //   // \nDuration: ${durationNormal}
+  //   // \nDurationMs: ${durationInMillis}
+  //   // \nTimeDiffMs: ${timeDifferenceInMillis}`)
+
+  //   return timeDifferenceInMillis;
+  // };
 
   // Show Alert message
   const [showAlert, setShowAlert] = useState(false);
@@ -71,8 +82,13 @@ function Poll1({ pollId, duration }: any) {
     Record<number, number | NodeJS.Timeout | null> // Update the type here
   >({});
 
+  const calculateTimeDifference = () => {
+    const pollDateInMillis = new Date(reverseCustomFormat(creationTime)).getTime();
+    const durationInMillis = new Date(reverseCustomFormat(duration)).getTime();
+    return durationInMillis - pollDateInMillis;
+  };
+
   useEffect(() => {
-    // Calculate time difference and convert to minutes
     const timeDifferenceInMillis = calculateTimeDifference();
     const timeRemaining = timeDifferenceInMillis / (60 * 1000);
 
@@ -81,9 +97,7 @@ function Poll1({ pollId, duration }: any) {
       ...prevIntervals,
       [pollId]: null, // Initialize the interval ID as null for this poll
     }));
-
-    // Add the dependency array here to ensure the effect runs only once
-  }, [duration, pollId, setPollCountdownIntervals]);
+  }, [pollId]);
 
   useEffect(() => {
     if (timeRemaining > 0) {
@@ -103,7 +117,9 @@ function Poll1({ pollId, duration }: any) {
         clearInterval(intervalId);
       }
     }
-  }, [duration, pollId, timeRemaining]);
+  }, [timeRemaining, pollId, setPollCountdownIntervals]);
+
+
 
   // update real time data with SSE
   useEffect(() => {

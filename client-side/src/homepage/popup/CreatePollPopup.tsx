@@ -102,16 +102,16 @@ const CreatePollPopup = () => {
     if (minutes >= 60) {
       const hours = Math.floor(minutes / 60);
       const remainingMinutes = minutes % 60;
-      durationToOffset = `+0${7 + hours}:`;
+      durationToOffset = `+0${hours}:`;
       if (remainingMinutes < 10) {
         durationToOffset += `0${remainingMinutes}`;
       } else {
         durationToOffset += remainingMinutes;
       }
     } else if (minutes < 10) {
-      durationToOffset = `+0${7}:0${minutes}`;
+      durationToOffset = `+00:0${minutes}`;
     } else {
-      durationToOffset = `+0${7}:${minutes}`;
+      durationToOffset = `+00:${minutes}`;
     }
 
     const duration = new Date(currentTime)
@@ -124,6 +124,8 @@ const CreatePollPopup = () => {
       duration,
       options,
     };
+
+    console.log(pollData)
 
     return pollData;
   };
