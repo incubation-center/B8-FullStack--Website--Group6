@@ -44,7 +44,7 @@ public class ProjectUtils {
     public static final String SENDER_EMAIL = "pollify.app@gmail.com";
     public static final String FILE_URL = "https://file-server.appifier.online";
     public static final String STREAM_URL = ProjectUtils.POLL_URL + "/stream/**";
-    public static final String CLIENT_INVITE_URL = "https://poll-voting-app.vercel.app/community/invite/";
+    public static final String CLIENT_INVITE_URL = "https://bootcamp-pollify.vercel.app/community/invite/";
     public static final String VALIDATE_URL = ProjectUtils.COMMUNITY_URL + "/validate";
 
 	public static <T> T getValue(T value) {
