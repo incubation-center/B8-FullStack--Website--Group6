@@ -81,6 +81,7 @@ function CommunityProfile() {
       )
       .then((res) => {
         if (res.status === 200) {
+          window.location.reload();
           navigate("/community");
         }
       })
@@ -97,6 +98,7 @@ function CommunityProfile() {
       .post(`/community/delete/${communityId}`, {}, { headers })
       .then((res) => {
         if (res.status === 200) {
+          window.location.reload();
           navigate("/community");
         }
       })
@@ -255,8 +257,8 @@ function CommunityProfile() {
 
               <h1>
                 {currentProfile?.role === "owner"
-                  ? "Leave abd Dekete"
-                  : "Delete"}
+                  ? "Leave and Delete"
+                  : "Leave"}
               </h1>
             </div>
           </div>
